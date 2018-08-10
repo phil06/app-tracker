@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D55DDCF211831B9001FDE3F /* icon_info.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D55DDCE211831B9001FDE3F /* icon_info.png */; };
+		2D55DDD121183823001FDE3F /* InstrumentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDD021183823001FDE3F /* InstrumentCell.swift */; };
+		2D55DDDB21191C45001FDE3F /* CompositionNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDDA21191C45001FDE3F /* CompositionNoteViewController.swift */; };
+		2D55DDDE2119446C001FDE3F /* OrientationStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDDD2119446C001FDE3F /* OrientationStruct.swift */; };
+		2D55DDE0211973AD001FDE3F /* StaticCommonData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDDF211973AD001FDE3F /* StaticCommonData.swift */; };
+		2D55DDE32119843E001FDE3F /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDE22119843E001FDE3F /* CircleView.swift */; };
+		2D55DDE5211ABE67001FDE3F /* icon_instrument_piano.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D55DDE4211ABE67001FDE3F /* icon_instrument_piano.png */; };
+		2D55DDE7211ACA72001FDE3F /* NoteMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDE6211ACA72001FDE3F /* NoteMenuView.swift */; };
+		2D55DDE9211ACEBF001FDE3F /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDE8211ACEBF001FDE3F /* GridView.swift */; };
+		2D55DDEB211AD20B001FDE3F /* LayoutDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEA211AD20B001FDE3F /* LayoutDisplay.swift */; };
+		2D55DDED211C21C6001FDE3F /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEC211C21C6001FDE3F /* AlertController.swift */; };
+		2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */; };
 		8AEBD872210D93B300AAC3C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD871210D93B300AAC3C8 /* AppDelegate.swift */; };
 		8AEBD874210D93B300AAC3C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD873210D93B300AAC3C8 /* ViewController.swift */; };
 		8AEBD87A210D93B300AAC3C8 /* TRACKER.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD878210D93B300AAC3C8 /* TRACKER.xcdatamodeld */; };
@@ -16,7 +28,7 @@
 		8AEBD895210D93B500AAC3C8 /* TRACKERUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD894210D93B500AAC3C8 /* TRACKERUITests.swift */; };
 		8AEBD8A4210DA49600AAC3C8 /* LauncherScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD8A3210DA49600AAC3C8 /* LauncherScreenViewController.swift */; };
 		8AEBD8A6211341F200AAC3C8 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD8A5211341F200AAC3C8 /* BaseTabBarController.swift */; };
-		8AEBD8A82113426200AAC3C8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD8A72113426200AAC3C8 /* MainViewController.swift */; };
+		8AEBD8A82113426200AAC3C8 /* AddNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD8A72113426200AAC3C8 /* AddNewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +49,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D55DDC821181BCE001FDE3F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		2D55DDCE211831B9001FDE3F /* icon_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_info.png; sourceTree = "<group>"; };
+		2D55DDD021183823001FDE3F /* InstrumentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentCell.swift; sourceTree = "<group>"; };
+		2D55DDDA21191C45001FDE3F /* CompositionNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionNoteViewController.swift; sourceTree = "<group>"; };
+		2D55DDDD2119446C001FDE3F /* OrientationStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationStruct.swift; sourceTree = "<group>"; };
+		2D55DDDF211973AD001FDE3F /* StaticCommonData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticCommonData.swift; sourceTree = "<group>"; };
+		2D55DDE22119843E001FDE3F /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		2D55DDE4211ABE67001FDE3F /* icon_instrument_piano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_instrument_piano.png; sourceTree = "<group>"; };
+		2D55DDE6211ACA72001FDE3F /* NoteMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMenuView.swift; sourceTree = "<group>"; };
+		2D55DDE8211ACEBF001FDE3F /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		2D55DDEA211AD20B001FDE3F /* LayoutDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutDisplay.swift; sourceTree = "<group>"; };
+		2D55DDEC211C21C6001FDE3F /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMenuDelegate.swift; sourceTree = "<group>"; };
 		8AEBD86E210D93B300AAC3C8 /* TRACKER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TRACKER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AEBD871210D93B300AAC3C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AEBD873210D93B300AAC3C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -52,7 +77,7 @@
 		8AEBD896210D93B500AAC3C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AEBD8A3210DA49600AAC3C8 /* LauncherScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauncherScreenViewController.swift; sourceTree = "<group>"; };
 		8AEBD8A5211341F200AAC3C8 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
-		8AEBD8A72113426200AAC3C8 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		8AEBD8A72113426200AAC3C8 /* AddNewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +105,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D55DDCD211831A3001FDE3F /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				2D55DDE4211ABE67001FDE3F /* icon_instrument_piano.png */,
+				2D55DDCE211831B9001FDE3F /* icon_info.png */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		2D55DDD821191BA7001FDE3F /* tabBar */ = {
+			isa = PBXGroup;
+			children = (
+				8AEBD8A5211341F200AAC3C8 /* BaseTabBarController.swift */,
+				8AEBD8A72113426200AAC3C8 /* AddNewViewController.swift */,
+				2D55DDD021183823001FDE3F /* InstrumentCell.swift */,
+			);
+			path = tabBar;
+			sourceTree = "<group>";
+		};
+		2D55DDD921191BE5001FDE3F /* add */ = {
+			isa = PBXGroup;
+			children = (
+				2D55DDDA21191C45001FDE3F /* CompositionNoteViewController.swift */,
+				2D55DDE6211ACA72001FDE3F /* NoteMenuView.swift */,
+				2D55DDE8211ACEBF001FDE3F /* GridView.swift */,
+			);
+			path = add;
+			sourceTree = "<group>";
+		};
+		2D55DDDC21194453001FDE3F /* common */ = {
+			isa = PBXGroup;
+			children = (
+				2D55DDDD2119446C001FDE3F /* OrientationStruct.swift */,
+				2D55DDDF211973AD001FDE3F /* StaticCommonData.swift */,
+				2D55DDEA211AD20B001FDE3F /* LayoutDisplay.swift */,
+				2D55DDEC211C21C6001FDE3F /* AlertController.swift */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		2D55DDE12119842C001FDE3F /* drawing */ = {
+			isa = PBXGroup;
+			children = (
+				2D55DDE22119843E001FDE3F /* CircleView.swift */,
+			);
+			path = drawing;
+			sourceTree = "<group>";
+		};
+		2D55DDEE211D8F89001FDE3F /* protocol */ = {
+			isa = PBXGroup;
+			children = (
+				2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */,
+			);
+			path = protocol;
+			sourceTree = "<group>";
+		};
 		8AEBD865210D93B300AAC3C8 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +184,12 @@
 		8AEBD870210D93B300AAC3C8 /* TRACKER */ = {
 			isa = PBXGroup;
 			children = (
+				2D55DDEE211D8F89001FDE3F /* protocol */,
+				2D55DDE12119842C001FDE3F /* drawing */,
+				2D55DDDC21194453001FDE3F /* common */,
+				2D55DDD921191BE5001FDE3F /* add */,
+				2D55DDD821191BA7001FDE3F /* tabBar */,
+				2D55DDCD211831A3001FDE3F /* resources */,
 				8AEBD8A2210DA47900AAC3C8 /* launcher */,
 				8AEBD871210D93B300AAC3C8 /* AppDelegate.swift */,
 				8AEBD873210D93B300AAC3C8 /* ViewController.swift */,
@@ -110,8 +197,6 @@
 				8AEBD87D210D93B400AAC3C8 /* LaunchScreen.storyboard */,
 				8AEBD880210D93B400AAC3C8 /* Info.plist */,
 				8AEBD878210D93B300AAC3C8 /* TRACKER.xcdatamodeld */,
-				8AEBD8A5211341F200AAC3C8 /* BaseTabBarController.swift */,
-				8AEBD8A72113426200AAC3C8 /* MainViewController.swift */,
 			);
 			path = TRACKER;
 			sourceTree = "<group>";
@@ -246,7 +331,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D55DDCF211831B9001FDE3F /* icon_info.png in Resources */,
 				8AEBD87F210D93B400AAC3C8 /* LaunchScreen.storyboard in Resources */,
+				2D55DDE5211ABE67001FDE3F /* icon_instrument_piano.png in Resources */,
 				8AEBD87C210D93B400AAC3C8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,12 +359,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D55DDD121183823001FDE3F /* InstrumentCell.swift in Sources */,
+				2D55DDED211C21C6001FDE3F /* AlertController.swift in Sources */,
+				2D55DDDE2119446C001FDE3F /* OrientationStruct.swift in Sources */,
+				2D55DDEB211AD20B001FDE3F /* LayoutDisplay.swift in Sources */,
+				2D55DDE0211973AD001FDE3F /* StaticCommonData.swift in Sources */,
+				2D55DDE9211ACEBF001FDE3F /* GridView.swift in Sources */,
+				2D55DDE7211ACA72001FDE3F /* NoteMenuView.swift in Sources */,
+				2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */,
 				8AEBD874210D93B300AAC3C8 /* ViewController.swift in Sources */,
 				8AEBD87A210D93B300AAC3C8 /* TRACKER.xcdatamodeld in Sources */,
 				8AEBD8A6211341F200AAC3C8 /* BaseTabBarController.swift in Sources */,
-				8AEBD8A82113426200AAC3C8 /* MainViewController.swift in Sources */,
+				2D55DDE32119843E001FDE3F /* CircleView.swift in Sources */,
+				8AEBD8A82113426200AAC3C8 /* AddNewViewController.swift in Sources */,
 				8AEBD8A4210DA49600AAC3C8 /* LauncherScreenViewController.swift in Sources */,
 				8AEBD872210D93B300AAC3C8 /* AppDelegate.swift in Sources */,
+				2D55DDDB21191C45001FDE3F /* CompositionNoteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +414,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				8AEBD87E210D93B400AAC3C8 /* Base */,
+				2D55DDC821181BCE001FDE3F /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -328,6 +426,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -388,6 +487,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
