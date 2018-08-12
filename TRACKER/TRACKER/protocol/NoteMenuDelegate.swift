@@ -9,7 +9,7 @@
 import UIKit
 
 protocol NoteMenuDelegate: class {
-    func changeMarkingStatus()
-
-    
+    func markingStatusChanged(isMark: Bool)
 }
+
+

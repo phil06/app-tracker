@@ -11,6 +11,7 @@ import UIKit
 class AddNewViewController: UIViewController {
     
     let tableView: UITableView = UITableView()
+    var selectedType: InstrumentKind!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,7 @@ class AddNewViewController: UIViewController {
 extension AddNewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("선택된 행 : \(String(describing: InstrumentKind.init(rawValue: indexPath.row)))")
+        selectedType = InstrumentKind.init(rawValue: indexPath.row)
     }
     
     //MARK: 버튼 이미지 변경할때 적용하기
@@ -55,14 +57,16 @@ extension AddNewViewController: UITableViewDataSource {
         let cell = InstrumentCell(style: UITableViewCellStyle.default, reuseIdentifier: "instrumentCell")
         cell.button.addTarget(self, action: #selector(pressedBrowser(sender: )), for: .touchUpInside)
         
+        
+        
         return cell
 
     }
     
     @objc func pressedBrowser(sender: UIButton) {
         let vc = CompositionViewController()
+        vc.instrumentType = selectedType
         self.present(vc, animated: true)
-        
     }
     
     

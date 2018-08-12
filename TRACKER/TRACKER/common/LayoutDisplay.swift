@@ -10,6 +10,17 @@ import UIKit
 
 class LayoutDisplay {
     
+    func getSafeAreaInset() -> UIEdgeInsets {
+        let window = UIApplication.shared.keyWindow
+        let top = window?.safeAreaInsets.top
+        let bottom = window?.safeAreaInsets.bottom
+        let left = window?.safeAreaInsets.left
+        let right = window?.safeAreaInsets.right
+        
+        print("safeAreaInset top:\(String(describing: top)), left:\(String(describing: left)), bottom:\(String(describing: bottom)), right:\(String(describing: right))")
+        return UIEdgeInsetsMake(top!, left!, bottom!, right!)
+    }
+    
     //gap 에 대한건 아직 구현을 안했음.....;;
     func horizontalArrange(objects: [UIView], autoLast: Bool, gap: CGFloat, container: UIView) -> UIView {
 

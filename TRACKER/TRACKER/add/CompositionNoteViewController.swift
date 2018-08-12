@@ -9,68 +9,68 @@
 import Foundation
 import UIKit
 
+//MARK: instrumentType 에 따라 화면을 달리 해야하는걸... 여기서 할지 GridView에서 할지는 모르겠지만 일단 해야할일..
 class CompositionViewController: UIViewController {
     
-    //    @IBOutlet var moveView: CircleView!
     var menuView: NoteMenuView!
     var gridView: GridView!
+    var instrumentType: InstrumentKind!
+    
+    weak var gridViewDelegate: NoteMenuDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        menuView = NoteMenuView(frame: CGRect(x: 0, y: 0, width: 90, height: self.view.frame.width))
+        OrientationLock.lock(to: .landscapeRight, andRotateTo: .landscapeRight)
+        
+        let safeAreaInset = LayoutDisplay().getSafeAreaInset()
+        
+        self.view.backgroundColor = UIColor.white
+        
+        //메뉴
+        menuView = NoteMenuView(frame: CGRect.zero)
         menuView.backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        menuView.markButton.addTarget(self, action: #selector(mark), for: .touchUpInside)
-        menuView.clearButton.addTarget(self, action: #selector(clearMark), for: .touchUpInside)
         menuView.clearAll.addTarget(self, action: #selector(clearAll), for: .touchUpInside)
+        menuView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(menuView)
+        
+        menuView.widthAnchor.constraint(equalToConstant: 90.0).isActive = true
+        menuView.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
+        menuView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: safeAreaInset.left).isActive = true
+        menuView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 
-        mark()
+        menuView.delegate = self
         
-        gridView = GridView(frame: CGRect(x: menuView.frame.width, y: 0, width: self.view.frame.height - menuView.frame.width, height: self.view.frame.width))
+        //그리는 화면
+        gridView = GridView(frame: CGRect.zero)
+        gridView.type = instrumentType
+        gridView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(gridView)
+
+        gridView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        gridView.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
+        gridView.leadingAnchor.constraint(equalTo: menuView.trailingAnchor).isActive = true
+        gridView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         
-        self.view.translatesAutoresizingMaskIntoConstraints = false
+        gridViewDelegate = gridView
         
         //add dot
+        self.view.isUserInteractionEnabled = true
+        
         let taps = UITapGestureRecognizer(target: self.gridView, action:#selector(gridView.handleTapGesture(recognizer:)))
         self.gridView.addGestureRecognizer(taps)
-        
-//        //move grid
-//        let pan = UIPanGestureRecognizer(target: self.gridView, action: #selector(gridView.handlePanGesture(recognizer:)))
-//        self.gridView.addGestureRecognizer(pan)
+
+        menuView.mark()
         
         
-        
-        //        _ = LayoutDisplay.init().horizontalAlign(view: self.view)
-        //
-        //        self.view.addSubview(summaryView)
-        
-        
-                self.view.isUserInteractionEnabled = true
-        //
-        //        self.view.backgroundColor = UIColor.green
-        //        let label = UILabel(frame: CGRect(x: 30, y: 100, width: 300, height: 100))
-        //        label.text = "이거슨.. 화면 회전 확인을 위한것이여... "
-        //        self.view.addSubview(label)
-        //
-        
-        //
-        //
-        
-        //
-        //        moveView = CircleView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        //        self.view.addSubview(moveView)
-        //
-        //        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(sender:)))
-        //        self.moveView.addGestureRecognizer(panGesture)
-        //
-        OrientationLock.lock(to: .landscapeRight, andRotateTo: .landscapeRight)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+       
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         // Don't forget to reset when view is being removed
         OrientationLock.lock(to: .portrait, andRotateTo: .portrait)
     }
@@ -78,33 +78,27 @@ class CompositionViewController: UIViewController {
     @objc func goBack() {
         self.dismiss(animated: true)
     }
-    
-    @objc func mark() {
-        menuView.drawingStatus = true
-        //MARK: 버튼 이미지로 표현하는걸로 바꾸기...
-        menuView.markButton.backgroundColor = UIColor.orange
-        menuView.clearButton.backgroundColor = UIColor.clear
-    }
-    
-    @objc func clearMark() {
-        menuView.drawingStatus = false
-        //MARK: 버튼 이미지로 표현하는걸로 바꾸기
-        menuView.clearButton.backgroundColor = UIColor.orange
-        menuView.markButton.backgroundColor = UIColor.clear
-    }
-    
+
     @objc func clearAll() {
         let alertView = AlertController().showMessageWithYesFunction(byYes: clearGridView, pTitle: "초기화", pMessage: "작성된 내용이 전부 사라집니다. 정말 초기화하겠습니까?")
         self.present(alertView, animated: false)
     }
     
     func clearGridView() {
-        self.gridView.gridBackground.layer.sublayers = nil
-        self.gridView.gridBackground.setNeedsDisplay()
+        self.gridView.notes = [Int:CALayer]()
+        self.gridView.grid.layer.sublayers = nil
+        self.gridView.grid.setNeedsDisplay()
     }
-
     
 }
+
+extension CompositionViewController: NoteMenuDelegate {
+    func markingStatusChanged(isMark: Bool) {
+        gridViewDelegate?.markingStatusChanged(isMark: isMark)
+    }
+  
+}
+
 
 
 
