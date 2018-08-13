@@ -19,6 +19,7 @@
 		2D55DDEB211AD20B001FDE3F /* LayoutDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEA211AD20B001FDE3F /* LayoutDisplay.swift */; };
 		2D55DDED211C21C6001FDE3F /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEC211C21C6001FDE3F /* AlertController.swift */; };
 		2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */; };
+		8AAA78F72121C01F004BF5B2 /* ONCATextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA78F62121C01F004BF5B2 /* ONCATextLayer.swift */; };
 		8AEBD872210D93B300AAC3C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD871210D93B300AAC3C8 /* AppDelegate.swift */; };
 		8AEBD874210D93B300AAC3C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD873210D93B300AAC3C8 /* ViewController.swift */; };
 		8AEBD87A210D93B300AAC3C8 /* TRACKER.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8AEBD878210D93B300AAC3C8 /* TRACKER.xcdatamodeld */; };
@@ -62,6 +63,7 @@
 		2D55DDEA211AD20B001FDE3F /* LayoutDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutDisplay.swift; sourceTree = "<group>"; };
 		2D55DDEC211C21C6001FDE3F /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMenuDelegate.swift; sourceTree = "<group>"; };
+		8AAA78F62121C01F004BF5B2 /* ONCATextLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ONCATextLayer.swift; sourceTree = "<group>"; };
 		8AEBD86E210D93B300AAC3C8 /* TRACKER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TRACKER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AEBD871210D93B300AAC3C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AEBD873210D93B300AAC3C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +163,14 @@
 			path = protocol;
 			sourceTree = "<group>";
 		};
+		8AAA78F32121BFD4004BF5B2 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				8AAA78F62121C01F004BF5B2 /* ONCATextLayer.swift */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
 		8AEBD865210D93B300AAC3C8 = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +194,7 @@
 		8AEBD870210D93B300AAC3C8 /* TRACKER */ = {
 			isa = PBXGroup;
 			children = (
+				8AAA78F32121BFD4004BF5B2 /* core */,
 				2D55DDEE211D8F89001FDE3F /* protocol */,
 				2D55DDE12119842C001FDE3F /* drawing */,
 				2D55DDDC21194453001FDE3F /* common */,
@@ -375,6 +386,7 @@
 				8AEBD8A4210DA49600AAC3C8 /* LauncherScreenViewController.swift in Sources */,
 				8AEBD872210D93B300AAC3C8 /* AppDelegate.swift in Sources */,
 				2D55DDDB21191C45001FDE3F /* CompositionNoteViewController.swift in Sources */,
+				8AAA78F72121C01F004BF5B2 /* ONCATextLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

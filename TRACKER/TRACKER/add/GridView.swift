@@ -135,6 +135,18 @@ class GridView: UIView {
             border.backgroundColor = UIColor.gray.cgColor
             border.frame = CGRect(x: borderRect.minX, y: borderRect.minY, width: borderRect.width, height: 1)
             gridBackground.layer.addSublayer(border)
+            
+            let noteText = TYPE_PIANO_NOTE_SCALE_TEXT[row % TYPE_PIANO_NOTE_SCALE_TEXT.count]
+            let octaveText = CGFloat(row / TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count).rounded(.down)
+            
+            let noteLabel = ONCATextLayer()
+            noteLabel.fontSize = 13
+            noteLabel.string =  noteText + String(describing: Int(octaveText) + 1)
+            noteLabel.foregroundColor = UIColor.black.cgColor
+            noteLabel.frame = CGRect(x: gridBoundMargin + (gridHeaderWidth / 2), y: gridBoundMargin + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
+            noteLabel.alignmentMode = kCAAlignmentCenter
+            gridBackground.layer.addSublayer(noteLabel)
+
         }
         
         //검은건반
@@ -145,19 +157,11 @@ class GridView: UIView {
             
             let blackNote = CALayer()
             blackNote.backgroundColor = yPoint == 20 ? UIColor.black.cgColor : UIColor.clear.cgColor
-            blackNote.frame = CGRect(x: gridBoundMargin, y: gridBoundMargin + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
-            
-
-            
+            let blackNoteBounds = CGRect(x: gridBoundMargin, y: gridBoundMargin + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
+            blackNote.frame = blackNoteBounds
             
             gridBackground.layer.addSublayer(blackNote)
             
-            let blackLabel = CATextLayer()
-            blackLabel.fontSize = 10
-            blackLabel.string = "TEST?"
-            blackLabel.foregroundColor = UIColor.white.cgColor
-            blackLabel.position = CGPoint(x: gridBoundMargin, y: gridBoundMargin)
-            gridBackground.layer.addSublayer(blackLabel)
         }
 
     }
@@ -174,7 +178,12 @@ class GridView: UIView {
         let touchLocationView = recognizer.location(in: self.grid)
         let touchLocation = recognizer.location(in: self)
         
+        print("gird touchLoc > x:\(touchLocationView.x), y:\(touchLocationView.y)")
+        print("self touchLoc > x:\(touchLocation.x), y:\(touchLocation.y)")
+        
         if self.grid.frame.contains(touchLocation) {
+            
+            print("touchLocation is tabbed in grid Area!")
      
             var posX: CGFloat = touchLocationView.x / CGFloat(typeProperties.WHITEKEY_SIZE.rawValue)
             posX.round(.down)
