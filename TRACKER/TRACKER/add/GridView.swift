@@ -8,7 +8,7 @@
 
 import UIKit
 
-//MARK: 여백을 만드려고 30씩 더한거.. 리펙토링 하기..
+//MARK: 중복이나 하드코딩 등등.. 리펙토링 해보기..
 class GridView: UIView {
     
     var notes:[Int:CALayer] = [Int:CALayer] ()
@@ -18,6 +18,8 @@ class GridView: UIView {
     let circleWidth: CGFloat = 20
 
     var gridBackgroundBounds: CGRect!
+    var gridBoundMargin:CGFloat = 30
+    var gridHeaderWidth:CGFloat = 60
     
     var originTouchLocation: CGPoint!
     var originViewCenter: CGPoint!
@@ -37,10 +39,12 @@ class GridView: UIView {
 
         getGridBounds()
         
-        grid = UIView(frame: CGRect(x: 30, y: 30, width: gridBackgroundBounds.width, height: gridBackgroundBounds.height))
+        grid = UIView(frame: CGRect(x: gridBoundMargin + gridHeaderWidth, y: gridBoundMargin, width: gridBackgroundBounds.width, height: gridBackgroundBounds.height))
         grid.backgroundColor = UIColor.clear
+        grid.layer.borderWidth = 1
+        grid.layer.borderColor = UIColor.black.cgColor
         
-        gridBackground = UIView(frame: CGRect(x: 0, y: 0, width: gridBackgroundBounds.width + 60, height: gridBackgroundBounds.height + 60))
+        gridBackground = UIView(frame: CGRect(x: 0, y: 0, width: gridBackgroundBounds.width + (gridBoundMargin * 2) + gridHeaderWidth, height: gridBackgroundBounds.height + (gridBoundMargin * 2)))
         gridBackground.backgroundColor = UIColor.white
         gridBackground.addSubview(grid)
         
@@ -50,11 +54,7 @@ class GridView: UIView {
         scrollView.minimumZoomScale = 1.0
         scrollView.delegate = self
         scrollView.addSubview(gridBackground)
-        
-        
-        
-//        scrollView.addSubview(grid)
-        
+      
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(scrollView)
         
@@ -64,6 +64,8 @@ class GridView: UIView {
         scrollView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
 
         drawGrid()
+        
+        drawHeader()
     }
     
     func getGridBounds(){
@@ -79,33 +81,85 @@ class GridView: UIView {
         
         var xPosition: CGFloat = 0
         for _ in 0 ..< typeProperties.cols.rawValue {
-            xPosition += CGFloat(typeProperties.WHITEKEY_SIZE.rawValue + 1)
+
+            xPosition += CGFloat(typeProperties.WHITEKEY_SIZE.rawValue)
             
             let line = CAShapeLayer()
             let path = UIBezierPath()
-            path.move(to: CGPoint(x: xPosition + 30, y: 0 + 30))
-            path.addLine(to: CGPoint(x: xPosition + 30, y: gridBackgroundBounds.height + 30 ))
+            path.move(to: CGPoint(x: xPosition + gridBoundMargin + gridHeaderWidth, y: 0 + gridBoundMargin))
+            path.addLine(to: CGPoint(x: xPosition + gridBoundMargin + gridHeaderWidth, y: gridBackgroundBounds.height + gridBoundMargin ))
             line.path = path.cgPath
             line.strokeColor = UIColor.black.cgColor
             line.lineWidth = 1
             gridBackground.layer.addSublayer(line)
         }
         
-        //MARK: 얘.. 거꾸로 표시되야해.. 위에서 아래가 아니라 아래에서 위로..
         var yPosition: CGFloat = gridBackgroundBounds.height
         for row in 0 ..< typeProperties.rows.rawValue {
-            let yPoint = TYPE_PIANO_NOTE_SCALE_HEIGHT[row % TYPE_PIANO_NOTE_SCALE_HEIGHT.count] + 1
+            let yPoint = TYPE_PIANO_NOTE_SCALE_HEIGHT[row % TYPE_PIANO_NOTE_SCALE_HEIGHT.count]
             yPosition -= CGFloat(yPoint)
             print("yPoint : \(yPoint), yPosition:\(yPosition)")
             let line = CAShapeLayer()
             let path = UIBezierPath()
-            path.move(to: CGPoint(x: 0 + 30, y: yPosition + 30))
-            path.addLine(to: CGPoint(x: gridBackgroundBounds.width + 30, y: yPosition + 30))
+            //헤더부분까지 같이 그려줌...
+            path.move(to: CGPoint(x: gridBoundMargin + gridHeaderWidth, y: yPosition + gridBoundMargin))
+            path.addLine(to: CGPoint(x: gridBackgroundBounds.width + gridBoundMargin + gridHeaderWidth, y: yPosition + gridBoundMargin))
             line.path = path.cgPath
             line.strokeColor = UIColor.black.cgColor
             line.lineWidth = 1
             gridBackground.layer.addSublayer(line)
         }
+    }
+    
+    func drawHeader() {
+        //MARK: 나중에 type 을 enum으로 비교해서 로직 분리하는걸... 찾아보기
+        let typeProperties = TYPE_PIANO.self
+     
+
+        
+        //흰건반
+        var yPosition: CGFloat = gridBackgroundBounds.height
+        for row in 0 ..< typeProperties.totOctave.rawValue * TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count {
+            let yPoint = TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT[row % TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count]
+            yPosition -= CGFloat(yPoint)
+
+            let whiteNote = CALayer()
+            whiteNote.backgroundColor = UIColor.white.cgColor
+            let borderRect = CGRect(x: gridBoundMargin, y: gridBoundMargin + yPosition, width: CGFloat(60.0), height: CGFloat(yPoint))
+            whiteNote.frame = borderRect
+            //MARK: 왜 이 함수안에선 선이 안그어졌을까..?
+//            addBorder(toSide: ViewSide.Top, withColor: UIColor.gray.cgColor, andThickness: 1, frame: borderRect)
+            gridBackground.layer.addSublayer(whiteNote)
+            
+            let border = CALayer()
+            border.backgroundColor = UIColor.gray.cgColor
+            border.frame = CGRect(x: borderRect.minX, y: borderRect.minY, width: borderRect.width, height: 1)
+            gridBackground.layer.addSublayer(border)
+        }
+        
+        //검은건반
+        yPosition = gridBackgroundBounds.height
+        for row in 0 ..< typeProperties.totOctave.rawValue * TYPE_PIANO_NOTE_BLACK_SCALE_HEIGHT.count {
+            let yPoint = TYPE_PIANO_NOTE_BLACK_SCALE_HEIGHT[row % TYPE_PIANO_NOTE_BLACK_SCALE_HEIGHT.count]
+            yPosition -= CGFloat(yPoint)
+            
+            let blackNote = CALayer()
+            blackNote.backgroundColor = yPoint == 20 ? UIColor.black.cgColor : UIColor.clear.cgColor
+            blackNote.frame = CGRect(x: gridBoundMargin, y: gridBoundMargin + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
+            
+
+            
+            
+            gridBackground.layer.addSublayer(blackNote)
+            
+            let blackLabel = CATextLayer()
+            blackLabel.fontSize = 10
+            blackLabel.string = "TEST?"
+            blackLabel.foregroundColor = UIColor.white.cgColor
+            blackLabel.position = CGPoint(x: gridBoundMargin, y: gridBoundMargin)
+            gridBackground.layer.addSublayer(blackLabel)
+        }
+
     }
 
 
@@ -121,32 +175,26 @@ class GridView: UIView {
         let touchLocation = recognizer.location(in: self)
         
         if self.grid.frame.contains(touchLocation) {
-            
-
-            
-            //계산땜에 글치.. Float 일 필요없음
-            //1을 더해준건... 선 때문에.. 뒤로갈수록 밀려서..
-            var posX: CGFloat = touchLocationView.x / CGFloat(typeProperties.WHITEKEY_SIZE.rawValue + 1)
+     
+            var posX: CGFloat = touchLocationView.x / CGFloat(typeProperties.WHITEKEY_SIZE.rawValue)
             posX.round(.down)
             var posY: CGFloat = touchLocationView.y
-            //위치 / 201(한 옥타브 음계 배열의 총 길이) 하면 옥타브 위치는 알 수 있음
-            
-            let rectX = Int(touchLocationView.x - touchLocationView.x.truncatingRemainder(dividingBy: CGFloat(typeProperties.WHITEKEY_SIZE.rawValue + 1)))
+
+            let rectX = touchLocationView.x - touchLocationView.x.truncatingRemainder(dividingBy: CGFloat(typeProperties.WHITEKEY_SIZE.rawValue))
             var rectY = 0
             var rectHeight = 0
-            var rectWidth = 0
-            
-            if posY / 201 < 1 {
+
+            if posY / 190 < 1 {
                 for idx in 0 ..< TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED.count {
-                    posY -= CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx] + 1)
+                    posY -= CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx])
                     if( posY < 0) {
                         if idx <= 0 {
                             rectY = 0
                             rectHeight = 20
                         } else {
-                            print("여긴 절대 안탈거같은데...")
-                            rectY = Int(touchLocationView.y - CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx-1] + 1))
-                            rectHeight = TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx-1]
+                            
+                            rectY = Int(touchLocationView.y - (posY + CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx])))
+                            rectHeight = TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx]
                         }
                         
                         posY = CGFloat(idx)
@@ -155,15 +203,15 @@ class GridView: UIView {
                 }
                 
             } else {
-                let additionalPosY = CGFloat(posY / 201).rounded(.down)
-                var remainPosY = posY.truncatingRemainder(dividingBy: 201)
+                let additionalPosY = CGFloat(posY / 190).rounded(.down)
+                var remainPosY = posY.truncatingRemainder(dividingBy: 190)
                 
                 for idx in 0 ..< TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED.count {
-                    remainPosY -= CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx] + 1)
+                    remainPosY -= CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx])
                     if( remainPosY < 0) {
-                        rectY = Int(touchLocationView.y - CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx] + 1))
-                        rectHeight = TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx-1]
-                        posY = CGFloat(idx) + additionalPosY
+                        rectY = Int(touchLocationView.y - (remainPosY + CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx])))
+                        rectHeight = TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx]
+                        posY = CGFloat(idx) + (additionalPosY * CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED.count))
                         break
                     }
                 }
@@ -174,7 +222,6 @@ class GridView: UIView {
             //인덱스는...?
             let curIdx = (posY * CGFloat(typeProperties.cols.rawValue)) + posX
             print("posX : \(posX), posY : \(posY), curIdx : \(curIdx), rectX : \(rectX), rectY : \(rectY), isMarking : \(isMarking)")
-            print("")
 
             if isMarking {
                 //마킹하기
@@ -185,12 +232,10 @@ class GridView: UIView {
                 
                 let circleLayer = CALayer()
                 circleLayer.backgroundColor = UIColor.blue.cgColor
-//                circleLayer.fillColor = UIColor.black.cgColor
-                circleLayer.frame = CGRect(x: rectX, y: rectY, width: typeProperties.WHITEKEY_SIZE.rawValue, height: rectHeight)
-//                circleLayer.path = UIBezierPath(rect:
-//                    CGRect(x:touchLocationView.x - (circleWidth/2), y:touchLocationView.y - (circleWidth/2),
-//                           width:circleWidth, height:circleWidth)).cgPath
-//                circleLayer.path = UIBezierPath(rect: CGRect(x: rectX + 1, y: rectY, width: typeProperties.WHITEKEY_SIZE.rawValue, height: typeProperties.WHITEKEY_SIZE.rawValue)).cgPath
+
+                print("draw rect > x:\(rectX), y:\(rectY), width:\(typeProperties.WHITEKEY_SIZE.rawValue), height:\(rectHeight)")
+                circleLayer.frame = CGRect(x: rectX, y: CGFloat(rectY), width: CGFloat(typeProperties.WHITEKEY_SIZE.rawValue), height: CGFloat(rectHeight))
+
                 self.grid.layer.addSublayer(circleLayer)
                 self.notes[Int(curIdx)] = circleLayer
                 
@@ -213,6 +258,8 @@ class GridView: UIView {
 
     }
     
+    
+    
 }
 
 extension GridView: UIScrollViewDelegate {
@@ -227,6 +274,33 @@ extension GridView: NoteMenuDelegate {
         isMarking = isMark
 
     }
+}
+
+// This syntax reflects changes made to the Swift language as of Aug. '16
+extension GridView {
+    
+    // Example use: myView.addBorder(toSide: .Left, withColor: UIColor.redColor().CGColor, andThickness: 1.0)
+    enum ViewSide {
+        case Left, Right, Top, Bottom
+    }
+    
+    func addBorder(toSide side: ViewSide, withColor color: CGColor, andThickness thickness: CGFloat, frame: CGRect) {
+        
+        let border = CALayer()
+        border.backgroundColor = color
+        
+        switch side {
+        case .Left: border.frame = CGRect(x: frame.minX, y: frame.minY, width: thickness, height: frame.height); break
+        case .Right: border.frame = CGRect(x: frame.maxX, y: frame.minY, width: thickness, height: frame.height); break
+        case .Top: border.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: thickness); break
+        case .Bottom: border.frame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width, height: thickness); break
+        }
+        
+        print("addBorder > x:\(frame.minX), y:\(frame.minY), width:\(frame.width), height:\(thickness)")
+        
+        gridBackground.layer.addSublayer(border)
+    }
+
 }
 
 

@@ -26,21 +26,24 @@ enum InstrumentKind: Int {
 let TYPE_PIANO_NOTE_SCALE_HEIGHT = [20, 10, 20, 10, 20, 20, 10, 20, 10, 20, 10, 20]
 let TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED = [20, 10, 20, 10, 20, 10, 20, 20, 10, 20, 10, 20]
 
+let TYPE_PIANO_NOTE_BLACK_SCALE_HEIGHT = [15, 20, 10, 20, 15, 15, 20, 10, 20, 10, 20, 15]
+let TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT = [25, 30, 25, 25, 30, 30, 25]
+
 //MARK: 값이 같으면.. rawValue 가 유니크 하지 않다고 머라함..
 enum TYPE_PIANO: Int {
     case BLACKKEY_SIZE = 10
     case WHITEKEY_SIZE = 20
     case cols =  50 //임시 정한건 없음
     case rows = 84
-    
+    case totOctave = 7
     
     static let getHeight: Int = {
         //사이즈 * 음계내 건반수 * 옥타브 수
-        return (BLACKKEY_SIZE.rawValue * 5 * 7) + (WHITEKEY_SIZE.rawValue * 7 * 7) + (rows.rawValue - 1)
+        return (BLACKKEY_SIZE.rawValue * 5 * totOctave.rawValue) + (WHITEKEY_SIZE.rawValue * 7 * totOctave.rawValue)
     }()
     
     static let getWidth: Int = {
-        return cols.rawValue * WHITEKEY_SIZE.rawValue + (cols.rawValue - 1)
+        return cols.rawValue * WHITEKEY_SIZE.rawValue
     }()
 
 }
