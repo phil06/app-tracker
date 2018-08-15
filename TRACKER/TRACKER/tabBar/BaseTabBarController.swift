@@ -18,9 +18,9 @@ class BaseTabBarController: UITabBarController {
         let guideVC = ViewController()
         guideVC.title = "Downloads"
         guideVC.view.backgroundColor = UIColor.blue
-        let listVC = ViewController()
-        listVC.title = "History"
-        listVC.view.backgroundColor = UIColor.cyan
+        let listVC = LoadViewController()
+//        listVC.title = "History"
+//        listVC.view.backgroundColor = UIColor.cyan
 
         guideVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: TabBarImage.TAB_BAR_ITEM_HOME_IMG.getFileName), tag: 0)
         addNewVC.tabBarItem = UITabBarItem(title: "새로 만들기", image: UIImage(named: TabBarImage.TAB_BAR_ITEM_NEW_IMG.getFileName), tag: 1)

@@ -36,9 +36,27 @@ class ONFileManager {
         return readString
     }
     
+    func readDirectory() -> [String] {
+        let documentDir = getDirectory().path
+
+        var contents: [String] = []
+        do {
+            contents = try FileManager.default.contentsOfDirectory(atPath: documentDir)
+        } catch let error as NSError {
+            print("Failed to access directory")
+            print(error)
+        }
+
+        return contents
+    }
+    
+    private func getDirectory() -> URL {
+        return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+    }
+    
     private func getFileURL(fileName: String, fileExtension: String) -> URL {
-        let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension(fileExtension)
+        let documentDirURL = getDirectory()
+        let fileURL = documentDirURL.appendingPathComponent(fileName).appendingPathExtension(fileExtension)
         return fileURL
     }
 }

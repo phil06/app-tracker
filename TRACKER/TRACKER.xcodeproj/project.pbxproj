@@ -33,6 +33,7 @@
 		8AF4E0BE21247A3E00BAE10B /* ONFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4E0BD21247A3E00BAE10B /* ONFileManager.swift */; };
 		8AF4E0C021247C5500BAE10B /* GridDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4E0BF21247C5500BAE10B /* GridDelegate.swift */; };
 		8AF4E0C221247E2C00BAE10B /* LoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4E0C121247E2C00BAE10B /* LoadViewController.swift */; };
+		8AF4E0C4212481CD00BAE10B /* FileListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4E0C3212481CD00BAE10B /* FileListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		8AF4E0BD21247A3E00BAE10B /* ONFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ONFileManager.swift; sourceTree = "<group>"; };
 		8AF4E0BF21247C5500BAE10B /* GridDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDelegate.swift; sourceTree = "<group>"; };
 		8AF4E0C121247E2C00BAE10B /* LoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadViewController.swift; sourceTree = "<group>"; };
+		8AF4E0C3212481CD00BAE10B /* FileListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 				8AEBD8A72113426200AAC3C8 /* AddNewViewController.swift */,
 				2D55DDD021183823001FDE3F /* InstrumentCell.swift */,
 				8AF4E0C121247E2C00BAE10B /* LoadViewController.swift */,
+				8AF4E0C3212481CD00BAE10B /* FileListCell.swift */,
 			);
 			path = tabBar;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				8AF4E0C021247C5500BAE10B /* GridDelegate.swift in Sources */,
 				2D55DDE7211ACA72001FDE3F /* NoteMenuView.swift in Sources */,
 				2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */,
+				8AF4E0C4212481CD00BAE10B /* FileListCell.swift in Sources */,
 				8AF4E0C221247E2C00BAE10B /* LoadViewController.swift in Sources */,
 				8AEBD874210D93B300AAC3C8 /* ViewController.swift in Sources */,
 				8AEBD87A210D93B300AAC3C8 /* TRACKER.xcdatamodeld in Sources */,
