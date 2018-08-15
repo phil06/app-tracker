@@ -29,12 +29,13 @@ class GridView: UIView {
     var grid: UIView!
     
     var isMarking: Bool!
+    
+    weak var gridDelegate: GridDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         self.isUserInteractionEnabled = true
-
         self.backgroundColor = UIColor.black
 
         getGridBounds()
@@ -278,38 +279,62 @@ extension GridView: UIScrollViewDelegate {
     }
 }
 
+extension GridView: NoteGridViewDelegate {
+    
+    //MARK: 오래걸리면.. indicator 같은거
+    func save(fileName: String) {
+        guard fileName != "" else {
+            gridDelegate?.warning(message: "파일명이 제대로 입력되지 않아서 저장 할 수 없습니다")
+            return
+        }
+        
+        let saveContents: String = ""
+        
+        notes.forEach { (key, value) in
+            let rect = value.frame
+            print("key : \(key), value : \(value)")
+            print("value rect > x:\(rect.origin.x), y:\(rect.origin.y), width:\(rect.size.width), height:\(rect.size.height)")
+            //index,x,y,width,height
+            saveContents.appendingFormat("%d,%d,%d,%d,%d\n", key, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
+        }
+        let fileManager = ONFileManager()
+        fileManager.saveToDatFileSeparatedCR(fileName: fileName, contents: saveContents)
+    }
+    
+}
+
 extension GridView: NoteMenuDelegate {
     func markingStatusChanged(isMark: Bool) {
         isMarking = isMark
-
     }
 }
 
-// This syntax reflects changes made to the Swift language as of Aug. '16
-extension GridView {
-    
-    // Example use: myView.addBorder(toSide: .Left, withColor: UIColor.redColor().CGColor, andThickness: 1.0)
-    enum ViewSide {
-        case Left, Right, Top, Bottom
-    }
-    
-    func addBorder(toSide side: ViewSide, withColor color: CGColor, andThickness thickness: CGFloat, frame: CGRect) {
-        
-        let border = CALayer()
-        border.backgroundColor = color
-        
-        switch side {
-        case .Left: border.frame = CGRect(x: frame.minX, y: frame.minY, width: thickness, height: frame.height); break
-        case .Right: border.frame = CGRect(x: frame.maxX, y: frame.minY, width: thickness, height: frame.height); break
-        case .Top: border.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: thickness); break
-        case .Bottom: border.frame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width, height: thickness); break
-        }
-        
-        print("addBorder > x:\(frame.minX), y:\(frame.minY), width:\(frame.width), height:\(thickness)")
-        
-        gridBackground.layer.addSublayer(border)
-    }
 
-}
+//// This syntax reflects changes made to the Swift language as of Aug. '16
+//extension GridView {
+//
+//    // Example use: myView.addBorder(toSide: .Left, withColor: UIColor.redColor().CGColor, andThickness: 1.0)
+//    enum ViewSide {
+//        case Left, Right, Top, Bottom
+//    }
+//
+//    func addBorder(toSide side: ViewSide, withColor color: CGColor, andThickness thickness: CGFloat, frame: CGRect) {
+//
+//        let border = CALayer()
+//        border.backgroundColor = color
+//
+//        switch side {
+//        case .Left: border.frame = CGRect(x: frame.minX, y: frame.minY, width: thickness, height: frame.height); break
+//        case .Right: border.frame = CGRect(x: frame.maxX, y: frame.minY, width: thickness, height: frame.height); break
+//        case .Top: border.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: thickness); break
+//        case .Bottom: border.frame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width, height: thickness); break
+//        }
+//
+//        print("addBorder > x:\(frame.minX), y:\(frame.minY), width:\(frame.width), height:\(thickness)")
+//
+//        gridBackground.layer.addSublayer(border)
+//    }
+//
+//}
 
 

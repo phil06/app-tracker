@@ -14,9 +14,13 @@ class NoteMenuView: UIView {
     var markButton: UIButton!
     var clearButton: UIButton!
     var clearAll: UIButton!
+    var save: UIButton!
 
-    weak var delegate: NoteMenuDelegate?
+
+    weak var controlDelegate: NoteMenuDelegate?
+    weak var viewDelegate: NoteViewDelegate?
     
+    //MARK: autolayout 으로 리펙토링 하기
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
@@ -42,19 +46,28 @@ class NoteMenuView: UIView {
         clearAll.setTitle("All Clear", for: .normal)
         clearAll.setTitleColor(UIColor.black, for: .normal)
         self.addSubview(clearAll)
-
+        
+        save = UIButton(frame: CGRect(x: 10, y: 250, width: 70, height: 50))
+        save.setTitle("Save", for: .normal)
+        save.setTitleColor(UIColor.black, for: .normal)
+        save.addTarget(self, action: #selector(saveToFile), for: .touchUpInside)
+        self.addSubview(save)
     }
     
     @objc func mark() {
-        delegate?.markingStatusChanged(isMark: true)
+        controlDelegate?.markingStatusChanged(isMark: true)
         markButton.backgroundColor = UIColor.orange
         clearButton.backgroundColor = UIColor.clear
     }
     
     @objc func clearMark() {
-        delegate?.markingStatusChanged(isMark: false)
+        controlDelegate?.markingStatusChanged(isMark: false)
         clearButton.backgroundColor = UIColor.orange
         markButton.backgroundColor = UIColor.clear
+    }
+    
+    @objc func saveToFile() {
+        viewDelegate?.save()
     }
     
     required init?(coder aDecoder: NSCoder) {

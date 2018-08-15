@@ -12,4 +12,10 @@ protocol NoteMenuDelegate: class {
     func markingStatusChanged(isMark: Bool)
 }
 
+protocol NoteViewDelegate: class {
+    func save()
+}
 
+protocol NoteGridViewDelegate: class {
+    func save(fileName: String)
+}

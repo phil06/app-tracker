@@ -16,7 +16,8 @@ class CompositionViewController: UIViewController {
     var gridView: GridView!
     var instrumentType: InstrumentKind!
     
-    weak var gridViewDelegate: NoteMenuDelegate?
+    weak var controlDelegate: NoteMenuDelegate?
+    weak var gridViewDelegate: NoteGridViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +40,8 @@ class CompositionViewController: UIViewController {
         menuView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: safeAreaInset.left).isActive = true
         menuView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 
-        menuView.delegate = self
+        menuView.controlDelegate = self
+        menuView.viewDelegate = self
         
         //그리는 화면
         gridView = GridView(frame: CGRect.zero)
@@ -52,6 +54,9 @@ class CompositionViewController: UIViewController {
         gridView.leadingAnchor.constraint(equalTo: menuView.trailingAnchor).isActive = true
         gridView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         
+        gridView.gridDelegate = self
+        
+        controlDelegate = gridView
         gridViewDelegate = gridView
         
         //add dot
@@ -90,13 +95,30 @@ class CompositionViewController: UIViewController {
         self.gridView.grid.setNeedsDisplay()
     }
     
+    func saveGrid(name: String) {
+        gridViewDelegate?.save(fileName: name)
+    }
+
+}
+
+extension CompositionViewController: NoteViewDelegate {
+    func save() {
+        let alertView = AlertController().showMessageWithInput(by: saveGrid, pTitle: "저장", pMessage: "작성된 내용을 저장합니다")
+        self.present(alertView, animated: false)
+    }
 }
 
 extension CompositionViewController: NoteMenuDelegate {
     func markingStatusChanged(isMark: Bool) {
-        gridViewDelegate?.markingStatusChanged(isMark: isMark)
+        controlDelegate?.markingStatusChanged(isMark: isMark)
     }
-  
+}
+
+extension CompositionViewController: GridDelegate {
+    func warning(message: String) {
+        let alertView = AlertController().showMessage(title: "오류", message: message)
+        self.present(alertView, animated: false)
+    }
 }
 
 
