@@ -75,9 +75,9 @@ enum TabBarImage: String {
         case .TAB_BAR_ITEM_HOME_IMG:
             return "icon_info"
         case .TAB_BAR_ITEM_NEW_IMG:
-            return "icon_info"
+            return "icon_new_add"
         case .TAB_BAR_ITEM_LIST_IMG:
-            return "icon_info"
+            return "icon_list"
         }
     }
 }
