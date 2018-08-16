@@ -99,7 +99,7 @@ class GridView: UIView {
         for row in 0 ..< typeProperties.rows.rawValue {
             let yPoint = TYPE_PIANO_NOTE_SCALE_HEIGHT[row % TYPE_PIANO_NOTE_SCALE_HEIGHT.count]
             yPosition -= CGFloat(yPoint)
-            print("yPoint : \(yPoint), yPosition:\(yPosition)")
+//            print("yPoint : \(yPoint), yPosition:\(yPosition)")
             let line = CAShapeLayer()
             let path = UIBezierPath()
             //헤더부분까지 같이 그려줌...
@@ -240,14 +240,16 @@ class GridView: UIView {
                     return
                 }
                 
-                let circleLayer = CALayer()
-                circleLayer.backgroundColor = UIColor.blue.cgColor
-
-                print("draw rect > x:\(rectX), y:\(rectY), width:\(typeProperties.WHITEKEY_SIZE.rawValue), height:\(rectHeight)")
-                circleLayer.frame = CGRect(x: rectX, y: CGFloat(rectY), width: CGFloat(typeProperties.WHITEKEY_SIZE.rawValue), height: CGFloat(rectHeight))
-
-                self.grid.layer.addSublayer(circleLayer)
-                self.notes[Int(curIdx)] = circleLayer
+                drawRect(idx: Int(curIdx), rect: CGRect(x: rectX, y: CGFloat(rectY), width: CGFloat(typeProperties.WHITEKEY_SIZE.rawValue), height: CGFloat(rectHeight)))
+                
+//                let circleLayer = CALayer()
+//                circleLayer.backgroundColor = UIColor.blue.cgColor
+//
+//                print("draw rect > x:\(rectX), y:\(rectY), width:\(typeProperties.WHITEKEY_SIZE.rawValue), height:\(rectHeight)")
+//                circleLayer.frame = CGRect(x: rectX, y: CGFloat(rectY), width: CGFloat(typeProperties.WHITEKEY_SIZE.rawValue), height: CGFloat(rectHeight))
+//
+//                self.grid.layer.addSublayer(circleLayer)
+//                self.notes[Int(curIdx)] = circleLayer
                 
             } else {
                 //마킹된거 지우기
@@ -268,6 +270,14 @@ class GridView: UIView {
 
     }
     
+    func drawRect(idx: Int, rect: CGRect) {
+        let circleLayer = CALayer()
+        circleLayer.backgroundColor = UIColor.blue.cgColor
+        circleLayer.frame = CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
+        self.grid.layer.addSublayer(circleLayer)
+        self.notes[Int(idx)] = circleLayer
+    }
+    
     
     
 }
@@ -281,6 +291,24 @@ extension GridView: UIScrollViewDelegate {
 
 extension GridView: NoteGridViewDelegate {
     
+    func loadSaved(fileName: String) {
+        let fileManager = ONFileManager()
+        let contents = fileManager.readFileSeparatedCR(fileName: fileName)
+
+        contents.split(separator: "\n").forEach { (str) in
+            let parsed = str.split(separator: ",")
+            print("index:\(parsed[0]), x:\(parsed[1]), y:\(parsed[2]), width:\(parsed[3]), height\(parsed[4])")
+ 
+            let x = CGFloat(truncating: NumberFormatter().number(from: String(parsed[1]))!)
+            let y = CGFloat(truncating: NumberFormatter().number(from: String(parsed[2]))!)
+            let width = CGFloat(truncating: NumberFormatter().number(from: String(parsed[3]))!)
+            let height = CGFloat(truncating: NumberFormatter().number(from: String(parsed[4]))!)
+            
+            drawRect(idx: Int(parsed[0])!, rect: CGRect(x: x, y: y, width: width, height: height))
+        }
+    }
+    
+    
     //MARK: 오래걸리면.. indicator 같은거
     func save(fileName: String) {
         guard fileName != "" else {
@@ -288,17 +316,22 @@ extension GridView: NoteGridViewDelegate {
             return
         }
         
-        let saveContents: String = ""
+        var saveContents: String = ""
         
         notes.forEach { (key, value) in
             let rect = value.frame
-            print("key : \(key), value : \(value)")
-            print("value rect > x:\(rect.origin.x), y:\(rect.origin.y), width:\(rect.size.width), height:\(rect.size.height)")
+
             //index,x,y,width,height
-            saveContents.appendingFormat("%d,%d,%d,%d,%d\n", key, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
+            saveContents = saveContents.appendingFormat("%d,%f,%f,%f,%f\n", key, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
         }
         let fileManager = ONFileManager()
         fileManager.saveToDatFileSeparatedCR(fileName: fileName, contents: saveContents)
+        
+        //MARK: ENUM 타입을 넣을 수 없음.. 일단 문자열 하드코딩
+        UserDefaults.standard.set("PIANO", forKey: fileName)
+        print("save > key:\(fileName)")
+        
+        gridDelegate?.alert(message: "저장 완료")
     }
     
 }

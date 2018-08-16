@@ -25,9 +25,9 @@ class AlertController {
         return alert
     }
     
-    func showMessageWithInput(by: @escaping (_ fileName: String) -> Void, pTitle: String, pMessage: String) -> UIAlertController {
+    func showMessageWithInput(by: @escaping (_ fileName: String) -> Void, pTitle: String, pMessage: String, placeHolder: String) -> UIAlertController {
         let alert = UIAlertController(title: pTitle, message: pMessage, preferredStyle: .alert)
-        
+
         let okBtn = UIAlertAction(title: "저장", style: .default, handler: { (_) in
             if let tf = alert.textFields?[0] {
                 print("파일명은 > \(tf.text!)")
@@ -37,8 +37,7 @@ class AlertController {
         let cancelBtn = UIAlertAction(title: "취소", style: .cancel)
         
         alert.addTextField(configurationHandler: { (tf) in
-            //MARK: 현재시간 포멧으로
-            tf.placeholder = "파일명"
+            tf.text = placeHolder
         })
         alert.addAction(okBtn)
         alert.addAction(cancelBtn)

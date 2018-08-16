@@ -9,19 +9,32 @@
 import UIKit
 
 //MARK: 악기 선택 아이콘
-enum InstrumentKind: Int {
-    case PIANO
-    case GUITAR
-    case DRUM
+enum InstrumentKind: String {
+    case PIANO = "PIANO"
+    case GUITAR = "GUITAR"
+    case DRUM = "DRUM"
 
-    static let count: Int = {
-        var max: Int = 0
-        while let _ = InstrumentKind(rawValue: max) { max += 1 }
-        return max
-    }()
+    static let allCases:[String] = [InstrumentKind.PIANO.rawValue,
+                                    InstrumentKind.GUITAR.rawValue,
+                                    InstrumentKind.DRUM.rawValue]
     
+    init?(code: Int) {
+        switch code {
+        case 0:
+            self = .PIANO
+        case 1:
+            self = .GUITAR
+        case 2:
+            self = .DRUM
+        default:
+            return nil
+        }
+    }
 
 }
+
+
+
 
 let TYPE_PIANO_NOTE_SCALE_HEIGHT = [20, 10, 20, 10, 20, 20, 10, 20, 10, 20, 10, 20]
 let TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED = [20, 10, 20, 10, 20, 10, 20, 20, 10, 20, 10, 20]
@@ -35,7 +48,7 @@ let TYPE_PIANO_NOTE_SCALE_TEXT = ["C", "D", "E", "F", "G", "A", "B"]
 enum TYPE_PIANO: Int {
     case BLACKKEY_SIZE = 10
     case WHITEKEY_SIZE = 20
-    case cols =  50 //임시 정한건 없음
+    case cols =  500 //임시 정한건 없음
     case rows = 84
     case totOctave = 7
     

@@ -12,7 +12,7 @@ import UIKit
 //MARK: instrumentType 에 따라 화면을 달리 해야하는걸... 여기서 할지 GridView에서 할지는 모르겠지만 일단 해야할일..
 class CompositionViewController: UIViewController {
     
-    var loadData: String!
+    var loadFile: String!
     var menuView: NoteMenuView!
     var gridView: GridView!
     var instrumentType: InstrumentKind!
@@ -68,6 +68,9 @@ class CompositionViewController: UIViewController {
 
         menuView.mark()
         
+        if loadFile != nil {
+            loadSaved()
+        }
         
     }
     
@@ -99,12 +102,22 @@ class CompositionViewController: UIViewController {
     func saveGrid(name: String) {
         gridViewDelegate?.save(fileName: name)
     }
-
+    
+    func loadSaved() {
+        gridViewDelegate?.loadSaved(fileName: loadFile)
+    }
 }
 
 extension CompositionViewController: NoteViewDelegate {
     func save() {
-        let alertView = AlertController().showMessageWithInput(by: saveGrid, pTitle: "저장", pMessage: "작성된 내용을 저장합니다")
+        var placeHolder: String = "파일명"
+        if loadFile != nil {
+//            placeHolder = loadFile.hasSuffix(".dat") ? loadFile.components(separatedBy: ".dat")[0] : loadFile
+            placeHolder = loadFile
+            print("placeHolder > \(placeHolder)")
+        }
+        
+        let alertView = AlertController().showMessageWithInput(by: saveGrid, pTitle: "저장", pMessage: "작성된 내용을 저장합니다\n(동일한 파일이 존재할 경우 기존 내용은 사라집니다)", placeHolder: placeHolder)
         self.present(alertView, animated: false)
     }
 }
@@ -118,6 +131,11 @@ extension CompositionViewController: NoteMenuDelegate {
 extension CompositionViewController: GridDelegate {
     func warning(message: String) {
         let alertView = AlertController().showMessage(title: "오류", message: message)
+        self.present(alertView, animated: false)
+    }
+    
+    func alert(message: String) {
+        let alertView = AlertController().showMessage(title: "확인", message: message)
         self.present(alertView, animated: false)
     }
 }

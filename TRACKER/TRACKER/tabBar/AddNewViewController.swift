@@ -37,8 +37,8 @@ class AddNewViewController: UIViewController {
 
 extension AddNewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("선택된 행 : \(String(describing: InstrumentKind.init(rawValue: indexPath.row)))")
-        selectedType = InstrumentKind.init(rawValue: indexPath.row)
+        print("선택된 행 : \(String(describing: InstrumentKind.init(code: indexPath.row)))")
+        selectedType = InstrumentKind.init(code: indexPath.row)
     }
     
     //MARK: 버튼 이미지 변경할때 적용하기
@@ -49,7 +49,7 @@ extension AddNewViewController: UITableViewDelegate {
 
 extension AddNewViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return InstrumentKind.count
+        return InstrumentKind.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

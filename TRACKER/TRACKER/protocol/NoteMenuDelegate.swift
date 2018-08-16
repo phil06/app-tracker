@@ -18,4 +18,5 @@ protocol NoteViewDelegate: class {
 
 protocol NoteGridViewDelegate: class {
     func save(fileName: String)
+    func loadSaved(fileName: String)
 }

@@ -10,4 +10,5 @@ import UIKit
 
 protocol GridDelegate: class {
     func warning(message: String)
+    func alert(message: String)
 }
