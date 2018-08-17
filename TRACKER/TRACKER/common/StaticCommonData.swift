@@ -18,6 +18,17 @@ enum InstrumentKind: String {
                                     InstrumentKind.GUITAR.rawValue,
                                     InstrumentKind.DRUM.rawValue]
     
+    var getIcon: String {
+        switch self {
+        case .PIANO:
+            return "icon_instrument_piano_30x"
+        case .GUITAR:
+            return "icon_new_add"
+        case .DRUM:
+            return "icon_list"
+        }
+    }
+    
     init?(code: Int) {
         switch code {
         case 0:
@@ -64,22 +75,11 @@ enum TYPE_PIANO: Int {
 }
 
 
-//MARK: 탭바 이미지 (나중에 바꾸기)
+//탭바 아이콘
 enum TabBarImage: String {
-    case TAB_BAR_ITEM_HOME_IMG
-    case TAB_BAR_ITEM_NEW_IMG
-    case TAB_BAR_ITEM_LIST_IMG
-    
-    var getFileName: String {
-        switch self {
-        case .TAB_BAR_ITEM_HOME_IMG:
-            return "icon_info"
-        case .TAB_BAR_ITEM_NEW_IMG:
-            return "icon_new_add"
-        case .TAB_BAR_ITEM_LIST_IMG:
-            return "icon_list"
-        }
-    }
+    case TAB_BAR_ITEM_HOME_IMG = "icon_info"
+    case TAB_BAR_ITEM_NEW_IMG = "icon_new_add"
+    case TAB_BAR_ITEM_LIST_IMG = "icon_list"
 }
 
 

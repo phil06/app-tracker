@@ -19,6 +19,7 @@
 		2D55DDEB211AD20B001FDE3F /* LayoutDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEA211AD20B001FDE3F /* LayoutDisplay.swift */; };
 		2D55DDED211C21C6001FDE3F /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEC211C21C6001FDE3F /* AlertController.swift */; };
 		2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */; };
+		2D87046D2126614800B2AE58 /* icon_instrument_piano_30x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */; };
 		8AAA78F72121C01F004BF5B2 /* ONCATextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA78F62121C01F004BF5B2 /* ONCATextLayer.swift */; };
 		8AB2C5EA2125DC4E005B719B /* icon_new_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2C5E92125DC4E005B719B /* icon_new_add.png */; };
 		8AB2C5EC2125DCF0005B719B /* icon_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2C5EB2125DCEF005B719B /* icon_list.png */; };
@@ -69,6 +70,7 @@
 		2D55DDEA211AD20B001FDE3F /* LayoutDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutDisplay.swift; sourceTree = "<group>"; };
 		2D55DDEC211C21C6001FDE3F /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMenuDelegate.swift; sourceTree = "<group>"; };
+		2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_instrument_piano_30x.png; sourceTree = "<group>"; };
 		8AAA78F62121C01F004BF5B2 /* ONCATextLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ONCATextLayer.swift; sourceTree = "<group>"; };
 		8AB2C5E92125DC4E005B719B /* icon_new_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_new_add.png; sourceTree = "<group>"; };
 		8AB2C5EB2125DCEF005B719B /* icon_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_list.png; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		2D55DDCD211831A3001FDE3F /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */,
 				8AB2C5EB2125DCEF005B719B /* icon_list.png */,
 				8AB2C5E92125DC4E005B719B /* icon_new_add.png */,
 				2D55DDE4211ABE67001FDE3F /* icon_instrument_piano.png */,
@@ -363,6 +366,7 @@
 				2D55DDCF211831B9001FDE3F /* icon_info.png in Resources */,
 				8AEBD87F210D93B400AAC3C8 /* LaunchScreen.storyboard in Resources */,
 				2D55DDE5211ABE67001FDE3F /* icon_instrument_piano.png in Resources */,
+				2D87046D2126614800B2AE58 /* icon_instrument_piano_30x.png in Resources */,
 				8AB2C5EA2125DC4E005B719B /* icon_new_add.png in Resources */,
 				8AB2C5EC2125DCF0005B719B /* icon_list.png in Resources */,
 				8AEBD87C210D93B400AAC3C8 /* Assets.xcassets in Resources */,

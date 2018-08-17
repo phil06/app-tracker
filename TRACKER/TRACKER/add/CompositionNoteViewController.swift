@@ -112,7 +112,6 @@ extension CompositionViewController: NoteViewDelegate {
     func save() {
         var placeHolder: String = "파일명"
         if loadFile != nil {
-//            placeHolder = loadFile.hasSuffix(".dat") ? loadFile.components(separatedBy: ".dat")[0] : loadFile
             placeHolder = loadFile
             print("placeHolder > \(placeHolder)")
         }

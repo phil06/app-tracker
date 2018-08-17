@@ -54,7 +54,6 @@ class LoadViewController: UIViewController {
 
 extension LoadViewController: UITableViewDelegate {
 
-    //MARK: 버튼 이미지 변경할때 적용하기
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
@@ -98,26 +97,17 @@ extension LoadViewController: UITableViewDataSource {
             return cell
         }
         cell.type = InstrumentKind.init(rawValue: typeStr!)
-
-        if cell.type == InstrumentKind.PIANO {
-            cell.icon.image = UIImage(named: TabBarImage.TAB_BAR_ITEM_HOME_IMG.getFileName)
-        } else if cell.type == InstrumentKind.GUITAR {
-            cell.icon.image = UIImage(named: TabBarImage.TAB_BAR_ITEM_HOME_IMG.getFileName)
-        } else if cell.type == InstrumentKind.DRUM {
-            cell.icon.image = UIImage(named: TabBarImage.TAB_BAR_ITEM_HOME_IMG.getFileName)
-        }
-        
+        cell.icon.image = UIImage(named: cell.type.getIcon)
         cell.label.text = list[indexPath.row]
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(pressedBrowser))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tabListCell))
         cell.addGestureRecognizer(tap)
         
         return cell
     }
     
-    @objc func pressedBrowser(sender: UITapGestureRecognizer) {
+    @objc func tabListCell(sender: UITapGestureRecognizer) {
         let vc = CompositionViewController()
-        //MARK: 일단 하드코딩
         if let cell = sender.view as? FileListCell {
             vc.instrumentType = cell.type
             vc.loadFile = cell.label.text

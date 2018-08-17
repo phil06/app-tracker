@@ -18,17 +18,31 @@ class FileListCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         //MARK: 오토레이아웃 적용하기
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+
         label = UILabel()
-        label.frame = CGRect(x: 10, y: 10, width: 300, height: 30)
+        label.frame = CGRect.zero
         label.isUserInteractionEnabled = true
+        label.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(label)
         
         icon = UIImageView()
-        icon.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        icon.frame = CGRect.zero
+        icon.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(icon)
         
-        contentView.translatesAutoresizingMaskIntoConstraints = true
+        contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        icon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        icon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 48).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        label.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10).isActive = true
+        label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        label.heightAnchor.constraint(equalTo: icon.heightAnchor).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
