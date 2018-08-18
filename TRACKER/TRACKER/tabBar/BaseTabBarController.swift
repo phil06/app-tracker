@@ -15,7 +15,7 @@ class BaseTabBarController: UITabBarController {
         // Do any additional setup after loading the view.
 
         let addNewVC = AddNewViewController()
-        let guideVC = ViewController()
+        let guideVC = GuideViewController()
         guideVC.title = "홈"
         guideVC.view.backgroundColor = UIColor.blue
         let listVC = LoadViewController()
