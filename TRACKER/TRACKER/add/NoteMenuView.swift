@@ -15,12 +15,12 @@ class NoteMenuView: UIView {
     var clearButton: UIButton!
     var clearAll: UIButton!
     var save: UIButton!
+    var play: UIButton!
 
 
     weak var controlDelegate: NoteMenuDelegate?
     weak var viewDelegate: NoteViewDelegate?
     
-    //MARK: autolayout 으로 리펙토링 하기
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
@@ -52,6 +52,12 @@ class NoteMenuView: UIView {
         save.setTitleColor(UIColor.black, for: .normal)
         save.addTarget(self, action: #selector(saveToFile), for: .touchUpInside)
         self.addSubview(save)
+        
+        play = UIButton(frame: CGRect(x: 10, y: 300, width: 70, height: 50))
+        play.setTitle("Play", for: .normal)
+        play.setTitleColor(UIColor.black, for: .normal)
+        play.addTarget(self, action: #selector(playNotes), for: .touchUpInside)
+        self.addSubview(play)
     }
     
     @objc func mark() {
@@ -68,6 +74,10 @@ class NoteMenuView: UIView {
     
     @objc func saveToFile() {
         viewDelegate?.save()
+    }
+    
+    @objc func playNotes() {
+        viewDelegate?.play()
     }
     
     required init?(coder aDecoder: NSCoder) {

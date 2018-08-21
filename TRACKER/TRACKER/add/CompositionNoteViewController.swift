@@ -109,6 +109,10 @@ class CompositionViewController: UIViewController {
 }
 
 extension CompositionViewController: NoteViewDelegate {
+    func play() {
+        gridViewDelegate?.play()
+    }
+    
     func save() {
         var placeHolder: String = "파일명"
         if loadFile != nil {

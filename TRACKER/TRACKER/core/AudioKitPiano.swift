@@ -12,23 +12,35 @@ import AVFoundation
 class AudioKitPiano {
     
     var audioPlayer: AVAudioPlayer?
-    
-    func audioTest() {
+    var curInterval: TimeInterval!
+
+    func initFileName(name: String, startTime: TimeInterval) -> TimeInterval {
+
+        guard let path = Bundle.main.path(forResource: name, ofType: "wav") else {
+            print("can't find file!")
+            return 0
+        }
+        
         do {
-            if let fileURL = Bundle.main.path(forResource: "065-F6", ofType: "wav") {
-                print("Continue processing")
-                audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: fileURL))
+            audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
+            if startTime <= 0 {
+                curInterval = audioPlayer?.deviceCurrentTime
             } else {
-                print("Error: No file with specified name exists")
+                curInterval = startTime
             }
         } catch let error {
             print("Can't play the audio file failed with an error \(error.localizedDescription)")
         }
         
-        audioPlayer?.numberOfLoops = 1
-        audioPlayer?.play()
+        return curInterval
     }
     
-  
+    func playMedia(delay: TimeInterval) {
+        print("기준시간 > \(String(describing: curInterval.format(using: [.year, .month, .day, .hour, .minute, .second])))")
+        audioPlayer?.play(atTime: curInterval + delay)
+        print("실행시간 > \(String(describing: (curInterval + delay).format(using: [.year, .month, .day, .hour, .minute, .second])))")
+    }
+    
     
 }
+

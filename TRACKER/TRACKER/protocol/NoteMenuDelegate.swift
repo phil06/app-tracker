@@ -14,9 +14,11 @@ protocol NoteMenuDelegate: class {
 
 protocol NoteViewDelegate: class {
     func save()
+    func play()
 }
 
 protocol NoteGridViewDelegate: class {
     func save(fileName: String)
     func loadSaved(fileName: String)
+    func play()
 }

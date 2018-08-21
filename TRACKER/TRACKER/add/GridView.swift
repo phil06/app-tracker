@@ -241,16 +241,6 @@ class GridView: UIView {
                 }
                 
                 drawRect(idx: Int(curIdx), rect: CGRect(x: rectX, y: CGFloat(rectY), width: CGFloat(typeProperties.WHITEKEY_SIZE.rawValue), height: CGFloat(rectHeight)))
-                
-//                let circleLayer = CALayer()
-//                circleLayer.backgroundColor = UIColor.blue.cgColor
-//
-//                print("draw rect > x:\(rectX), y:\(rectY), width:\(typeProperties.WHITEKEY_SIZE.rawValue), height:\(rectHeight)")
-//                circleLayer.frame = CGRect(x: rectX, y: CGFloat(rectY), width: CGFloat(typeProperties.WHITEKEY_SIZE.rawValue), height: CGFloat(rectHeight))
-//
-//                self.grid.layer.addSublayer(circleLayer)
-//                self.notes[Int(curIdx)] = circleLayer
-                
             } else {
                 //마킹된거 지우기
                 guard let selectedLayer = notes[Int(curIdx)] else {
@@ -290,6 +280,28 @@ extension GridView: UIScrollViewDelegate {
 }
 
 extension GridView: NoteGridViewDelegate {
+    func play() {
+        print("이제 여기서 재생해보자")
+        var timeline = SoundTimeLine(type: InstrumentKind.PIANO)
+        let rows = TYPE_PIANO.rows.rawValue
+        
+        var dat: [Int:String] = [:]
+        
+        //notes 에 들어있는 index를 통해 사운드 키값(재생파일명칭)을 구해서 넘겨야 함
+        notes.forEach { (key, value) in
+            dat[key] = ""
+            print("col idx : \(key % rows)")
+            
+            //이 인덱스를 갖고 파일명 매칭을 해야함
+            
+            
+            
+        }
+        
+        
+        timeline.buildSoundArray(size: notes.count, notes: <#T##[Int : String]#>)
+    }
+    
     
     func loadSaved(fileName: String) {
         let fileManager = ONFileManager()

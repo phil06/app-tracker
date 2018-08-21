@@ -11,34 +11,40 @@ import AVFoundation
 
 class GuideViewController: UIViewController {
     
-    var audioPlayer: AVAudioPlayer?
-    
+    var pianoKit: AudioKitPiano?
+    var pianoKit2: AudioKitPiano?
+    var pianoKitArr:[AudioKitPiano] = []
+
     override func viewDidLoad() {
-        AudioKitPiano().audioTest()
+        super.viewDidLoad()
         
-        playSound(name: "043-G4")
+        pianoKitArr += [AudioKitPiano()]
+        pianoKitArr += [AudioKitPiano()]
+        pianoKitArr += [AudioKitPiano()]
+        
+        let startTime = pianoKitArr[0].initFileName(name: "043-G4", startTime: 0)
+        pianoKitArr[0].playMedia(delay: 3.0)
+        
+        _ = pianoKitArr[1].initFileName(name: "065-F6", startTime: startTime)
+        pianoKitArr[1].playMedia(delay: 2.0)
+        
+        _ = pianoKitArr[2].initFileName(name: "067-G6", startTime: startTime)
+        pianoKitArr[2].playMedia(delay: 1.0)
+        
+        var timeline = SoundTimeLine(type: InstrumentKind.PIANO)
+
     }
     
-
 }
 
-extension GuideViewController: AVAudioPlayerDelegate {
-    func playSound(name: String) {
-        guard let path = Bundle.main.path(forResource: name, ofType: "wav") else {
-            print("音源ファイルが見つかりません")
-            return
-        }
-        
-        do {
-            // AVAudioPlayerのインスタンス化
-            audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
-            
-            // AVAudioPlayerのデリゲートをセット
-            audioPlayer?.delegate = self
-            
-            // 音声の再生
-            audioPlayer?.play()
-        } catch {
-        }
+
+extension TimeInterval {
+    func format(using units: NSCalendar.Unit) -> String? {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = units
+        formatter.unitsStyle = .abbreviated
+        formatter.zeroFormattingBehavior = .pad
+
+        return formatter.string(from: self)
     }
 }

@@ -20,6 +20,8 @@
 		2D55DDED211C21C6001FDE3F /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEC211C21C6001FDE3F /* AlertController.swift */; };
 		2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */; };
 		2D87046D2126614800B2AE58 /* icon_instrument_piano_30x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */; };
+		2D87046F212BEF2B00B2AE58 /* SoundTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D87046E212BEF2B00B2AE58 /* SoundTimeLine.swift */; };
+		2D870471212BF21200B2AE58 /* AudioKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D870470212BF21200B2AE58 /* AudioKit.swift */; };
 		8AA088CD2128965400343EA4 /* 076-E7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AA088792128964D00343EA4 /* 076-E7.wav */; };
 		8AA088CE2128965400343EA4 /* 075-D7#.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AA0887A2128964E00343EA4 /* 075-D7#.wav */; };
 		8AA088CF2128965400343EA4 /* 007-G1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AA0887B2128964E00343EA4 /* 007-G1.wav */; };
@@ -157,6 +159,8 @@
 		2D55DDEC211C21C6001FDE3F /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMenuDelegate.swift; sourceTree = "<group>"; };
 		2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_instrument_piano_30x.png; sourceTree = "<group>"; };
+		2D87046E212BEF2B00B2AE58 /* SoundTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundTimeLine.swift; sourceTree = "<group>"; };
+		2D870470212BF21200B2AE58 /* AudioKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioKit.swift; sourceTree = "<group>"; };
 		8AA088792128964D00343EA4 /* 076-E7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "076-E7.wav"; sourceTree = "<group>"; };
 		8AA0887A2128964E00343EA4 /* 075-D7#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "075-D7#.wav"; sourceTree = "<group>"; };
 		8AA0887B2128964E00343EA4 /* 007-G1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "007-G1.wav"; sourceTree = "<group>"; };
@@ -461,6 +465,8 @@
 				8AF4E0BD21247A3E00BAE10B /* ONFileManager.swift */,
 				8AAA78F62121C01F004BF5B2 /* ONCATextLayer.swift */,
 				8AA08921212896B400343EA4 /* AudioKitPiano.swift */,
+				2D87046E212BEF2B00B2AE58 /* SoundTimeLine.swift */,
+				2D870470212BF21200B2AE58 /* AudioKit.swift */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -760,6 +766,7 @@
 				8AA089242128985000343EA4 /* GuideViewController.swift in Sources */,
 				2D55DDE0211973AD001FDE3F /* StaticCommonData.swift in Sources */,
 				2D55DDE9211ACEBF001FDE3F /* GridView.swift in Sources */,
+				2D870471212BF21200B2AE58 /* AudioKit.swift in Sources */,
 				8AF4E0C021247C5500BAE10B /* GridDelegate.swift in Sources */,
 				2D55DDE7211ACA72001FDE3F /* NoteMenuView.swift in Sources */,
 				2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */,
@@ -774,6 +781,7 @@
 				8AEBD872210D93B300AAC3C8 /* AppDelegate.swift in Sources */,
 				2D55DDDB21191C45001FDE3F /* CompositionNoteViewController.swift in Sources */,
 				8AAA78F72121C01F004BF5B2 /* ONCATextLayer.swift in Sources */,
+				2D87046F212BEF2B00B2AE58 /* SoundTimeLine.swift in Sources */,
 				8AA08922212896B400343EA4 /* AudioKitPiano.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
