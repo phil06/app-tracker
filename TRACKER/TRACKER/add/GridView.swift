@@ -137,12 +137,13 @@ class GridView: UIView {
             border.frame = CGRect(x: borderRect.minX, y: borderRect.minY, width: borderRect.width, height: 1)
             gridBackground.layer.addSublayer(border)
             
-            let noteText = TYPE_PIANO_NOTE_SCALE_TEXT[row % TYPE_PIANO_NOTE_SCALE_TEXT.count]
-            let octaveText = CGFloat(row / TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count).rounded(.down)
+//            let noteText = TYPE_PIANO_NOTE_SCALE_TEXT[row % TYPE_PIANO_NOTE_SCALE_TEXT.count]
+//            let octaveText = CGFloat(row / TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count).rounded(.down)
             
             let noteLabel = ONCATextLayer()
             noteLabel.fontSize = 13
-            noteLabel.string =  noteText + String(describing: Int(octaveText) + 1)
+            noteLabel.string = combineNoteLabel(row: row)
+//            noteLabel.string =  noteText + String(describing: Int(octaveText) + 1)
             noteLabel.foregroundColor = UIColor.black.cgColor
             noteLabel.frame = CGRect(x: gridBoundMargin + (gridHeaderWidth / 2), y: gridBoundMargin + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
             noteLabel.alignmentMode = kCAAlignmentCenter
@@ -165,6 +166,12 @@ class GridView: UIView {
             
         }
 
+    }
+    
+    func combineNoteLabel(row: Int) -> String {
+        let noteText = TYPE_PIANO_NOTE_SCALE_TEXT[row % TYPE_PIANO_NOTE_SCALE_TEXT.count]
+        let octaveText = CGFloat(row / TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count).rounded(.down)
+        return noteText + String(describing: Int(octaveText) + 1)
     }
 
 
@@ -284,22 +291,19 @@ extension GridView: NoteGridViewDelegate {
         print("이제 여기서 재생해보자")
         var timeline = SoundTimeLine(type: InstrumentKind.PIANO)
         let rows = TYPE_PIANO.rows.rawValue
+        let cols = TYPE_PIANO.cols.rawValue
         
         var dat: [Int:String] = [:]
         
-        //notes 에 들어있는 index를 통해 사운드 키값(재생파일명칭)을 구해서 넘겨야 함
         notes.forEach { (key, value) in
-            dat[key] = ""
-            print("col idx : \(key % rows)")
-            
-            //이 인덱스를 갖고 파일명 매칭을 해야함
-            
-            
-            
+            dat[key] = String(format: "%03d", arguments: [CGFloat(key / cols).rounded(.down)])
         }
+
+        timeline.buildSoundArray(size: notes.count, notes: dat)
         
-        
-        timeline.buildSoundArray(size: notes.count, notes: <#T##[Int : String]#>)
+        for (idx, kit) in timeline.soundDic.enumerated() {
+            kit["idx"]
+        }
     }
     
     

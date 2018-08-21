@@ -24,40 +24,60 @@ class NoteMenuView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
-
-        backButton = UIButton(frame: CGRect(x: 10, y: 10, width: 70, height: 50))
-        backButton.setTitle("Back", for: .normal)
-        backButton.setTitleColor(UIColor.black, for: .normal)
+        
+        backButton = initButton(title: "Back")
         self.addSubview(backButton)
         
-        markButton = UIButton(frame: CGRect(x: 10, y: 70, width: 70, height: 50))
-        markButton.setTitle("Mark", for: .normal)
-        markButton.setTitleColor(UIColor.black, for: .normal)
+        markButton = initButton(title: "Mark")
         markButton.addTarget(self, action: #selector(mark), for: .touchUpInside)
         self.addSubview(markButton)
         
-        clearButton = UIButton(frame: CGRect(x: 10, y: 130, width: 70, height: 50))
-        clearButton.setTitle("Clear", for: .normal)
-        clearButton.setTitleColor(UIColor.black, for: .normal)
+        clearButton = initButton(title: "Clear")
         clearButton.addTarget(self, action: #selector(clearMark), for: .touchUpInside)
         self.addSubview(clearButton)
         
-        clearAll = UIButton(frame: CGRect(x: 10, y: 190, width: 70, height: 50))
-        clearAll.setTitle("All Clear", for: .normal)
-        clearAll.setTitleColor(UIColor.black, for: .normal)
+        clearAll = initButton(title: "All Clear")
         self.addSubview(clearAll)
         
-        save = UIButton(frame: CGRect(x: 10, y: 250, width: 70, height: 50))
-        save.setTitle("Save", for: .normal)
-        save.setTitleColor(UIColor.black, for: .normal)
+        save = initButton(title: "Save")
         save.addTarget(self, action: #selector(saveToFile), for: .touchUpInside)
         self.addSubview(save)
         
-        play = UIButton(frame: CGRect(x: 10, y: 300, width: 70, height: 50))
-        play.setTitle("Play", for: .normal)
-        play.setTitleColor(UIColor.black, for: .normal)
+        play = initButton(title: "Play")
         play.addTarget(self, action: #selector(playNotes), for: .touchUpInside)
         self.addSubview(play)
+        
+        arrangeButtons()
+    }
+    
+    func arrangeButtons() {
+        
+        var prevBtn: UIButton!
+        for view in subviews {
+            guard let btn = view as? UIButton else {
+                continue
+            }
+            
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            btn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+            if prevBtn == nil {
+                btn.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
+            } else {
+                btn.topAnchor.constraint(equalTo: prevBtn.bottomAnchor, constant: 10).isActive = true
+            }
+            btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
+            btn.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            
+            prevBtn = btn
+        }
+        
+    }
+    
+    func initButton(title: String) -> UIButton {
+        let btn = UIButton(frame: CGRect.zero)
+        btn.setTitle(title, for: .normal)
+        btn.setTitleColor(UIColor.black, for: .normal)
+        return btn
     }
     
     @objc func mark() {

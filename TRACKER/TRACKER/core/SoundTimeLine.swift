@@ -26,7 +26,6 @@ class SoundTimeLine {
     }
     
     func buildSoundArray(size: Int, notes: [Int:String]) {
-
         notes.forEach { (key, value) in
             let audio = AudioKit()
             let colIdx: Int = key % instrumentCol 
@@ -40,6 +39,9 @@ class SoundTimeLine {
                 soundDic[colIdx] = [audio]
             }
         }
+    }
+    
+    func playSounds() {
         
     }
 
