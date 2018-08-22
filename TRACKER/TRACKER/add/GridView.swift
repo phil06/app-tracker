@@ -25,7 +25,13 @@ class GridView: UIView {
     var originViewCenter: CGPoint!
     
     var scrollView: UIScrollView!
+    var scrollKeyView: UIScrollView!
+    
+    // grid 격자그린 테두리를 가지는 뷰
     var gridBackground: UIView!
+    // 가이드라인 뷰
+    var gridLeftHeader: UIView!
+    // marking calyaer 를 가지는 뷰
     var grid: UIView!
     
     var isMarking: Bool!
@@ -33,6 +39,8 @@ class GridView: UIView {
     weak var gridDelegate: GridDelegate?
     
     var timeline = SoundTimeLine(type: InstrumentKind.PIANO)
+    
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,24 +59,44 @@ class GridView: UIView {
         gridBackground.backgroundColor = UIColor.white
         gridBackground.addSubview(grid)
         
+        
+        
+        gridLeftHeader = UIView(frame: CGRect(x: 0, y: 0,
+                                              width: gridBoundMargin + (gridHeaderWidth / 2) + CGFloat(30.0),
+                                              height: gridBackgroundBounds.height + (gridBoundMargin * 2)))
+        gridLeftHeader.backgroundColor = UIColor.white
+        drawHeader()
+        
+        scrollKeyView = UIScrollView(frame: frame)
+        scrollKeyView.contentSize = gridLeftHeader.bounds.size
+        scrollKeyView.maximumZoomScale = 3.0
+        scrollKeyView.minimumZoomScale = 1.0
+        scrollKeyView.delegate = self
+        scrollKeyView.addSubview(gridLeftHeader)
+        scrollKeyView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(scrollKeyView)
+        scrollKeyView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        scrollKeyView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        scrollKeyView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        scrollKeyView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        
+        
         scrollView = UIScrollView(frame: frame)
         scrollView.contentSize = gridBackground.bounds.size
         scrollView.maximumZoomScale = 3.0
         scrollView.minimumZoomScale = 1.0
         scrollView.delegate = self
         scrollView.addSubview(gridBackground)
-      
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(scrollView)
         
-        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: scrollKeyView.trailingAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         scrollView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-
-        drawGrid()
         
-        drawHeader()
+        drawGrid()
     }
     
     func getGridBounds(){
@@ -118,8 +146,6 @@ class GridView: UIView {
         //MARK: 나중에 type 을 enum으로 비교해서 로직 분리하는걸... 찾아보기
         let typeProperties = TYPE_PIANO.self
      
-
-        
         //흰건반
         var yPosition: CGFloat = gridBackgroundBounds.height
         for row in 0 ..< typeProperties.totOctave.rawValue * TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count {
@@ -130,26 +156,21 @@ class GridView: UIView {
             whiteNote.backgroundColor = UIColor.white.cgColor
             let borderRect = CGRect(x: gridBoundMargin, y: gridBoundMargin + yPosition, width: CGFloat(60.0), height: CGFloat(yPoint))
             whiteNote.frame = borderRect
-            //MARK: 왜 이 함수안에선 선이 안그어졌을까..?
-//            addBorder(toSide: ViewSide.Top, withColor: UIColor.gray.cgColor, andThickness: 1, frame: borderRect)
-            gridBackground.layer.addSublayer(whiteNote)
+
+            gridLeftHeader.layer.addSublayer(whiteNote)
             
             let border = CALayer()
             border.backgroundColor = UIColor.gray.cgColor
             border.frame = CGRect(x: borderRect.minX, y: borderRect.minY, width: borderRect.width, height: 1)
-            gridBackground.layer.addSublayer(border)
-            
-//            let noteText = TYPE_PIANO_NOTE_SCALE_TEXT[row % TYPE_PIANO_NOTE_SCALE_TEXT.count]
-//            let octaveText = CGFloat(row / TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count).rounded(.down)
-            
+            gridLeftHeader.layer.addSublayer(border)
+
             let noteLabel = ONCATextLayer()
             noteLabel.fontSize = 13
             noteLabel.string = combineNoteLabel(row: row)
-//            noteLabel.string =  noteText + String(describing: Int(octaveText) + 1)
             noteLabel.foregroundColor = UIColor.black.cgColor
             noteLabel.frame = CGRect(x: gridBoundMargin + (gridHeaderWidth / 2), y: gridBoundMargin + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
             noteLabel.alignmentMode = kCAAlignmentCenter
-            gridBackground.layer.addSublayer(noteLabel)
+            gridLeftHeader.layer.addSublayer(noteLabel)
 
         }
         
@@ -164,7 +185,7 @@ class GridView: UIView {
             let blackNoteBounds = CGRect(x: gridBoundMargin, y: gridBoundMargin + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
             blackNote.frame = blackNoteBounds
             
-            gridBackground.layer.addSublayer(blackNote)
+            gridLeftHeader.layer.addSublayer(blackNote)
             
         }
 
@@ -277,6 +298,25 @@ class GridView: UIView {
         self.notes[Int(idx)] = circleLayer
     }
     
+    
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollKeyView.bounces = scrollKeyView.contentOffset.x > 0
+        self.scrollView.bounces = self.scrollView.contentOffset.x > 0
+        
+        if scrollView == scrollKeyView {
+            synchronizeScrollView(self.scrollView, toScrollView: scrollKeyView)
+        } else if scrollView == self.scrollView {
+            synchronizeScrollView(scrollKeyView, toScrollView: self.scrollView)
+        }
+    }
+    
+    func synchronizeScrollView(_ scrollViewToScroll: UIScrollView, toScrollView scrolledView: UIScrollView) {
+        var offset = scrollViewToScroll.contentOffset
+        offset.y = scrolledView.contentOffset.y
+        
+        scrollViewToScroll.setContentOffset(offset, animated: false)
+    }
     
     
 }
