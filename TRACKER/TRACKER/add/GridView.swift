@@ -31,6 +31,8 @@ class GridView: UIView {
     var isMarking: Bool!
     
     weak var gridDelegate: GridDelegate?
+    
+    var timeline = SoundTimeLine(type: InstrumentKind.PIANO)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -287,23 +289,24 @@ extension GridView: UIScrollViewDelegate {
 }
 
 extension GridView: NoteGridViewDelegate {
+    
     func play() {
-        print("이제 여기서 재생해보자")
-        var timeline = SoundTimeLine(type: InstrumentKind.PIANO)
-        let rows = TYPE_PIANO.rows.rawValue
         let cols = TYPE_PIANO.cols.rawValue
         
         var dat: [Int:String] = [:]
         
         notes.forEach { (key, value) in
-            dat[key] = String(format: "%03d", arguments: [CGFloat(key / cols).rounded(.down)])
+            dat[key] = String(format: "%03d", Int(CGFloat(key / cols).rounded(.down)))
+            
         }
 
         timeline.buildSoundArray(size: notes.count, notes: dat)
-        
-        for (idx, kit) in timeline.soundDic.enumerated() {
-            kit["idx"]
-        }
+        timeline.playSounds()
+
+    }
+    
+    func stop() {
+        timeline.stop()
     }
     
     
@@ -357,33 +360,5 @@ extension GridView: NoteMenuDelegate {
         isMarking = isMark
     }
 }
-
-
-//// This syntax reflects changes made to the Swift language as of Aug. '16
-//extension GridView {
-//
-//    // Example use: myView.addBorder(toSide: .Left, withColor: UIColor.redColor().CGColor, andThickness: 1.0)
-//    enum ViewSide {
-//        case Left, Right, Top, Bottom
-//    }
-//
-//    func addBorder(toSide side: ViewSide, withColor color: CGColor, andThickness thickness: CGFloat, frame: CGRect) {
-//
-//        let border = CALayer()
-//        border.backgroundColor = color
-//
-//        switch side {
-//        case .Left: border.frame = CGRect(x: frame.minX, y: frame.minY, width: thickness, height: frame.height); break
-//        case .Right: border.frame = CGRect(x: frame.maxX, y: frame.minY, width: thickness, height: frame.height); break
-//        case .Top: border.frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: thickness); break
-//        case .Bottom: border.frame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width, height: thickness); break
-//        }
-//
-//        print("addBorder > x:\(frame.minX), y:\(frame.minY), width:\(frame.width), height:\(thickness)")
-//
-//        gridBackground.layer.addSublayer(border)
-//    }
-//
-//}
 
 

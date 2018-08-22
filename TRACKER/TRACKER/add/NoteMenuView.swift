@@ -16,7 +16,10 @@ class NoteMenuView: UIView {
     var clearAll: UIButton!
     var save: UIButton!
     var play: UIButton!
-
+    var stop: UIButton!
+    
+    var menuView: UIView!
+    var statusView: UIView!
 
     weak var controlDelegate: NoteMenuDelegate?
     weak var viewDelegate: NoteViewDelegate?
@@ -25,35 +28,48 @@ class NoteMenuView: UIView {
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
         
+        menuView = UIView()
+        statusView = UIView()
+        self.addSubview(menuView)
+        self.addSubview(statusView)
+        
         backButton = initButton(title: "Back")
-        self.addSubview(backButton)
+        menuView.addSubview(backButton)
         
         markButton = initButton(title: "Mark")
         markButton.addTarget(self, action: #selector(mark), for: .touchUpInside)
-        self.addSubview(markButton)
+        menuView.addSubview(markButton)
         
         clearButton = initButton(title: "Clear")
         clearButton.addTarget(self, action: #selector(clearMark), for: .touchUpInside)
-        self.addSubview(clearButton)
+        menuView.addSubview(clearButton)
         
         clearAll = initButton(title: "All Clear")
-        self.addSubview(clearAll)
+        menuView.addSubview(clearAll)
         
         save = initButton(title: "Save")
         save.addTarget(self, action: #selector(saveToFile), for: .touchUpInside)
-        self.addSubview(save)
+        menuView.addSubview(save)
         
-        play = initButton(title: "Play")
+        arrangeMenuButtons()
+        
+        play = initButton(title: "▶️")
         play.addTarget(self, action: #selector(playNotes), for: .touchUpInside)
-        self.addSubview(play)
+        statusView.addSubview(play)
         
-        arrangeButtons()
+        stop = initButton(title: "⏹")
+        stop.addTarget(self, action: #selector(stopNotes), for: .touchUpInside)
+        statusView.addSubview(stop)
+        
+        arrangeStatusButtons()
+        
+        
     }
     
-    func arrangeButtons() {
+    func arrangeMenuButtons() {
         
         var prevBtn: UIButton!
-        for view in subviews {
+        for view in menuView.subviews {
             guard let btn = view as? UIButton else {
                 continue
             }
@@ -70,6 +86,39 @@ class NoteMenuView: UIView {
             
             prevBtn = btn
         }
+        
+        menuView.translatesAutoresizingMaskIntoConstraints = false
+        menuView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        menuView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        menuView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        menuView.bottomAnchor.constraint(equalTo: prevBtn.bottomAnchor).isActive = true
+    }
+    
+    func arrangeStatusButtons() {
+        var prevBtn: UIButton!
+        for view in statusView.subviews {
+            guard let btn = view as? UIButton else {
+                continue
+            }
+            
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            btn.topAnchor.constraint(equalTo: self.menuView.bottomAnchor, constant: 10).isActive = true
+            if prevBtn == nil {
+                btn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+            } else {
+                btn.leadingAnchor.constraint(equalTo: prevBtn.trailingAnchor, constant: 10).isActive = true
+            }
+            btn.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            btn.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            
+            prevBtn = btn
+        }
+        
+        statusView.translatesAutoresizingMaskIntoConstraints = false
+        statusView.topAnchor.constraint(equalTo: menuView.bottomAnchor).isActive = true
+        statusView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        statusView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        statusView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
     }
     
@@ -98,6 +147,10 @@ class NoteMenuView: UIView {
     
     @objc func playNotes() {
         viewDelegate?.play()
+    }
+    
+    @objc func stopNotes() {
+        viewDelegate?.stop()
     }
     
     required init?(coder aDecoder: NSCoder) {

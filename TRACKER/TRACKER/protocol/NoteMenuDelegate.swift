@@ -15,10 +15,12 @@ protocol NoteMenuDelegate: class {
 protocol NoteViewDelegate: class {
     func save()
     func play()
+    func stop()
 }
 
 protocol NoteGridViewDelegate: class {
     func save(fileName: String)
     func loadSaved(fileName: String)
     func play()
+    func stop()
 }

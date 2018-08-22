@@ -109,6 +109,11 @@ class CompositionViewController: UIViewController {
 }
 
 extension CompositionViewController: NoteViewDelegate {
+    
+    func stop() {
+        gridViewDelegate?.stop()
+    }
+    
     func play() {
         gridViewDelegate?.play()
     }

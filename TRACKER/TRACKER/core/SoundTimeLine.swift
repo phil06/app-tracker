@@ -26,10 +26,14 @@ class SoundTimeLine {
     }
     
     func buildSoundArray(size: Int, notes: [Int:String]) {
+        
+        soundDic.removeAll()
+        
         notes.forEach { (key, value) in
             let audio = AudioKit()
             let colIdx: Int = key % instrumentCol 
             
+            print("fileName > \(value), colIdx > \(colIdx)")
             audio.initWithFileName(name: value, atTime: Double(colIdx))
             
             if var originArr = soundDic[colIdx] {
@@ -43,6 +47,19 @@ class SoundTimeLine {
     
     func playSounds() {
         
+        let startTime = soundDic.first?.value.first?.getCurrentTime()
+        print("기준시간 > \(String(describing: startTime?.format(using: [.year, .month, .day, .hour, .minute, .second])))")
+        
+        for (_, value) in soundDic {
+            for (_, obj) in value.enumerated() {
+                obj.play(fixed: startTime!)
+            }
+        }
+        
+    }
+    
+    func stop() {
+        soundDic.removeAll()
     }
 
 }
