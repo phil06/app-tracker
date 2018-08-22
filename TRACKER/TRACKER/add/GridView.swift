@@ -11,6 +11,7 @@ import UIKit
 //MARK: 중복이나 하드코딩 등등.. 리펙토링 해보기..
 class GridView: UIView {
     
+    
     var notes:[Int:CALayer] = [Int:CALayer] ()
     
     var type: InstrumentKind?
@@ -50,7 +51,7 @@ class GridView: UIView {
 
         getGridBounds()
         
-        grid = UIView(frame: CGRect(x: gridBoundMargin + gridHeaderWidth, y: gridBoundMargin, width: gridBackgroundBounds.width, height: gridBackgroundBounds.height))
+        grid = UIView(frame: CGRect(x: 0, y: gridBoundMargin, width: gridBackgroundBounds.width, height: gridBackgroundBounds.height))
         grid.backgroundColor = UIColor.clear
         grid.layer.borderWidth = 1
         grid.layer.borderColor = UIColor.black.cgColor
@@ -77,7 +78,7 @@ class GridView: UIView {
         self.addSubview(scrollKeyView)
         scrollKeyView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         scrollKeyView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        scrollKeyView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        scrollKeyView.widthAnchor.constraint(equalToConstant: gridBoundMargin + (gridHeaderWidth / 2) + CGFloat(30.0)).isActive = true
         scrollKeyView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         
         
@@ -117,8 +118,8 @@ class GridView: UIView {
             
             let line = CAShapeLayer()
             let path = UIBezierPath()
-            path.move(to: CGPoint(x: xPosition + gridBoundMargin + gridHeaderWidth, y: 0 + gridBoundMargin))
-            path.addLine(to: CGPoint(x: xPosition + gridBoundMargin + gridHeaderWidth, y: gridBackgroundBounds.height + gridBoundMargin ))
+            path.move(to: CGPoint(x: xPosition, y: 0 + gridBoundMargin))
+            path.addLine(to: CGPoint(x: xPosition , y: gridBackgroundBounds.height + gridBoundMargin ))
             line.path = path.cgPath
             line.strokeColor = UIColor.black.cgColor
             line.lineWidth = 1
@@ -129,12 +130,12 @@ class GridView: UIView {
         for row in 0 ..< typeProperties.rows.rawValue {
             let yPoint = TYPE_PIANO_NOTE_SCALE_HEIGHT[row % TYPE_PIANO_NOTE_SCALE_HEIGHT.count]
             yPosition -= CGFloat(yPoint)
-//            print("yPoint : \(yPoint), yPosition:\(yPosition)")
+
             let line = CAShapeLayer()
             let path = UIBezierPath()
             //헤더부분까지 같이 그려줌...
-            path.move(to: CGPoint(x: gridBoundMargin + gridHeaderWidth, y: yPosition + gridBoundMargin))
-            path.addLine(to: CGPoint(x: gridBackgroundBounds.width + gridBoundMargin + gridHeaderWidth, y: yPosition + gridBoundMargin))
+            path.move(to: CGPoint(x: 0, y: yPosition + gridBoundMargin))
+            path.addLine(to: CGPoint(x: gridBackgroundBounds.width , y: yPosition + gridBoundMargin))
             line.path = path.cgPath
             line.strokeColor = UIColor.black.cgColor
             line.lineWidth = 1
@@ -301,15 +302,34 @@ class GridView: UIView {
     
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollKeyView.bounces = scrollKeyView.contentOffset.x > 0
-        self.scrollView.bounces = self.scrollView.contentOffset.x > 0
+//        scrollKeyView.bounces = scrollKeyView.contentOffset.x > 0
+//        self.scrollView.bounces = self.scrollView.contentOffset.x > 0
         
+//        if scrollView == scrollKeyView {
+//            synchronizeScrollView(self.scrollView, toScrollView: scrollKeyView)
+//        } else if scrollView == self.scrollView {
+//            synchronizeScrollView(scrollKeyView, toScrollView: self.scrollView)
+//        }
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         if scrollView == scrollKeyView {
             synchronizeScrollView(self.scrollView, toScrollView: scrollKeyView)
         } else if scrollView == self.scrollView {
             synchronizeScrollView(scrollKeyView, toScrollView: self.scrollView)
         }
     }
+    
+//    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+//        print("zooming....")
+//    }
+//
+//    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+//        print("zoom end ...")
+//        if scrollView == self.scrollView {
+//            scrollKeyView.setZoomScale(scale, animated: false)
+//        }
+//    }
     
     func synchronizeScrollView(_ scrollViewToScroll: UIScrollView, toScrollView scrolledView: UIScrollView) {
         var offset = scrollViewToScroll.contentOffset
@@ -325,6 +345,8 @@ extension GridView: UIScrollViewDelegate {
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return gridBackground
+//        return gridLeftHeader
+        //바꾸면.. 줌은 같이 되긴 하는데.. 이동이 안되넹..
     }
 }
 

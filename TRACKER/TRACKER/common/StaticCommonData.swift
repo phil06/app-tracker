@@ -59,7 +59,7 @@ let TYPE_PIANO_NOTE_SCALE_TEXT = ["C", "D", "E", "F", "G", "A", "B"]
 enum TYPE_PIANO: Int {
     case BLACKKEY_SIZE = 10
     case WHITEKEY_SIZE = 20
-    case cols =  500 //임시 정한건 없음
+    case cols =  100 //임시 정한건 없음
     case rows = 84
     case totOctave = 7
     
