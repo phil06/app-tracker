@@ -22,6 +22,8 @@
 		2D87046D2126614800B2AE58 /* icon_instrument_piano_30x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */; };
 		2D87046F212BEF2B00B2AE58 /* SoundTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D87046E212BEF2B00B2AE58 /* SoundTimeLine.swift */; };
 		2D870471212BF21200B2AE58 /* AudioKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D870470212BF21200B2AE58 /* AudioKit.swift */; };
+		2DE90C0A212F9FEC004F0D8C /* GridLeftHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE90C09212F9FEC004F0D8C /* GridLeftHeaderView.swift */; };
+		2DE90C0C212FAC71004F0D8C /* GridContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE90C0B212FAC71004F0D8C /* GridContentView.swift */; };
 		8AA089242128985000343EA4 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA089232128985000343EA4 /* GuideViewController.swift */; };
 		8AA08979212C4BBC00343EA4 /* 003.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AA08925212C4BB900343EA4 /* 003.wav */; };
 		8AA0897A212C4BBC00343EA4 /* 054.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AA08926212C4BB900343EA4 /* 054.wav */; };
@@ -160,6 +162,8 @@
 		2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_instrument_piano_30x.png; sourceTree = "<group>"; };
 		2D87046E212BEF2B00B2AE58 /* SoundTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundTimeLine.swift; sourceTree = "<group>"; };
 		2D870470212BF21200B2AE58 /* AudioKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioKit.swift; sourceTree = "<group>"; };
+		2DE90C09212F9FEC004F0D8C /* GridLeftHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLeftHeaderView.swift; sourceTree = "<group>"; };
+		2DE90C0B212FAC71004F0D8C /* GridContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridContentView.swift; sourceTree = "<group>"; };
 		8AA089232128985000343EA4 /* GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
 		8AA08925212C4BB900343EA4 /* 003.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 003.wav; sourceTree = "<group>"; };
 		8AA08926212C4BB900343EA4 /* 054.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 054.wav; sourceTree = "<group>"; };
@@ -326,6 +330,8 @@
 				2D55DDDA21191C45001FDE3F /* CompositionNoteViewController.swift */,
 				2D55DDE6211ACA72001FDE3F /* NoteMenuView.swift */,
 				2D55DDE8211ACEBF001FDE3F /* GridView.swift */,
+				2DE90C09212F9FEC004F0D8C /* GridLeftHeaderView.swift */,
+				2DE90C0B212FAC71004F0D8C /* GridContentView.swift */,
 			);
 			path = add;
 			sourceTree = "<group>";
@@ -759,6 +765,7 @@
 				2D55DDD121183823001FDE3F /* InstrumentCell.swift in Sources */,
 				2D55DDED211C21C6001FDE3F /* AlertController.swift in Sources */,
 				2D55DDDE2119446C001FDE3F /* OrientationStruct.swift in Sources */,
+				2DE90C0C212FAC71004F0D8C /* GridContentView.swift in Sources */,
 				2D55DDEB211AD20B001FDE3F /* LayoutDisplay.swift in Sources */,
 				8AA089242128985000343EA4 /* GuideViewController.swift in Sources */,
 				2D55DDE0211973AD001FDE3F /* StaticCommonData.swift in Sources */,
@@ -767,6 +774,7 @@
 				8AF4E0C021247C5500BAE10B /* GridDelegate.swift in Sources */,
 				2D55DDE7211ACA72001FDE3F /* NoteMenuView.swift in Sources */,
 				2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */,
+				2DE90C0A212F9FEC004F0D8C /* GridLeftHeaderView.swift in Sources */,
 				8AF4E0C4212481CD00BAE10B /* FileListCell.swift in Sources */,
 				8AF4E0C221247E2C00BAE10B /* LoadViewController.swift in Sources */,
 				8AEBD874210D93B300AAC3C8 /* ViewController.swift in Sources */,

@@ -57,14 +57,13 @@ class CompositionViewController: UIViewController {
         
         gridView.gridDelegate = self
         
-        controlDelegate = gridView
+        
+        controlDelegate = gridView.contentScrollView
         gridViewDelegate = gridView
         
         //add dot
         self.view.isUserInteractionEnabled = true
         
-        let taps = UITapGestureRecognizer(target: self.gridView, action:#selector(gridView.handleTapGesture(recognizer:)))
-        self.gridView.addGestureRecognizer(taps)
 
         menuView.mark()
         
@@ -94,9 +93,9 @@ class CompositionViewController: UIViewController {
     }
     
     func clearGridView() {
-        self.gridView.notes = [Int:CALayer]()
-        self.gridView.grid.layer.sublayers = nil
-        self.gridView.grid.setNeedsDisplay()
+        self.gridView.contentScrollView.notes = [Int:CALayer]()
+        self.gridView.contentScrollView.grid.layer.sublayers = nil
+        self.gridView.contentScrollView.grid.setNeedsDisplay()
     }
     
     func saveGrid(name: String) {

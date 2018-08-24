@@ -82,5 +82,8 @@ enum TabBarImage: String {
     case TAB_BAR_ITEM_LIST_IMG = "icon_list"
 }
 
+//추가 화면
+let ADD_GRID_LEFT_HEADER_WIDTH: CGFloat = 60
+let ADD_GRID_LEFT_HEADER_MARGIN: CGFloat = 30
 
 

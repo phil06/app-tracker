@@ -12,3 +12,7 @@ protocol GridDelegate: class {
     func warning(message: String)
     func alert(message: String)
 }
+
+protocol GridViewDelegate: class {
+    func synchronizeScrollView(occurView: UIScrollView)
+}
