@@ -26,11 +26,10 @@ class GridView: UIView {
    
     // grid 격자그린 테두리를 가지는 뷰
     var contentScrollView: GridContentView!
-    // 가이드라인(헤더) 뷰
+    // 가이드라인(헤더)
     var leftScrollView: GridLeftHeaderView!
-    // marking calyaer 를 가지는 뷰
-    
-    
+    // slider
+    var sliderView: SeekBarSliderView!
     
     weak var gridDelegate: GridDelegate?
     
@@ -40,30 +39,51 @@ class GridView: UIView {
         super.init(frame: frame)
 
         self.isUserInteractionEnabled = true
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.white
 
         getGridBounds()
+        
+        let safeAreaInset = LayoutDisplay().getSafeAreaInset()
+       
+        sliderView = SeekBarSliderView(frame: frame)
+        self.addSubview(sliderView)
+        sliderView.translatesAutoresizingMaskIntoConstraints = false
+        
+        sliderView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: ADD_GRID_LEFT_HEADER_VIEW_WIDTH).isActive = true
+        sliderView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        sliderView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        sliderView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -(safeAreaInset.right + ADD_GRID_LEFT_HEADER_MARGIN)).isActive = true
+        
         
         leftScrollView = GridLeftHeaderView(frame: frame)
         self.addSubview(leftScrollView)
         leftScrollView.translatesAutoresizingMaskIntoConstraints = false
         
         leftScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        leftScrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        leftScrollView.topAnchor.constraint(equalTo: self.sliderView.bottomAnchor).isActive = true
         leftScrollView.widthAnchor.constraint(equalTo: leftScrollView.leftHeader.widthAnchor).isActive = true
-        leftScrollView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        leftScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        
+        
+        
+
+        
         
         contentScrollView = GridContentView(frame: frame)
         self.addSubview(contentScrollView)
         contentScrollView.translatesAutoresizingMaskIntoConstraints = false
         
         contentScrollView.leftAnchor.constraint(equalTo: leftScrollView.rightAnchor).isActive = true
-        contentScrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        contentScrollView.topAnchor.constraint(equalTo: sliderView.bottomAnchor).isActive = true
         contentScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         contentScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        
 
         leftScrollView.gridViewDelegate = self
         contentScrollView.gridViewDelegate = self
+        sliderView.seekBarDelegate = self
         
     }
     
@@ -73,28 +93,18 @@ class GridView: UIView {
         print("gridBackground size > width:\(typeProperties.getWidth), height:\(typeProperties.getHeight)")
         gridBackgroundBounds = CGRect(x: 0, y: 0, width: typeProperties.getWidth, height: typeProperties.getHeight)
     }
-    
-    
-    
-    
+
     func combineNoteLabel(row: Int) -> String {
         let noteText = TYPE_PIANO_NOTE_SCALE_TEXT[row % TYPE_PIANO_NOTE_SCALE_TEXT.count]
         let octaveText = CGFloat(row / TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count).rounded(.down)
         return noteText + String(describing: Int(octaveText) + 1)
     }
 
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-
-    
-
- 
-    
+  
 }
-
 
 extension GridView: NoteGridViewDelegate {
     
@@ -117,7 +127,6 @@ extension GridView: NoteGridViewDelegate {
         timeline.stop()
     }
     
-    
     func loadSaved(fileName: String) {
         let fileManager = ONFileManager()
         let contents = fileManager.readFileSeparatedCR(fileName: fileName)
@@ -133,7 +142,6 @@ extension GridView: NoteGridViewDelegate {
             contentScrollView.drawRect(idx: Int(parsed[0])!, rect: CGRect(x: x, y: y, width: width, height: height))
         }
     }
-    
     
     //MARK: 오래걸리면.. indicator 같은거
     func save(fileName: String) {
@@ -162,10 +170,7 @@ extension GridView: NoteGridViewDelegate {
 }
 
 extension GridView: GridViewDelegate {
-    
     func synchronizeScrollViewZoom(scale: CGFloat) {
-        print("scale:\(scale)")
-
         let originRectOfContent = contentScrollView.frame
         
         leftScrollView.scrollView.setZoomScale(scale, animated: true)
@@ -178,7 +183,6 @@ extension GridView: GridViewDelegate {
         leftScrollView.frame = CGRect(x: 0, y: 0, width: zoomedRect.width, height: leftScrollView.frame.size.height)
         
         contentScrollView.frame = CGRect(x: leftScrollView.frame.size.width, y: 0, width: originRectOfContent.size.width - diff, height: originRectOfContent.size.height)
-        
     }
     
     func synchronizeScrollViewY(pointY: CGFloat) {
@@ -187,10 +191,17 @@ extension GridView: GridViewDelegate {
         contentScrollView.currentScrollY = pointY
         contentScrollView.scrollView.setContentOffset(orgOffset, animated: false)
     }
-    
+}
+
+extension GridView: GridSeekBarDelegate {
+    func moveTo(pos: Float) {
+        contentScrollView.seekArrow.frame = CGRect(x: Int(pos * 20), y: 5, width: 20, height: 20)
+        print("이미지를 옮겨야 함. pos:\(pos)")
+    }
     
     
 }
+
 
 
 

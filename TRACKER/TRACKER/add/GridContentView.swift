@@ -23,6 +23,8 @@ class GridContentView: UIView {
     
     var currentScrollY: CGFloat = 0
     
+    var seekArrow: UIImageView!
+    
     weak var gridViewDelegate: GridViewDelegate?
     
     override init(frame: CGRect) {
@@ -46,6 +48,7 @@ class GridContentView: UIView {
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.isDirectionalLockEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
         self.addSubview(scrollView)
         
         scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
@@ -59,6 +62,11 @@ class GridContentView: UIView {
         self.addGestureRecognizer(taps)
 
         self.isUserInteractionEnabled = true
+        
+        seekArrow = UIImageView(frame: CGRect(x: 0, y: 5, width: 20, height: 20))
+        seekArrow.image = UIImage(named: "seek_bar_arrow.png")
+        gridBackground.addSubview(seekArrow)
+        
         
     }
     
@@ -215,3 +223,4 @@ extension GridContentView: NoteMenuDelegate {
         isMarking = isMark
     }
 }
+

@@ -17,3 +17,7 @@ protocol GridViewDelegate: class {
     func synchronizeScrollViewY(pointY: CGFloat)
     func synchronizeScrollViewZoom(scale: CGFloat)
 }
+
+protocol GridSeekBarDelegate: class {
+    func moveTo(pos: Float)
+}

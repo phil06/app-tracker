@@ -22,7 +22,7 @@ class GridLeftHeaderView: UIView {
         super.init(frame: frame)
         
         self.backgroundColor = UIColor.white
-        leftHeader = UIView(frame: CGRect(x: 0, y: 0, width: ADD_GRID_LEFT_HEADER_MARGIN + (ADD_GRID_LEFT_HEADER_WIDTH / 2) + CGFloat(30.0), height: CGFloat(typeProperties.getHeight) + (ADD_GRID_LEFT_HEADER_MARGIN * 2)))
+        leftHeader = UIView(frame: CGRect(x: 0, y: 0, width: ADD_GRID_LEFT_HEADER_VIEW_WIDTH, height: CGFloat(typeProperties.getHeight) + (ADD_GRID_LEFT_HEADER_MARGIN * 2)))
         
         draw()
         
@@ -61,7 +61,7 @@ class GridLeftHeaderView: UIView {
             
             let whiteNote = CALayer()
             whiteNote.backgroundColor = UIColor.white.cgColor
-            let borderRect = CGRect(x: ADD_GRID_LEFT_HEADER_MARGIN, y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(60.0), height: CGFloat(yPoint))
+            let borderRect = CGRect(x: 0, y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(60.0), height: CGFloat(yPoint))
             whiteNote.frame = borderRect
             
             leftHeader.layer.addSublayer(whiteNote)
@@ -75,7 +75,7 @@ class GridLeftHeaderView: UIView {
             noteLabel.fontSize = 13
             noteLabel.string = combineNoteLabel(row: row)
             noteLabel.foregroundColor = UIColor.black.cgColor
-            noteLabel.frame = CGRect(x: ADD_GRID_LEFT_HEADER_MARGIN + (ADD_GRID_LEFT_HEADER_WIDTH / 2), y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
+            noteLabel.frame = CGRect(x: (ADD_GRID_LEFT_HEADER_WIDTH / 2), y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
             noteLabel.alignmentMode = kCAAlignmentCenter
             leftHeader.layer.addSublayer(noteLabel)
             
@@ -89,7 +89,7 @@ class GridLeftHeaderView: UIView {
             
             let blackNote = CALayer()
             blackNote.backgroundColor = yPoint == 20 ? UIColor.black.cgColor : UIColor.clear.cgColor
-            let blackNoteBounds = CGRect(x: ADD_GRID_LEFT_HEADER_MARGIN, y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
+            let blackNoteBounds = CGRect(x: 0, y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
             blackNote.frame = blackNoteBounds
             
             leftHeader.layer.addSublayer(blackNote)

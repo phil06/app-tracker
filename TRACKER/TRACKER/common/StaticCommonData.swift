@@ -85,5 +85,6 @@ enum TabBarImage: String {
 //추가 화면
 let ADD_GRID_LEFT_HEADER_WIDTH: CGFloat = 60
 let ADD_GRID_LEFT_HEADER_MARGIN: CGFloat = 30
+let ADD_GRID_LEFT_HEADER_VIEW_WIDTH: CGFloat = (ADD_GRID_LEFT_HEADER_WIDTH / 2) + CGFloat(30.0)
 
 
