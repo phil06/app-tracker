@@ -15,8 +15,6 @@ class GridLeftHeaderView: UIView {
     var leftHeader: UIView!
     var scrollView: UIScrollView!
     
-    var currentScrollView: UIScrollView!
-    
     weak var gridViewDelegate: GridViewDelegate?
     
     override init(frame: CGRect) {
@@ -35,6 +33,8 @@ class GridLeftHeaderView: UIView {
         scrollView.delegate = self
         scrollView.addSubview(leftHeader)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.isDirectionalLockEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
 
         self.addSubview(scrollView)
         
@@ -110,20 +110,8 @@ extension GridLeftHeaderView: UIScrollViewDelegate {
         return leftHeader
         
     }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        print("스크롤 끝!")
-    }
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if currentScrollView == scrollView {
-            print("헤더가 컨텐츠 때문에 움직인다아")
-            //같을때만 실행해야...
-            gridViewDelegate?.synchronizeScrollView(occurView: scrollView)
-        } else {
-            print("헤더에서 시작한거")
-            
-        }
-        
+        gridViewDelegate?.synchronizeScrollViewY(pointY: scrollView.contentOffset.y)
     }
 }

@@ -21,9 +21,9 @@ class GridContentView: UIView {
     var isMarking: Bool!
     var notes:[Int:CALayer] = [Int:CALayer] ()
     
-    weak var gridViewDelegate: GridViewDelegate?
+    var currentScrollY: CGFloat = 0
     
-    var currentScrollView: UIScrollView!
+    weak var gridViewDelegate: GridViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,6 +45,7 @@ class GridContentView: UIView {
         scrollView.addSubview(gridBackground)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.isDirectionalLockEnabled = true
         self.addSubview(scrollView)
         
         scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
@@ -198,20 +199,14 @@ extension GridContentView: UIScrollViewDelegate {
         return gridBackground
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        print("스크롤 끝!")
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        gridViewDelegate?.synchronizeScrollViewZoom(scale: scrollView.zoomScale)
     }
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if currentScrollView == scrollView {
-            print("컨텐츠가 헤더때문에 움직인다")
-            gridViewDelegate?.synchronizeScrollView(occurView: scrollView)
-        } else {
-            print("컨텐츠에서 시작한거")
-            
-        }
-        
-        
+        var curOffset = scrollView.contentOffset
+        curOffset.y = currentScrollY
+        self.scrollView.contentOffset = curOffset
     }
 }
 

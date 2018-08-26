@@ -11,7 +11,7 @@ import UIKit
 //MARK: 중복이나 하드코딩 등등.. 리펙토링 해보기..
 class GridView: UIView {
     
-    let leftHeaderWidth: CGFloat = 90
+    var leftHeaderWidth: CGFloat = 90
     
     var type: InstrumentKind?
     
@@ -23,9 +23,7 @@ class GridView: UIView {
     
     var originTouchLocation: CGPoint!
     var originViewCenter: CGPoint!
-    
-    var currentScrollView: UIScrollView!
-    
+   
     // grid 격자그린 테두리를 가지는 뷰
     var contentScrollView: GridContentView!
     // 가이드라인(헤더) 뷰
@@ -52,7 +50,7 @@ class GridView: UIView {
         
         leftScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         leftScrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        leftScrollView.widthAnchor.constraint(equalToConstant: leftHeaderWidth).isActive = true
+        leftScrollView.widthAnchor.constraint(equalTo: leftScrollView.leftHeader.widthAnchor).isActive = true
         leftScrollView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         
         contentScrollView = GridContentView(frame: frame)
@@ -63,9 +61,9 @@ class GridView: UIView {
         contentScrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         contentScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         contentScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
-        contentScrollView.gridViewDelegate = self
+
         leftScrollView.gridViewDelegate = self
+        contentScrollView.gridViewDelegate = self
         
     }
     
@@ -97,83 +95,6 @@ class GridView: UIView {
     
 }
 
-extension GridView: UIScrollViewDelegate {
-
-
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        currentScrollView = scrollView
-        print("시작")
-    }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //양쪽에서 스크롤이 발생하니까..... 꼬이면서 바운스가 안먹음.. 이건.. 뷰를 노나야 할까 싶은데... 파일을.. 노나서.. 델리게이트를 따로 가져오고... 싱크용 커스텀 델리게이트를 생성해줘야...겠...?
-        
-//        if currentScrollView != nil {
-//            if currentScrollView == self.scrollView {
-//                print("current - 그리드")
-//                synchronizeScrollView(scrollKeyView, toScrollView: self.scrollView)
-//            } else if currentScrollView == scrollKeyView {
-//                print("current - 헤더")
-//
-//                synchronizeScrollView(self.scrollView, toScrollView: scrollKeyView)
-//            }
-//        } else {
-            if scrollView == self.contentScrollView {
-                print("normal - 그리드")
-                synchronizeScrollView(leftScrollView.scrollView, toScrollView: contentScrollView.scrollView)
-            } else if scrollView == leftScrollView {
-                print("normal - 헤더")
-                synchronizeScrollView(contentScrollView.scrollView, toScrollView: leftScrollView.scrollView)
-            }
-//        }
-
-    }
-    
-    func synchronizeScrollView(_ scrollViewToScroll: UIScrollView, toScrollView scrolledView: UIScrollView) {
-        var offset = scrollViewToScroll.contentOffset
-        offset.y = scrolledView.contentOffset.y
-        scrollViewToScroll.setContentOffset(offset, animated: false)
-    }
-    
-    
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        currentScrollView = nil
-        print("종료")
-    }
-    
-
-
-    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-//        if scrollView == self.scrollView {
-//            scrollKeyView.setZoomScale(scale, animated: true)
-////            scrollViewWillBeginDragging(self.scrollView)
-////            scrollViewDidScroll(self.scrollView )
-//        } else if scrollView == scrollKeyView {
-//            self.scrollView.setZoomScale(scale, animated: true)
-////            scrollViewWillBeginDragging(scrollKeyView)
-////            scrollViewDidScroll(scrollKeyView)
-//        }
-    }
-    
-//    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-////        if scrollView == self.scrollView {
-//
-////        } else {
-//            print("zoom ... view > width:\(leftHeaderView.frame.width), height:\(leftHeaderView.frame.height)")
-//            scrollKeyView.frame = CGRect(x: 0, y: 0, width: leftHeaderView.frame.width, height: leftHeaderView.frame.height)
-//
-//            let originalRect = self.scrollView.frame
-//            print("original scrollView > x:\(self.scrollView.frame.origin.x), y:\(self.scrollView.frame.origin.y), width:\(self.scrollView.frame.size.width), height:\(self.scrollView.frame.size.height)")
-//
-//            let diff = leftHeaderView.frame.width - originalRect.origin.x
-//            self.scrollView.frame = CGRect(x: originalRect.origin.x + diff, y: 0, width: originalRect.size.width - diff, height: originalRect.size.height)
-////            print("original offset > x:\(self.scrollView.contentOffset.x), y:\(self.scrollView.contentOffset.y)")
-////            self.scrollView.frame = CGRect(x: gridLeftHeader.frame.width, y: 0, width: self.scrollView.frame.size.width - gridLeftHeader.frame.width, height: self.scrollView.frame.size.height)
-////        }
-//    }
-
-}
 
 extension GridView: NoteGridViewDelegate {
     
@@ -241,42 +162,32 @@ extension GridView: NoteGridViewDelegate {
 }
 
 extension GridView: GridViewDelegate {
-    //content -> header
     
-    //흠.. 모르겠다.. 결국 원점이네..
-    //
-    func synchronizeScrollView(occurView: UIScrollView) {
-        if occurView == leftScrollView.scrollView {
-            var orgOffset = contentScrollView.scrollView.contentOffset
-            orgOffset.y = occurView.contentOffset.y
-            
-            contentScrollView.scrollView.setContentOffset(orgOffset, animated: false)
-            contentScrollView.currentScrollView = nil
-        } else {
-            var orgOffset = leftScrollView.scrollView.contentOffset
-            orgOffset.y = occurView.contentOffset.y
-            
-            leftScrollView.scrollView.setContentOffset(orgOffset, animated: false)
-            leftScrollView.currentScrollView = nil
-        }
+    func synchronizeScrollViewZoom(scale: CGFloat) {
+        print("scale:\(scale)")
 
+        let originRectOfContent = contentScrollView.frame
         
-//        if(occurView.superview?.isKind(of: GridContentView.self))! {
-//            var orgOffset = leftScrollView.scrollView.contentOffset
-//            orgOffset.y = occurView.contentOffset.y
-//            leftScrollView.currentScrollView = occurView
-//
-//            leftScrollView.scrollView.setContentOffset(orgOffset, animated: false)
-//            leftScrollView.currentScrollView = nil
-//        } else {
-//            var orgOffset = contentScrollView.scrollView.contentOffset
-//            orgOffset.y = occurView.contentOffset.y
-//            contentScrollView.currentScrollView = occurView
-//
-//            contentScrollView.scrollView.setContentOffset(orgOffset, animated: false)
-//            contentScrollView.currentScrollView = nil
-//        }
+        leftScrollView.scrollView.setZoomScale(scale, animated: true)
+        
+        let zoomedRect = leftScrollView.leftHeader.frame
+        let diff = originRectOfContent.origin.x - leftScrollView.frame.size.width
+
+        leftScrollView.scrollView.translatesAutoresizingMaskIntoConstraints = true
+        leftScrollView.scrollView.frame = CGRect(x: 0, y: 0, width: zoomedRect.width, height: leftScrollView.frame.size.height)
+        leftScrollView.frame = CGRect(x: 0, y: 0, width: zoomedRect.width, height: leftScrollView.frame.size.height)
+        
+        contentScrollView.frame = CGRect(x: leftScrollView.frame.size.width, y: 0, width: originRectOfContent.size.width - diff, height: originRectOfContent.size.height)
+        
     }
+    
+    func synchronizeScrollViewY(pointY: CGFloat) {
+        var orgOffset = contentScrollView.scrollView.contentOffset
+        orgOffset.y = pointY
+        contentScrollView.currentScrollY = pointY
+        contentScrollView.scrollView.setContentOffset(orgOffset, animated: false)
+    }
+    
     
     
 }

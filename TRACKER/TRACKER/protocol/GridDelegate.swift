@@ -14,5 +14,6 @@ protocol GridDelegate: class {
 }
 
 protocol GridViewDelegate: class {
-    func synchronizeScrollView(occurView: UIScrollView)
+    func synchronizeScrollViewY(pointY: CGFloat)
+    func synchronizeScrollViewZoom(scale: CGFloat)
 }
