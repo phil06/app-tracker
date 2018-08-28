@@ -121,6 +121,13 @@ extension GridView: NoteGridViewDelegate {
         }
 
         timeline.buildSoundArray(size: contentScrollView.notes.count, notes: dat, bit: 60.0 / Double(bit))
+        
+        //애니메이션 이용..?
+        UIView.animate(withDuration: 3, animations: <#T##() -> Void#>)
+  
+//        sliderView.seekArrow.animationDuration = 3
+//        sliderView.seekArrow.startAnimating()
+        
         timeline.playSounds()
     }
     
@@ -172,8 +179,18 @@ extension GridView: NoteGridViewDelegate {
 
 extension GridView: GridViewDelegate {
     func synchronizeSliderView(pos: CGFloat) {
-        sliderView.mySlider.value = Float(pos)
-//        moveTo(pos: Float(pos))
+        //슬라이더 기준의 value가 아니라 그리드뷰의 x위치 기준으로 계산해야 함...
+        
+        // 현재 슬라이더의 값
+        print("current slider value:\(sliderView.mySlider.value)")
+        // 현재 화살표의 위치
+        print("current arrow posIdx:\((sliderView.seekArrow.frame.origin.x / 20).rounded(.down))")
+        // 그리드의 x 위치
+        print("current gridView pos x:\(pos)")
+        
+        let arrowPos = (sliderView.seekArrow.frame.origin.x / 20).rounded(.down)
+
+        sliderView.mySlider.value = Float(pos + arrowPos)
     }
     
 
@@ -212,6 +229,7 @@ extension GridView: GridSeekBarDelegate {
     func moveTo(pos: Float) {
         
         //이거.... 뭔가 움직임이.... 확인중
+        print("전체 그리드중 화살표의 인덱스 값 : \(pos)")
         
         //view의 기준
         let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / 20).rounded(.down)
@@ -224,41 +242,22 @@ extension GridView: GridSeekBarDelegate {
         let curSliderPosition:CGFloat = (CGFloat(pos) - viewFirstPosition) * 20
         
         if CGFloat(pos) > viewFirstPosition + sliderMaxPosCnt {
+            print("case1")
             //화살은 맨끝, 그리드뷰.x 를 이동
             sliderView.seekArrow.frame = CGRect(x: Int(sliderMaxPosition), y: sliderView.arrowTopInset, width: 20, height: 20)
-            contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * -20
-        } else {
+            //MARK: 왜 없는 영역인 왼쪽으로 끄는게 -가 아니라 + 인거지...?
+            contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * 20
+        } else if CGFloat(pos) > viewFirstPosition && CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt  {
+            print("case2")
             //그리드뷰.x 는 이동하지 않음 + 화살은 포지션에 맞는 위치에
             sliderView.seekArrow.frame = CGRect(x: Int(curSliderPosition), y: sliderView.arrowTopInset, width: 20, height: 20)
+        } else if CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt {
+            print("case3")
+            //화살은 맨 처음, 그리드뷰.x 를 이동
+            sliderView.seekArrow.frame = CGRect(x: 0, y: sliderView.arrowTopInset, width: 20, height: 20)
+            //MARK: 왜 없는 영역인 왼쪽으로 끄는게 -가 아니라 + 인거지...?
+            contentScrollView.scrollView.contentOffset.x = CGFloat(pos) * 20
         }
-        
-        
-        
-//        if viewFirstPosition > 0 {
-//
-//
-//
-//
-//        } else {
-//            //그리드뷰가 무조건 0이라 생각했을때
-//        }
-//
-//        let targetPos:CGFloat = CGFloat(pos * 20)
-//
-//
-//
-//        if targetPos + viewFirstPosition > maxPosition {
-//            //sliderview 의 끝에 다다르면 화살표는 제자리 + 뷰를 왼쪽으로 이동 시작
-//            sliderView.seekArrow.frame = CGRect(x: Int(maxPosition), y: sliderView.arrowTopInset, width: 20, height: 20)
-//            //max에서 늘어날때마다 뷰 offset 이동
-//
-//        } else if viewFirstPosition > 0 {
-//            sliderView.seekArrow.frame = CGRect(x: Int(pos * 20), y: sliderView.arrowTopInset, width: 20, height: 20)
-//            contentScrollView.scrollView.contentOffset.x = 0
-//        } else {
-//            sliderView.seekArrow.frame = CGRect(x: Int(pos * 20), y: sliderView.arrowTopInset, width: 20, height: 20)
-//            contentScrollView.scrollView.contentOffset.x = 0
-//        }
     }
     
     

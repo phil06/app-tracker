@@ -48,7 +48,7 @@ class SoundTimeLine {
     }
     
     func playSounds() {
-        
+        //MARK: 갯수가 많아질수록 처리시간이 늦어질텐데 앞에 시작하는 시간이랑 싱크가 안맞는 경우가 생기지 않을까..?
         let startTime = soundDic.first?.value.first?.getCurrentTime()
         print("기준시간 > \(String(describing: startTime?.format(using: [.year, .month, .day, .hour, .minute, .second])))")
         
