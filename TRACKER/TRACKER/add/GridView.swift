@@ -16,11 +16,12 @@ class GridView: UIView {
     var type: InstrumentKind?
     
     let circleWidth: CGFloat = 20
+    var circleWidthScaled: CGFloat!
 
     var gridBackgroundBounds: CGRect!
 
     var gridHeaderWidth:CGFloat = 60
-    let sliderViewHeight:CGFloat = 30
+    let sliderViewHeight:CGFloat = 75
     
     var originTouchLocation: CGPoint!
     var originViewCenter: CGPoint!
@@ -31,6 +32,7 @@ class GridView: UIView {
     var leftScrollView: GridLeftHeaderView!
     // slider
     var sliderView: SeekBarSliderView!
+    var arrowView: UIView!
     
     weak var gridDelegate: GridDelegate?
     
@@ -56,10 +58,10 @@ class GridView: UIView {
         sliderView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -(safeAreaInset.right + ADD_GRID_LEFT_HEADER_MARGIN)).isActive = true
         
         
+  
         leftScrollView = GridLeftHeaderView(frame: frame)
         self.addSubview(leftScrollView)
         leftScrollView.translatesAutoresizingMaskIntoConstraints = false
-        
         leftScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         leftScrollView.topAnchor.constraint(equalTo: self.sliderView.bottomAnchor).isActive = true
         leftScrollView.widthAnchor.constraint(equalTo: leftScrollView.leftHeader.widthAnchor).isActive = true
@@ -109,19 +111,17 @@ class GridView: UIView {
 
 extension GridView: NoteGridViewDelegate {
     
-    func play() {
+    func play(bit: Int) {
         let cols = TYPE_PIANO.cols.rawValue
 
         var dat: [Int:String] = [:]
 
         contentScrollView.notes.forEach { (key, value) in
             dat[key] = String(format: "%03d", Int(CGFloat(key / cols).rounded(.down)))
-
         }
 
-        timeline.buildSoundArray(size: contentScrollView.notes.count, notes: dat)
+        timeline.buildSoundArray(size: contentScrollView.notes.count, notes: dat, bit: 60.0 / Double(bit))
         timeline.playSounds()
-
     }
     
     func stop() {
@@ -171,8 +171,17 @@ extension GridView: NoteGridViewDelegate {
 }
 
 extension GridView: GridViewDelegate {
+    func synchronizeSliderView(pos: CGFloat) {
+        sliderView.mySlider.value = Float(pos)
+//        moveTo(pos: Float(pos))
+    }
+    
 
     func synchronizeScrollViewZoom(scale: CGFloat, scrollView: UIScrollView) {
+        
+        circleWidthScaled = circleWidth * scale
+        print("scale:\(scale), circleWidthScaled:\(circleWidthScaled)")
+        
         if (scrollView.superview?.isKind(of: GridLeftHeaderView.self))! {
             contentScrollView.scrollView.setZoomScale(scale, animated: true)
         } else {
@@ -201,8 +210,55 @@ extension GridView: GridViewDelegate {
 
 extension GridView: GridSeekBarDelegate {
     func moveTo(pos: Float) {
-        contentScrollView.seekArrow.frame = CGRect(x: Int(pos * 20), y: 5, width: 20, height: 20)
-        print("이미지를 옮겨야 함. pos:\(pos)")
+        
+        //이거.... 뭔가 움직임이.... 확인중
+        
+        //view의 기준
+        let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / 20).rounded(.down)
+        print("그리드 뷰의 처음 인덱스(화면에 보이는) : \(viewFirstPosition)")
+        
+        let sliderMaxPosCnt:CGFloat = (sliderView.frame.size.width / 20).rounded(.down)
+        let sliderMaxPosition: CGFloat = sliderMaxPosCnt * 20
+        print("그리드 뷰의 x 를 옮겨야 하는 최대 그리드 수 : \(sliderMaxPosCnt), 슬라이더의 최대 위치:\(sliderMaxPosition)")
+        
+        let curSliderPosition:CGFloat = (CGFloat(pos) - viewFirstPosition) * 20
+        
+        if CGFloat(pos) > viewFirstPosition + sliderMaxPosCnt {
+            //화살은 맨끝, 그리드뷰.x 를 이동
+            sliderView.seekArrow.frame = CGRect(x: Int(sliderMaxPosition), y: sliderView.arrowTopInset, width: 20, height: 20)
+            contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * -20
+        } else {
+            //그리드뷰.x 는 이동하지 않음 + 화살은 포지션에 맞는 위치에
+            sliderView.seekArrow.frame = CGRect(x: Int(curSliderPosition), y: sliderView.arrowTopInset, width: 20, height: 20)
+        }
+        
+        
+        
+//        if viewFirstPosition > 0 {
+//
+//
+//
+//
+//        } else {
+//            //그리드뷰가 무조건 0이라 생각했을때
+//        }
+//
+//        let targetPos:CGFloat = CGFloat(pos * 20)
+//
+//
+//
+//        if targetPos + viewFirstPosition > maxPosition {
+//            //sliderview 의 끝에 다다르면 화살표는 제자리 + 뷰를 왼쪽으로 이동 시작
+//            sliderView.seekArrow.frame = CGRect(x: Int(maxPosition), y: sliderView.arrowTopInset, width: 20, height: 20)
+//            //max에서 늘어날때마다 뷰 offset 이동
+//
+//        } else if viewFirstPosition > 0 {
+//            sliderView.seekArrow.frame = CGRect(x: Int(pos * 20), y: sliderView.arrowTopInset, width: 20, height: 20)
+//            contentScrollView.scrollView.contentOffset.x = 0
+//        } else {
+//            sliderView.seekArrow.frame = CGRect(x: Int(pos * 20), y: sliderView.arrowTopInset, width: 20, height: 20)
+//            contentScrollView.scrollView.contentOffset.x = 0
+//        }
     }
     
     

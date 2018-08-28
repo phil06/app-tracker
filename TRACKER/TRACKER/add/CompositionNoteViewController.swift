@@ -114,7 +114,7 @@ extension CompositionViewController: NoteViewDelegate {
     }
     
     func play() {
-        gridViewDelegate?.play()
+        gridViewDelegate?.play(bit: menuView.selectedBit)
     }
     
     func save() {

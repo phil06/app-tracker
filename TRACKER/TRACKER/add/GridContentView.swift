@@ -23,7 +23,7 @@ class GridContentView: UIView {
     
     var currentScrollY: CGFloat = 0
     
-    var seekArrow: UIImageView!
+    
     
     weak var gridViewDelegate: GridViewDelegate?
     
@@ -62,17 +62,11 @@ class GridContentView: UIView {
         self.addGestureRecognizer(taps)
 
         self.isUserInteractionEnabled = true
-        
-        seekArrow = UIImageView(frame: CGRect(x: 0, y: 5, width: 20, height: 20))
-        seekArrow.image = UIImage(named: "seek_bar_arrow.png")
-        gridBackground.addSubview(seekArrow)
-        
-        
+   
     }
     
     func drawGrid() {
-        
-        
+
         var xPosition: CGFloat = 0
         for _ in 0 ..< typeProperties.cols.rawValue {
             xPosition += CGFloat(typeProperties.WHITEKEY_SIZE.rawValue)
@@ -214,7 +208,13 @@ extension GridContentView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var curOffset = scrollView.contentOffset
         curOffset.y = currentScrollY
+        print("\(curOffset.x)")
         self.scrollView.contentOffset = curOffset
+        
+        let curPos = (scrollView.contentOffset.x / 20).rounded(.down)
+        print("current position index : \(curPos)")
+        gridViewDelegate?.synchronizeSliderView(pos: curPos)
+        
     }
 }
 

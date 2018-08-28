@@ -25,7 +25,7 @@ class SoundTimeLine {
         }
     }
     
-    func buildSoundArray(size: Int, notes: [Int:String]) {
+    func buildSoundArray(size: Int, notes: [Int:String], bit: Double) {
         
         soundDic.removeAll()
         
@@ -34,7 +34,9 @@ class SoundTimeLine {
             let colIdx: Int = key % instrumentCol 
             
             print("fileName > \(value), colIdx > \(colIdx)")
-            audio.initWithFileName(name: value, atTime: Double(colIdx))
+            //picker 에 따라 *1.0 또는 *0.5
+            //시간계산을 잘못했나...?
+            audio.initWithFileName(name: value, atTime: Double(colIdx) * bit)
             
             if var originArr = soundDic[colIdx] {
                 originArr.append(audio)
