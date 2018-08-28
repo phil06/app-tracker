@@ -20,6 +20,7 @@ class GridView: UIView {
     var gridBackgroundBounds: CGRect!
 
     var gridHeaderWidth:CGFloat = 60
+    let sliderViewHeight:CGFloat = 30
     
     var originTouchLocation: CGPoint!
     var originViewCenter: CGPoint!
@@ -51,7 +52,7 @@ class GridView: UIView {
         
         sliderView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: ADD_GRID_LEFT_HEADER_VIEW_WIDTH).isActive = true
         sliderView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        sliderView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        sliderView.heightAnchor.constraint(equalToConstant: sliderViewHeight).isActive = true
         sliderView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -(safeAreaInset.right + ADD_GRID_LEFT_HEADER_MARGIN)).isActive = true
         
         
@@ -170,19 +171,24 @@ extension GridView: NoteGridViewDelegate {
 }
 
 extension GridView: GridViewDelegate {
-    func synchronizeScrollViewZoom(scale: CGFloat) {
-        let originRectOfContent = contentScrollView.frame
-        
-        leftScrollView.scrollView.setZoomScale(scale, animated: true)
-        
-        let zoomedRect = leftScrollView.leftHeader.frame
-        let diff = originRectOfContent.origin.x - leftScrollView.frame.size.width
 
-        leftScrollView.scrollView.translatesAutoresizingMaskIntoConstraints = true
-        leftScrollView.scrollView.frame = CGRect(x: 0, y: 0, width: zoomedRect.width, height: leftScrollView.frame.size.height)
-        leftScrollView.frame = CGRect(x: 0, y: 0, width: zoomedRect.width, height: leftScrollView.frame.size.height)
+    func synchronizeScrollViewZoom(scale: CGFloat, scrollView: UIScrollView) {
+        if (scrollView.superview?.isKind(of: GridLeftHeaderView.self))! {
+            contentScrollView.scrollView.setZoomScale(scale, animated: true)
+        } else {
+            leftScrollView.scrollView.setZoomScale(scale, animated: true)
+        }
         
-        contentScrollView.frame = CGRect(x: leftScrollView.frame.size.width, y: 0, width: originRectOfContent.size.width - diff, height: originRectOfContent.size.height)
+        leftScrollView.scrollView.translatesAutoresizingMaskIntoConstraints = true
+        leftScrollView.scrollView.frame = CGRect(x: 0, y: 0, width: leftScrollView.leftHeader.frame.size.width, height: leftScrollView.frame.size.height)
+        leftScrollView.frame = CGRect(x: 0, y: sliderViewHeight, width: leftScrollView.leftHeader.frame.size.width, height: leftScrollView.frame.size.height)
+        
+        contentScrollView.scrollView.translatesAutoresizingMaskIntoConstraints = true
+        contentScrollView.frame = CGRect(x: leftScrollView.leftHeader.frame.size.width, y: sliderViewHeight, width: self.frame.size.width - leftScrollView.leftHeader.frame.size.width , height: contentScrollView.frame.size.height)
+        contentScrollView.scrollView.frame = CGRect(x: 0, y: 0, width: self.frame.size.width - leftScrollView.leftHeader.frame.size.width , height: contentScrollView.frame.size.height)
+        
+        sliderView.translatesAutoresizingMaskIntoConstraints = true
+        sliderView.frame = CGRect(x: leftScrollView.leftHeader.frame.size.width, y: 0, width: self.frame.size.width - leftScrollView.leftHeader.frame.size.width  - 30 , height: sliderView.frame.size.height)
     }
     
     func synchronizeScrollViewY(pointY: CGFloat) {

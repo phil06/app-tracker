@@ -208,7 +208,7 @@ extension GridContentView: UIScrollViewDelegate {
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        gridViewDelegate?.synchronizeScrollViewZoom(scale: scrollView.zoomScale)
+        gridViewDelegate?.synchronizeScrollViewZoom(scale: scrollView.zoomScale, scrollView: scrollView)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

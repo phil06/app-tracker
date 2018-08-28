@@ -108,7 +108,11 @@ class GridLeftHeaderView: UIView {
 extension GridLeftHeaderView: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return leftHeader
-        
+
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        gridViewDelegate?.synchronizeScrollViewZoom(scale: scrollView.zoomScale, scrollView: scrollView)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
