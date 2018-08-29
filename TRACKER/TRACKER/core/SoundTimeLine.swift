@@ -91,21 +91,29 @@ class SoundTimeLine {
 //
 //    }
     
-    func playSounds(sliderSync: (_ pos: Float, _ bit: Double, _ bitDelay: Double) -> Void) {
+    func playSounds(sliderSync: (_ pos: Float, _ bit: Double, _ bitDelay: Double, _ startPoint: Int) -> Void) {
+        
+        if soundDic.count <= 0 {
+            print("코드가 없어! 왜지...?")
+            return
+        }
         
         var sortedKeys = soundDic.keys.sorted()
         
         var startPoint = sortedKeys.first
         var endPoint = sortedKeys.last
         
-        print("[전체] start : \(startPoint), endPoint : \(endPoint)")
+        print("[전체] start : \(startPoint), endPoint : \(endPoint), bit:\(self.bit)")
         
         let startTime = soundDic.first?.value.first?.getCurrentTime()
         print("기준시간 > \(String(describing: startTime?.format(using: [.year, .month, .day, .hour, .minute, .second])))")
         
+        let duration = Double(sortedKeys.count) * self.bit
+        sliderSync(Float(endPoint!), duration, self.bit, startPoint!)
+        
         for idx in sortedKeys {
             print("key : \(idx)")
-            sliderSync(Float(idx), self.bit, (Double(Float(idx) - self.startPoint) * self.bit) - self.bit)
+//            sliderSync(Float(idx), self.bit, (Double(Float(idx) - self.startPoint) * self.bit) - self.bit)
             for(_, obj) in (soundDic[idx]?.enumerated())! {
                 obj.play(fixed: startTime!)
             }

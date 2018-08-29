@@ -214,7 +214,6 @@ extension GridContentView: UIScrollViewDelegate {
         let curPos = (scrollView.contentOffset.x / 20).rounded(.down)
         print("current position index : \(curPos)")
         gridViewDelegate?.synchronizeSliderView(pos: curPos)
-        
     }
 }
 

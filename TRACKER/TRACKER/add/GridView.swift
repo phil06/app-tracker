@@ -186,16 +186,9 @@ extension GridView: NoteGridViewDelegate {
     }
     
     //MARK: 내용이 중복되니까 리펙토링
-    func moveToAnimated(pos: Float, bit: Double, bitDelay: Double) {
- 
-        UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
-            self.sliderView.mySlider.setValue(pos, animated: true)
-        }, completion: nil);
-
-        //이거.... 뭔가 움직임이....
-        print("전체 그리드중 화살표의 인덱스 값 : \(pos)")
+    func moveToAnimated(pos: Float, duration: Double, bit: Double, startPoint: Int) {
+        print("애니메이션.. 마지막 위치 : \(pos)")
         
-        //view의 기준
         let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / 20).rounded(.down)
         print("그리드 뷰의 처음 인덱스(화면에 보이는) : \(viewFirstPosition)")
         
@@ -203,28 +196,37 @@ extension GridView: NoteGridViewDelegate {
         let sliderMaxPosition: CGFloat = sliderMaxPosCnt * 20
         print("그리드 뷰의 x 를 옮겨야 하는 최대 그리드 수 : \(sliderMaxPosCnt), 슬라이더의 최대 위치:\(sliderMaxPosition)")
         
-        let curSliderPosition:CGFloat = (CGFloat(pos) - viewFirstPosition) * 20
-        
-        if CGFloat(pos) > viewFirstPosition + sliderMaxPosCnt {
-            
-            UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
-                self.sliderView.seekArrow.frame = CGRect(x: Int(sliderMaxPosition), y: self.sliderView.arrowTopInset, width: 20, height: 20)
-                self.contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * 20
-            }, completion: nil)
-   
-        } else if CGFloat(pos) > viewFirstPosition && CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt  {
-            UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
-                self.sliderView.seekArrow.frame = CGRect(x: Int(curSliderPosition), y: self.sliderView.arrowTopInset, width: 20, height: 20)
-            }, completion: nil)
-            
-            
-        } else if CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt {
-            UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
-                self.sliderView.seekArrow.frame = CGRect(x: 0, y: self.sliderView.arrowTopInset, width: 20, height: 20)
-                self.contentScrollView.scrollView.contentOffset.x = CGFloat(pos) * 20
-            }, completion: nil)
-
+        let propertyAnimatorSlider: UIViewPropertyAnimator = UIViewPropertyAnimator(duration: duration, curve: UIViewAnimationCurve.easeInOut)
+        propertyAnimatorSlider.addAnimations {
+            self.sliderView.mySlider.setValue(pos, animated: true)
         }
+        propertyAnimatorSlider.startAnimation()
+        
+        
+
+        
+        //화면을 넘어갈 경우 화살표는 끝에서 멈추고 그리드가 왼쪽으로 이동
+        if CGFloat(pos) > viewFirstPosition + sliderMaxPosCnt {
+            let propertyAnimatorArrow: UIViewPropertyAnimator = UIViewPropertyAnimator(duration: Double(((viewFirstPosition + sliderMaxPosCnt) - CGFloat(startPoint)) + 1) * bit, curve: UIViewAnimationCurve.linear)
+            propertyAnimatorArrow.addAnimations {
+                self.sliderView.seekArrow.frame = CGRect(x: Int(sliderMaxPosition), y: self.sliderView.arrowTopInset, width: 20, height: 20)
+            }
+            propertyAnimatorArrow.startAnimation()
+            
+            let propertyAnimatorGrid: UIViewPropertyAnimator = UIViewPropertyAnimator(duration: Double((CGFloat(pos) - (viewFirstPosition + sliderMaxPosCnt))) * bit, curve: UIViewAnimationCurve.linear)
+            propertyAnimatorGrid.addAnimations {
+                self.contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * 20
+            }
+            propertyAnimatorGrid.startAnimation(afterDelay: Double(((viewFirstPosition + sliderMaxPosCnt) - CGFloat(startPoint)) + 1) * bit)
+        } else {
+            //화면을 넘어갈 경우 화살표 는 끝까지 표시만
+            let propertyAnimatorArrow: UIViewPropertyAnimator = UIViewPropertyAnimator(duration: Double(CGFloat(pos) - viewFirstPosition) * bit, curve: UIViewAnimationCurve.linear)
+            propertyAnimatorArrow.addAnimations {
+                self.sliderView.seekArrow.frame = CGRect(x: Int(pos * 20), y: self.sliderView.arrowTopInset, width: 20, height: 20)
+            }
+            propertyAnimatorArrow.startAnimation()
+        }
+        
     }
     
     
@@ -233,10 +235,6 @@ extension GridView: NoteGridViewDelegate {
 
 extension GridView: GridViewDelegate {
     func synchronizeSliderView(pos: CGFloat) {
-        if timeline.isPlaying() {
-            stopSoundAndAnimation()
-            return
-        }
         
         //슬라이더 기준의 value가 아니라 그리드뷰의 x위치 기준으로 계산해야 함...
         
