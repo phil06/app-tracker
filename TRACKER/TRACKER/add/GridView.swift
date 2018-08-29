@@ -119,16 +119,21 @@ extension GridView: NoteGridViewDelegate {
         contentScrollView.notes.forEach { (key, value) in
             dat[key] = String(format: "%03d", Int(CGFloat(key / cols).rounded(.down)))
         }
+        
+        print("슬라이더 위치 : \(sliderView.mySlider.value.rounded(.down))")
 
-        timeline.buildSoundArray(size: contentScrollView.notes.count, notes: dat, bit: 60.0 / Double(bit))
+        timeline.buildSoundArray(size: contentScrollView.notes.count, notes: dat, bit: 60.0 / Double(bit), startPoint: sliderView.mySlider.value.rounded(.down))
+      
+        /*
+         2. 노트가 없는곳은 멈추었다가 건너뛰는 형태가 되어버림... (animation 사이사이가 자연스럽게 이어지지 않음)
+         >> 그냥 시작/종료 랑 전체시간으로 걸어야 하나...? 그럼 싱크는 어떻게 맞춰야 하는거지..?
+         
+         - 재생중에 그리드나 슬라이더 건드렸을때 재생 멈추는거 테스트 해바야 함 -> 소리는 멈추는데. 애니메이션이 안멈추네..ㅋㅋㅋㅋ
+         
+         -
+         */
+        timeline.playSounds(sliderSync: moveToAnimated)
         
-        //애니메이션 이용..?
-        UIView.animate(withDuration: 3, animations: <#T##() -> Void#>)
-  
-//        sliderView.seekArrow.animationDuration = 3
-//        sliderView.seekArrow.startAnimating()
-        
-        timeline.playSounds()
     }
     
     func stop() {
@@ -175,10 +180,58 @@ extension GridView: NoteGridViewDelegate {
         gridDelegate?.alert(message: "저장 완료")
     }
     
+    //MARK: 내용이 중복되니까 리펙토링
+    func moveToAnimated(pos: Float, bit: Double, bitDelay: Double) {
+ 
+        UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
+            self.sliderView.mySlider.setValue(pos, animated: true)
+        }, completion: nil);
+
+        //이거.... 뭔가 움직임이....
+        print("전체 그리드중 화살표의 인덱스 값 : \(pos)")
+        
+        //view의 기준
+        let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / 20).rounded(.down)
+        print("그리드 뷰의 처음 인덱스(화면에 보이는) : \(viewFirstPosition)")
+        
+        let sliderMaxPosCnt:CGFloat = (sliderView.frame.size.width / 20).rounded(.down)
+        let sliderMaxPosition: CGFloat = sliderMaxPosCnt * 20
+        print("그리드 뷰의 x 를 옮겨야 하는 최대 그리드 수 : \(sliderMaxPosCnt), 슬라이더의 최대 위치:\(sliderMaxPosition)")
+        
+        let curSliderPosition:CGFloat = (CGFloat(pos) - viewFirstPosition) * 20
+        
+        if CGFloat(pos) > viewFirstPosition + sliderMaxPosCnt {
+            
+            UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
+                self.sliderView.seekArrow.frame = CGRect(x: Int(sliderMaxPosition), y: self.sliderView.arrowTopInset, width: 20, height: 20)
+                self.contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * 20
+            }, completion: nil);
+   
+        } else if CGFloat(pos) > viewFirstPosition && CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt  {
+            UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
+                self.sliderView.seekArrow.frame = CGRect(x: Int(curSliderPosition), y: self.sliderView.arrowTopInset, width: 20, height: 20)
+            }, completion: nil);
+            
+            
+        } else if CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt {
+            UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
+                self.sliderView.seekArrow.frame = CGRect(x: 0, y: self.sliderView.arrowTopInset, width: 20, height: 20)
+                self.contentScrollView.scrollView.contentOffset.x = CGFloat(pos) * 20
+            }, completion: nil);
+
+        }
+    }
+    
 }
 
 extension GridView: GridViewDelegate {
     func synchronizeSliderView(pos: CGFloat) {
+        if timeline.isPlaying() {
+            self.sliderView.seekArrow.stopAnimating()
+            timeline.stop()
+            return
+        }
+        
         //슬라이더 기준의 value가 아니라 그리드뷰의 x위치 기준으로 계산해야 함...
         
         // 현재 슬라이더의 값
@@ -195,6 +248,12 @@ extension GridView: GridViewDelegate {
     
 
     func synchronizeScrollViewZoom(scale: CGFloat, scrollView: UIScrollView) {
+        
+        if timeline.isPlaying() {
+            self.sliderView.seekArrow.stopAnimating()
+            timeline.stop()
+            return
+        }
         
         circleWidthScaled = circleWidth * scale
         print("scale:\(scale), circleWidthScaled:\(circleWidthScaled)")
@@ -227,6 +286,15 @@ extension GridView: GridViewDelegate {
 
 extension GridView: GridSeekBarDelegate {
     func moveTo(pos: Float) {
+        
+        if timeline.isPlaying() {
+            self.sliderView.seekArrow.stopAnimating()
+            timeline.stop()
+            return
+        }
+        
+        //이러면 어찌될라나..?
+        sliderView.mySlider.value = pos
         
         //이거.... 뭔가 움직임이.... 확인중
         print("전체 그리드중 화살표의 인덱스 값 : \(pos)")
