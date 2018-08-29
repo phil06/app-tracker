@@ -105,12 +105,11 @@ class SoundTimeLine {
         
         for idx in sortedKeys {
             print("key : \(idx)")
-            sliderSync(Float(idx), self.bit, Double(Float(idx) - self.startPoint) * self.bit)
+            sliderSync(Float(idx), self.bit, (Double(Float(idx) - self.startPoint) * self.bit) - self.bit)
             for(_, obj) in (soundDic[idx]?.enumerated())! {
                 obj.play(fixed: startTime!)
             }
         }
-
     }
     
     func stop() {

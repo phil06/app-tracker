@@ -102,12 +102,22 @@ class GridView: UIView {
         let octaveText = CGFloat(row / TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count).rounded(.down)
         return noteText + String(describing: Int(octaveText) + 1)
     }
+    
+    func stopSoundAndAnimation() {
+        print("멈춰야 하는뎅...")
+//        self.sliderView.layer.removeAllAnimations()
+//        self.sliderView.seekArrow.stopAnimating()
+        timeline.stop()
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
   
 }
+
+
+
 
 extension GridView: NoteGridViewDelegate {
     
@@ -123,21 +133,16 @@ extension GridView: NoteGridViewDelegate {
         print("슬라이더 위치 : \(sliderView.mySlider.value.rounded(.down))")
 
         timeline.buildSoundArray(size: contentScrollView.notes.count, notes: dat, bit: 60.0 / Double(bit), startPoint: sliderView.mySlider.value.rounded(.down))
-      
-        /*
-         2. 노트가 없는곳은 멈추었다가 건너뛰는 형태가 되어버림... (animation 사이사이가 자연스럽게 이어지지 않음)
-         >> 그냥 시작/종료 랑 전체시간으로 걸어야 하나...? 그럼 싱크는 어떻게 맞춰야 하는거지..?
-         
-         - 재생중에 그리드나 슬라이더 건드렸을때 재생 멈추는거 테스트 해바야 함 -> 소리는 멈추는데. 애니메이션이 안멈추네..ㅋㅋㅋㅋ
-         
-         -
-         */
+
         timeline.playSounds(sliderSync: moveToAnimated)
         
     }
     
     func stop() {
-        timeline.stop()
+        if timeline.isPlaying() {
+            stopSoundAndAnimation()
+            return
+        }
     }
     
     func loadSaved(fileName: String) {
@@ -205,30 +210,31 @@ extension GridView: NoteGridViewDelegate {
             UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
                 self.sliderView.seekArrow.frame = CGRect(x: Int(sliderMaxPosition), y: self.sliderView.arrowTopInset, width: 20, height: 20)
                 self.contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * 20
-            }, completion: nil);
+            }, completion: nil)
    
         } else if CGFloat(pos) > viewFirstPosition && CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt  {
             UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
                 self.sliderView.seekArrow.frame = CGRect(x: Int(curSliderPosition), y: self.sliderView.arrowTopInset, width: 20, height: 20)
-            }, completion: nil);
+            }, completion: nil)
             
             
         } else if CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt {
             UIView.animate(withDuration: bit, delay: bitDelay, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
                 self.sliderView.seekArrow.frame = CGRect(x: 0, y: self.sliderView.arrowTopInset, width: 20, height: 20)
                 self.contentScrollView.scrollView.contentOffset.x = CGFloat(pos) * 20
-            }, completion: nil);
+            }, completion: nil)
 
         }
     }
+    
+    
     
 }
 
 extension GridView: GridViewDelegate {
     func synchronizeSliderView(pos: CGFloat) {
         if timeline.isPlaying() {
-            self.sliderView.seekArrow.stopAnimating()
-            timeline.stop()
+            stopSoundAndAnimation()
             return
         }
         
@@ -250,8 +256,7 @@ extension GridView: GridViewDelegate {
     func synchronizeScrollViewZoom(scale: CGFloat, scrollView: UIScrollView) {
         
         if timeline.isPlaying() {
-            self.sliderView.seekArrow.stopAnimating()
-            timeline.stop()
+            stopSoundAndAnimation()
             return
         }
         
@@ -288,8 +293,7 @@ extension GridView: GridSeekBarDelegate {
     func moveTo(pos: Float) {
         
         if timeline.isPlaying() {
-            self.sliderView.seekArrow.stopAnimating()
-            timeline.stop()
+            stopSoundAndAnimation()
             return
         }
         
