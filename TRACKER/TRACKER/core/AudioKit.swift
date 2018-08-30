@@ -38,4 +38,8 @@ class AudioKit {
         player?.play(atTime: fixed + delay)
     }
     
+    func stop() {
+        player?.stop()
+    }
+    
 }

@@ -88,7 +88,7 @@ class GridLeftHeaderView: UIView {
             yPosition -= CGFloat(yPoint)
             
             let blackNote = CALayer()
-            blackNote.backgroundColor = yPoint == 20 ? UIColor.black.cgColor : UIColor.clear.cgColor
+            blackNote.backgroundColor = yPoint == Int(ADD_GRID_ITEM_SIZE) ? UIColor.black.cgColor : UIColor.clear.cgColor
             let blackNoteBounds = CGRect(x: 0, y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
             blackNote.frame = blackNoteBounds
             

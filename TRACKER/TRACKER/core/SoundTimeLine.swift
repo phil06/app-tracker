@@ -63,7 +63,7 @@ class SoundTimeLine {
             
             if colIdx >= Int(startPoint) {
                 
-                print("fileName > \(value), colIdx > \(colIdx)")
+                print("fileName > \(value), colIdx > \(colIdx), startPoint> \(self.startPoint)")
                 audio.initWithFileName(name: value, atTime: Double(Float(colIdx) - self.startPoint) * self.bit)
                 
                 if var originArr = soundDic[colIdx] {
@@ -120,8 +120,20 @@ class SoundTimeLine {
         }
     }
     
-    func stop() {
+    func stop(curPos: Int) {
+        let sortedKeys = soundDic.keys.sorted()
+        
+        for idx in sortedKeys {
+            print("key : \(idx)")
+            if idx >= curPos {
+                for(_, obj) in (soundDic[idx]?.enumerated())! {
+                    obj.stop()
+                }
+            }
+        }
+        
         soundDic.removeAll()
+        print("soundDic.count : \(soundDic.count)")
     }
     
     func isPlaying() -> Bool {

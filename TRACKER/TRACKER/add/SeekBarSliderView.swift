@@ -14,7 +14,7 @@ class SeekBarSliderView: UIView {
     
     var mySlider: UISlider!
     var seekArrow: UIImageView!
-    let arrowTopInset: Int = 55
+    let arrowTopInset: CGFloat = 55
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,7 +36,7 @@ class SeekBarSliderView: UIView {
         mySlider.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         mySlider.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
-        seekArrow = UIImageView(frame: CGRect(x: 0, y: arrowTopInset, width: 20, height: 20))
+        seekArrow = UIImageView(frame: CGRect(x: 0, y: arrowTopInset, width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE)))
         seekArrow.image = UIImage(named: "seek_bar_arrow.png")
         self.addSubview(seekArrow)
     }

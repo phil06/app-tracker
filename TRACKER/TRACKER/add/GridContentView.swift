@@ -126,7 +126,7 @@ class GridContentView: UIView {
                     if( posY < 0) {
                         if idx <= 0 {
                             rectY = 0
-                            rectHeight = 20
+                            rectHeight = Int(ADD_GRID_ITEM_SIZE)
                         } else {
 
                             rectY = Int(touchLocationView.y - (posY + CGFloat(TYPE_PIANO_NOTE_SCALE_HEIGHT_REVERSED[idx])))
@@ -208,11 +208,9 @@ extension GridContentView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var curOffset = scrollView.contentOffset
         curOffset.y = currentScrollY
-        print("\(curOffset.x)")
         self.scrollView.contentOffset = curOffset
         
-        let curPos = (scrollView.contentOffset.x / 20).rounded(.down)
-        print("current position index : \(curPos)")
+        let curPos = (scrollView.contentOffset.x / (CGFloat(ADD_GRID_ITEM_SIZE) * scrollView.zoomScale)).rounded(.down)
         gridViewDelegate?.synchronizeSliderView(pos: curPos)
     }
 }
