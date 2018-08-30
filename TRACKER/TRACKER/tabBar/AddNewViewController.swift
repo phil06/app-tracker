@@ -37,11 +37,9 @@ class AddNewViewController: UIViewController {
 
 extension AddNewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("선택된 행 : \(String(describing: InstrumentKind.init(code: indexPath.row)))")
         selectedType = InstrumentKind.init(code: indexPath.row)
     }
     
-    //MARK: 버튼 이미지 변경할때 적용하기
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
@@ -56,8 +54,6 @@ extension AddNewViewController: UITableViewDataSource {
         //MARK: designated initializer 를 사용하면 자동으로 reuseable cell을 가져오는건가...?
         let cell = InstrumentCell(style: UITableViewCellStyle.default, reuseIdentifier: "instrumentCell")
         cell.button.addTarget(self, action: #selector(pressedBrowser(sender: )), for: .touchUpInside)
-        
-        
         
         return cell
 

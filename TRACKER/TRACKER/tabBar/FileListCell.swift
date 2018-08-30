@@ -8,7 +8,6 @@
 
 import UIKit
 
-//MARK: 화면 리펙토링 하기
 class FileListCell: UITableViewCell {
     
     var label: UILabel!
@@ -16,7 +15,7 @@ class FileListCell: UITableViewCell {
     var icon: UIImageView!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        //MARK: 오토레이아웃 적용하기
+
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         label = UILabel()

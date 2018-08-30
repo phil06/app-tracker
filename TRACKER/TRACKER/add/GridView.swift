@@ -8,7 +8,7 @@
 
 import UIKit
 
-//MARK: 중복이나 하드코딩 등등.. 리펙토링 해보기..
+//MARK: 중복이나 하드코딩 등등.. 리펙토링..
 class GridView: UIView {
     
     var leftHeaderWidth: CGFloat = 90
@@ -96,9 +96,8 @@ class GridView: UIView {
     }
     
     func getGridBounds() {
-        //MARK: 나중에 type 을 enum으로 비교해서 로직 분리하는걸... 찾아보기
+        //MARK: 나중에 type 을 enum으로 비교해서 로직 분리하는걸...
         let typeProperties = TYPE_PIANO.self
-        print("gridBackground size > width:\(typeProperties.getWidth), height:\(typeProperties.getHeight)")
         gridBackgroundBounds = CGRect(x: 0, y: 0, width: typeProperties.getWidth, height: typeProperties.getHeight)
     }
 
@@ -118,8 +117,6 @@ class GridView: UIView {
         }
         
         if let slider = propertyAnimatorSlider {
-            //왜 안멈추고 끝으로 이동하지? 이유를 모르겠으니.. 화살표 기준으로 재설정
-            print("현재 슬라이더 위치 : \(sliderView.mySlider.value)")
             let arrowPos = (sliderView.seekArrow.frame.origin.x / (CGFloat(ADD_GRID_ITEM_SIZE) * contentScrollView.scrollView.zoomScale)).rounded(.down)
             sliderView.mySlider.setValue(Float(arrowPos), animated: false)
             slider.stopAnimation(true)
@@ -152,9 +149,7 @@ extension GridView: NoteGridViewDelegate {
             dat[key] = String(format: "%03d", Int(CGFloat(key / cols).rounded(.down)))
         }
 
-        print("현재 슬라이더 위치 : \(sliderView.mySlider.value)")
-        print("화살표 위치 : \((sliderView.seekArrow.frame.origin.x / (CGFloat(ADD_GRID_ITEM_SIZE) * contentScrollView.scrollView.zoomScale)).rounded(.down))")
-        
+
         timeline.buildSoundArray(size: contentScrollView.notes.count, notes: dat, bit: 60.0 / Double(bit), startPoint: sliderView.mySlider.value.rounded(.down))
 
         timeline.playSounds(sliderSync: moveToAnimated)
@@ -208,15 +203,11 @@ extension GridView: NoteGridViewDelegate {
     
     //MARK: 내용이 중복되니까 리펙토링
     func moveToAnimated(pos: Float, duration: Double, bit: Double, startPoint: Int) {
-        print("애니메이션.. 마지막 위치 : \(pos), duration:\(duration), slider duration: \(Double(pos - Float(startPoint)) * bit)")
-        
+
         let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / CGFloat(ADD_GRID_ITEM_SIZE)).rounded(.down)
-        print("그리드 뷰의 처음 인덱스(화면에 보이는) : \(viewFirstPosition)")
-        
+
         let sliderMaxPosCnt:CGFloat = (sliderView.frame.size.width / CGFloat(ADD_GRID_ITEM_SIZE)).rounded(.down)
-        let sliderMaxPosition: CGFloat = sliderMaxPosCnt * CGFloat(ADD_GRID_ITEM_SIZE)
-        print("그리드 뷰의 x 를 옮겨야 하는 최대 그리드 수 : \(sliderMaxPosCnt), 슬라이더의 최대 위치:\(sliderMaxPosition)")
-        
+
         propertyAnimatorSlider = UIViewPropertyAnimator(duration: Double(pos - Float(startPoint)) * bit, curve: UIViewAnimationCurve.linear)
         propertyAnimatorSlider.addAnimations {
             self.sliderView.mySlider.setValue(pos, animated: true)
@@ -257,15 +248,6 @@ extension GridView: NoteGridViewDelegate {
 extension GridView: GridViewDelegate {
     func synchronizeSliderView(pos: CGFloat) {
         
-        //슬라이더 기준의 value가 아니라 그리드뷰의 x위치 기준으로 계산해야 함...
-        
-        // 현재 슬라이더의 값
-        print("current slider value:\(sliderView.mySlider.value)")
-        // 현재 화살표의 위치
-        print("current arrow posIdx:\((sliderView.seekArrow.frame.origin.x / CGFloat(circleWidthScaled)).rounded(.down))")
-        // 그리드의 x 위치
-        print("current gridView pos x:\(pos)")
-        
         let arrowPos = (sliderView.seekArrow.frame.origin.x / CGFloat(circleWidthScaled)).rounded(.down)
 
         sliderView.mySlider.value = Float(pos + arrowPos)
@@ -281,9 +263,6 @@ extension GridView: GridViewDelegate {
         
         circleWidthScaled = CGFloat(ADD_GRID_ITEM_SIZE) * scale
 
-        //sliderView 높이도 변경해야 하구 해서 여러모로 귀찮으니....
-//        ADD_GRID_ITEM_SIZE = Float(circleWidthScaled)
-        
         if (scrollView.superview?.isKind(of: GridLeftHeaderView.self))! {
             contentScrollView.scrollView.setZoomScale(scale, animated: true)
         } else {
@@ -301,9 +280,7 @@ extension GridView: GridViewDelegate {
         sliderView.translatesAutoresizingMaskIntoConstraints = true
         
         let originVal = sliderView.mySlider.value
-        print("originVal : \(originVal)")
         sliderView.frame = CGRect(x: leftScrollView.leftHeader.frame.size.width, y: 0, width: self.frame.size.width - leftScrollView.leftHeader.frame.size.width  - 30 , height: sliderView.frame.size.height)
-//        sliderView.mySlider.setValue(originVal, animated: true)
     }
     
     func synchronizeScrollViewY(pointY: CGFloat) {
@@ -321,39 +298,21 @@ extension GridView: GridSeekBarDelegate {
         let gridSize = CGFloat(ADD_GRID_ITEM_SIZE) * zoomScale
         
  
-      
-        
-        //이러면 어찌될라나..?
-//        sliderView.mySlider.value = pos
-        
-        //이거.... 뭔가 움직임이.... 확인중
-        print("전체 그리드중 화살표의 인덱스 값 : \(pos)")
-        
-        //view의 기준
         let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / gridSize).rounded(.down)
-        print("그리드 뷰의 처음 인덱스(화면에 보이는) : \(viewFirstPosition)")
-        
+
         let sliderMaxPosCnt:CGFloat = (sliderView.frame.size.width / gridSize).rounded(.down)
         let sliderMaxPosition: CGFloat = sliderMaxPosCnt * gridSize
-        print("그리드 뷰의 x 를 옮겨야 하는 최대 그리드 수 : \(sliderMaxPosCnt), 슬라이더의 최대 위치:\(sliderMaxPosition)")
-        
+
         let curSliderPosition:CGFloat = (CGFloat(pos) - viewFirstPosition) * gridSize
         
         if CGFloat(pos) > viewFirstPosition + sliderMaxPosCnt {
-            print("case1")
-            //화살은 맨끝, 그리드뷰.x 를 이동
             sliderView.seekArrow.frame = CGRect(x: sliderMaxPosition, y: CGFloat(sliderView.arrowTopInset), width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE))
-            //MARK: 왜 없는 영역인 왼쪽으로 끄는게 -가 아니라 + 인거지...?
             contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * gridSize
         } else if CGFloat(pos) > viewFirstPosition && CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt  {
-            print("case2")
-            //그리드뷰.x 는 이동하지 않음 + 화살은 포지션에 맞는 위치에
             sliderView.seekArrow.frame = CGRect(x: curSliderPosition, y: sliderView.arrowTopInset, width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE))
         } else if CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt {
-            print("case3")
-            //화살은 맨 처음, 그리드뷰.x 를 이동
             sliderView.seekArrow.frame = CGRect(x: 0, y: sliderView.arrowTopInset, width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE))
-            //MARK: 왜 없는 영역인 왼쪽으로 끄는게 -가 아니라 + 인거지...?
+            //MARK: contentOffset 과 bounds 의 차이
             contentScrollView.scrollView.contentOffset.x = CGFloat(pos) * gridSize
         }
     }

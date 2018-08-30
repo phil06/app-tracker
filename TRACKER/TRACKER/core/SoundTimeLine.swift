@@ -16,8 +16,7 @@ class SoundTimeLine {
     var startPoint: Float!
     
     init(type: InstrumentKind) {
-        print("SoundTimeLine... init with \(type.rawValue)")
-        
+
         //MARK: 일단은 피아노 나중에 type 에 따라
         switch type {
         case InstrumentKind.PIANO:
@@ -26,28 +25,6 @@ class SoundTimeLine {
             instrumentCol = TYPE_PIANO.cols.rawValue
         }
     }
-    
-//    func buildSoundArray(size: Int, notes: [Int:String], bit: Double) {
-//
-//        soundDic.removeAll()
-//
-//        self.bit = bit
-//
-//        notes.forEach { (key, value) in
-//            let audio = AudioKit()
-//            let colIdx: Int = key % instrumentCol
-//
-//            print("fileName > \(value), colIdx > \(colIdx)")
-//            audio.initWithFileName(name: value, atTime: Double(colIdx) * self.bit)
-//
-//            if var originArr = soundDic[colIdx] {
-//                originArr.append(audio)
-//                soundDic[colIdx] = originArr
-//            } else {
-//                soundDic[colIdx] = [audio]
-//            }
-//        }
-//    }
     
     func buildSoundArray(size: Int, notes: [Int:String], bit: Double, startPoint: Float) {
         
@@ -62,8 +39,7 @@ class SoundTimeLine {
             let colIdx: Int = key % instrumentCol
             
             if colIdx >= Int(startPoint) {
-                
-                print("fileName > \(value), colIdx > \(colIdx), startPoint> \(self.startPoint)")
+
                 audio.initWithFileName(name: value, atTime: Double(Float(colIdx) - self.startPoint) * self.bit)
                 
                 if var originArr = soundDic[colIdx] {
@@ -76,44 +52,25 @@ class SoundTimeLine {
 
         }
     }
-    
-    
-//    func playSounds() {
-//        //MARK: 갯수가 많아질수록 처리시간이 늦어질텐데 앞에 시작하는 시간이랑 싱크가 안맞는 경우가 생기지 않을까..?
-//        let startTime = soundDic.first?.value.first?.getCurrentTime()
-//        print("기준시간 > \(String(describing: startTime?.format(using: [.year, .month, .day, .hour, .minute, .second])))")
-//
-//        for (_, value) in soundDic {
-//            for (_, obj) in value.enumerated() {
-//                obj.play(fixed: startTime!)
-//            }
-//        }
-//
-//    }
-    
+
     func playSounds(sliderSync: (_ pos: Float, _ bit: Double, _ bitDelay: Double, _ startPoint: Int) -> Void) {
-        
+        //MARK: 애니메이션과 사운드 실행을 완벽하게 동기화 할 수 있는 방법이...
         if soundDic.count <= 0 {
-            print("코드가 없어! 왜지...?")
+            print("코드가 없어!")
             return
         }
         
-        var sortedKeys = soundDic.keys.sorted()
+        let sortedKeys = soundDic.keys.sorted()
         
-        var startPoint = sortedKeys.first
-        var endPoint = sortedKeys.last
-        
-        print("[전체] start : \(startPoint), endPoint : \(endPoint), bit:\(self.bit)")
-        
+        let startPoint = sortedKeys.first
+        let endPoint = sortedKeys.last
+
         let startTime = soundDic.first?.value.first?.getCurrentTime()
-        print("기준시간 > \(String(describing: startTime?.format(using: [.year, .month, .day, .hour, .minute, .second])))")
-        
+
         let duration = Double(sortedKeys.count) * self.bit
         sliderSync(Float(endPoint!), duration, self.bit, startPoint!)
         
         for idx in sortedKeys {
-            print("key : \(idx)")
-//            sliderSync(Float(idx), self.bit, (Double(Float(idx) - self.startPoint) * self.bit) - self.bit)
             for(_, obj) in (soundDic[idx]?.enumerated())! {
                 obj.play(fixed: startTime!)
             }
@@ -124,7 +81,7 @@ class SoundTimeLine {
         let sortedKeys = soundDic.keys.sorted()
         
         for idx in sortedKeys {
-            print("key : \(idx)")
+
             if idx >= curPos {
                 for(_, obj) in (soundDic[idx]?.enumerated())! {
                     obj.stop()
@@ -133,7 +90,6 @@ class SoundTimeLine {
         }
         
         soundDic.removeAll()
-        print("soundDic.count : \(soundDic.count)")
     }
     
     func isPlaying() -> Bool {

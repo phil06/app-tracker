@@ -10,7 +10,7 @@ import UIKit
 
 class GridContentView: UIView {
     
-    //MARK: 일단..
+    //MARK: 하드코딩
     let typeProperties = TYPE_PIANO.self
     
     var scrollView: UIScrollView!
@@ -104,7 +104,7 @@ class GridContentView: UIView {
     
     
     @objc func handleTapGesture(recognizer: UITapGestureRecognizer) {
-        //MARK: 나중에 type 을 enum으로 비교해서 로직 분리하는걸... 찾아보기
+        //MARK: 나중에 type 을 enum으로 비교해서 로직 분리하는걸...
         let typeProperties = TYPE_PIANO.self
 
         let touchLocationView = recognizer.location(in: self.grid)

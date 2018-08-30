@@ -55,7 +55,7 @@ let TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT = [25, 30, 25, 25, 30, 30, 25]
 
 let TYPE_PIANO_NOTE_SCALE_TEXT = ["C", "D", "E", "F", "G", "A", "B"]
 
-//MARK: 값이 같으면.. rawValue 가 유니크 하지 않다고 머라함..
+
 enum TYPE_PIANO: Int {
     case BLACKKEY_SIZE = 10
     case WHITEKEY_SIZE = 20

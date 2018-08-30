@@ -34,7 +34,6 @@ class AudioKit {
     }
     
     func play(fixed: TimeInterval) {
-        print("실행시간 > \(String(describing: (fixed + delay).format(using: [.year, .month, .day, .hour, .minute, .second])))")
         player?.play(atTime: fixed + delay)
     }
     

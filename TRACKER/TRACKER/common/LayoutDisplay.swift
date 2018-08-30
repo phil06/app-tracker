@@ -17,7 +17,6 @@ class LayoutDisplay {
         let left = window?.safeAreaInsets.left
         let right = window?.safeAreaInsets.right
         
-        print("safeAreaInset top:\(String(describing: top)), left:\(String(describing: left)), bottom:\(String(describing: bottom)), right:\(String(describing: right))")
         return UIEdgeInsetsMake(top!, left!, bottom!, right!)
     }
     
