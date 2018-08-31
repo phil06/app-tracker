@@ -21,6 +21,6 @@ protocol NoteViewDelegate: class {
 protocol NoteGridViewDelegate: class {
     func save(fileName: String)
     func loadSaved(fileName: String)
-    func play()
+    func play(bit: Int)
     func stop()
 }

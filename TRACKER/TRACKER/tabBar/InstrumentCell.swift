@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-//MARK: 화면 리펙토링 하기..
 class InstrumentCell: UITableViewCell {
     
     var button: UIButton!

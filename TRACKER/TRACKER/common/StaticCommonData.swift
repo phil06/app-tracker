@@ -55,11 +55,11 @@ let TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT = [25, 30, 25, 25, 30, 30, 25]
 
 let TYPE_PIANO_NOTE_SCALE_TEXT = ["C", "D", "E", "F", "G", "A", "B"]
 
-//MARK: 값이 같으면.. rawValue 가 유니크 하지 않다고 머라함..
+
 enum TYPE_PIANO: Int {
     case BLACKKEY_SIZE = 10
     case WHITEKEY_SIZE = 20
-    case cols =  100 //임시 정한건 없음
+    case cols =  50 //임시 정한건 없음
     case rows = 84
     case totOctave = 7
     
@@ -82,5 +82,9 @@ enum TabBarImage: String {
     case TAB_BAR_ITEM_LIST_IMG = "icon_list"
 }
 
-
+//추가 화면
+let ADD_GRID_LEFT_HEADER_WIDTH: CGFloat = 60
+let ADD_GRID_LEFT_HEADER_MARGIN: CGFloat = 30
+let ADD_GRID_LEFT_HEADER_VIEW_WIDTH: CGFloat = (ADD_GRID_LEFT_HEADER_WIDTH / 2) + CGFloat(30.0)
+var ADD_GRID_ITEM_SIZE: Float = 20
 

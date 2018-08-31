@@ -20,6 +20,12 @@ class NoteMenuView: UIView {
     
     var menuView: UIView!
     var statusView: UIView!
+    
+    var pickerView: UIPickerView!
+    var selectedBit: Int!
+    
+    //꼭 문자여야 하는건가?
+    var Array = ["60","120"]
 
     weak var controlDelegate: NoteMenuDelegate?
     weak var viewDelegate: NoteViewDelegate?
@@ -61,9 +67,20 @@ class NoteMenuView: UIView {
         stop.addTarget(self, action: #selector(stopNotes), for: .touchUpInside)
         statusView.addSubview(stop)
         
+        pickerView = UIPickerView(frame: CGRect.zero)
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        addSubview(pickerView)
+        
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        pickerView.topAnchor.constraint(equalTo: statusView.bottomAnchor).isActive = true
+        pickerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        pickerView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        pickerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
         arrangeStatusButtons()
         
-        
+        selectedBit = Int(Array[0])
     }
     
     func arrangeMenuButtons() {
@@ -118,7 +135,7 @@ class NoteMenuView: UIView {
         statusView.topAnchor.constraint(equalTo: menuView.bottomAnchor).isActive = true
         statusView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         statusView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        statusView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        statusView.bottomAnchor.constraint(equalTo: prevBtn.bottomAnchor).isActive = true
         
     }
     
@@ -158,3 +175,24 @@ class NoteMenuView: UIView {
     }
 }
 
+extension NoteMenuView: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print("row : \(row)")
+        selectedBit = Int(Array[row])
+    }
+}
+
+extension NoteMenuView: UIPickerViewDataSource {
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return Array[row]
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Array.count
+    }
+
+}

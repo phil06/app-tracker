@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-//MARK: instrumentType 에 따라 화면을 달리 해야하는걸... 여기서 할지 GridView에서 할지는 모르겠지만 일단 해야할일..
+//MARK: instrumentType 에 따라 화면을 달리 해야하는걸... 일단 해야할일..
 class CompositionViewController: UIViewController {
     
     var loadFile: String!
@@ -57,14 +57,13 @@ class CompositionViewController: UIViewController {
         
         gridView.gridDelegate = self
         
-        controlDelegate = gridView
+        
+        controlDelegate = gridView.contentScrollView
         gridViewDelegate = gridView
         
         //add dot
         self.view.isUserInteractionEnabled = true
         
-        let taps = UITapGestureRecognizer(target: self.gridView, action:#selector(gridView.handleTapGesture(recognizer:)))
-        self.gridView.addGestureRecognizer(taps)
 
         menuView.mark()
         
@@ -94,9 +93,9 @@ class CompositionViewController: UIViewController {
     }
     
     func clearGridView() {
-        self.gridView.notes = [Int:CALayer]()
-        self.gridView.grid.layer.sublayers = nil
-        self.gridView.grid.setNeedsDisplay()
+        self.gridView.contentScrollView.notes = [Int:CALayer]()
+        self.gridView.contentScrollView.grid.layer.sublayers = nil
+        self.gridView.contentScrollView.grid.setNeedsDisplay()
     }
     
     func saveGrid(name: String) {
@@ -115,7 +114,7 @@ extension CompositionViewController: NoteViewDelegate {
     }
     
     func play() {
-        gridViewDelegate?.play()
+        gridViewDelegate?.play(bit: menuView.selectedBit)
     }
     
     func save() {

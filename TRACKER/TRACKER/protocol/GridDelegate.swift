@@ -12,3 +12,13 @@ protocol GridDelegate: class {
     func warning(message: String)
     func alert(message: String)
 }
+
+protocol GridViewDelegate: class {
+    func synchronizeScrollViewY(pointY: CGFloat)
+    func synchronizeScrollViewZoom(scale: CGFloat, scrollView:UIScrollView)
+    func synchronizeSliderView(pos: CGFloat)
+}
+
+protocol GridSeekBarDelegate: class {
+    func moveTo(pos: Float)
+}
