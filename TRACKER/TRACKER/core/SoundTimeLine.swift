@@ -65,14 +65,18 @@ class SoundTimeLine {
         let startPoint = sortedKeys.first
         let endPoint = sortedKeys.last
 
-        let startTime = soundDic.first?.value.first?.getCurrentTime()
-
+        var startTime:TimeInterval!
         let duration = Double(sortedKeys.count) * self.bit
-        sliderSync(Float(endPoint!), duration, self.bit, startPoint!)
         
         for idx in sortedKeys {
+            
+            if idx == sortedKeys.first {
+                sliderSync(Float(endPoint!), duration, self.bit, startPoint!)
+                startTime = soundDic[idx]?.first?.getCurrentTime()
+            }
+            
             for(_, obj) in (soundDic[idx]?.enumerated())! {
-                obj.play(fixed: startTime!)
+                obj.play(fixed: startTime)
             }
         }
     }

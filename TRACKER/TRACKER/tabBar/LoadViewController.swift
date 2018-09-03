@@ -89,8 +89,9 @@ extension LoadViewController: UITableViewDataSource {
         guard list.count > 0 else {
             return cell
         }
-        
-        let typeStr = UserDefaults.standard.value(forKey: list[indexPath.row]) as? String
+ 
+        let typeStr = UserDefaults.standard.string(forKey: list[indexPath.row])
+
         // 악기를 알수없으면 편집화면도 열 수 없음
         guard typeStr != nil else {
             cell.label.text = "오류 파일"

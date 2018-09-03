@@ -23,9 +23,12 @@ class NoteMenuView: UIView {
     
     var pickerView: UIPickerView!
     var selectedBit: Int!
+//    var gridSizePickerView: UIPickerView!
+//    var selectedGridSize: Int!
     
     //꼭 문자여야 하는건가?
-    var Array = ["60","120"]
+    var Array = ["60","120","180","240"]
+//    var gridLenList:[String] = []
 
     weak var controlDelegate: NoteMenuDelegate?
     weak var viewDelegate: NoteViewDelegate?
@@ -67,6 +70,13 @@ class NoteMenuView: UIView {
         stop.addTarget(self, action: #selector(stopNotes), for: .touchUpInside)
         statusView.addSubview(stop)
         
+        arrangeStatusButtons()
+        
+        
+        
+        
+        
+        
         pickerView = UIPickerView(frame: CGRect.zero)
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -76,11 +86,30 @@ class NoteMenuView: UIView {
         pickerView.topAnchor.constraint(equalTo: statusView.bottomAnchor).isActive = true
         pickerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         pickerView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        pickerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
-        arrangeStatusButtons()
-        
+        pickerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+   
+        //저장된게 있냐 없냐에 따라..
         selectedBit = Int(Array[0])
+        
+        
+//        for step in 60...900 where step % 60 == 0 {
+//            gridLenList.append(String(step))
+//        }
+//
+//        gridSizePickerView = UIPickerView(frame: CGRect.zero)
+//        gridSizePickerView.delegate = self
+//        gridSizePickerView.dataSource = self
+//        addSubview(gridSizePickerView)
+//
+//        gridSizePickerView.translatesAutoresizingMaskIntoConstraints = false
+//        gridSizePickerView.topAnchor.constraint(equalTo: pickerView.bottomAnchor).isActive = true
+//        gridSizePickerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+//        gridSizePickerView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+//        gridSizePickerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//
+//
+//        //이건. 저장된게 있냐 없냐에 따라...
+//        selectedGridSize = Int(gridLenList[0])
     }
     
     func arrangeMenuButtons() {
@@ -94,9 +123,9 @@ class NoteMenuView: UIView {
             btn.translatesAutoresizingMaskIntoConstraints = false
             btn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
             if prevBtn == nil {
-                btn.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
+                btn.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
             } else {
-                btn.topAnchor.constraint(equalTo: prevBtn.bottomAnchor, constant: 10).isActive = true
+                btn.topAnchor.constraint(equalTo: prevBtn.bottomAnchor, constant: 5).isActive = true
             }
             btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
             btn.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -177,8 +206,11 @@ class NoteMenuView: UIView {
 
 extension NoteMenuView: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print("row : \(row)")
-        selectedBit = Int(Array[row])
+//        if pickerView == self.pickerView {
+            selectedBit = Int(Array[row])
+//        } else {
+//            selectedGridSize = Int(gridLenList[row])
+//        }
     }
 }
 
@@ -188,11 +220,21 @@ extension NoteMenuView: UIPickerViewDataSource {
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Array[row]
+//        if pickerView == self.pickerView {
+            return Array[row]
+//        } else {
+//            return gridLenList[row]
+//        }
+        
     }
     
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Array.count
+//        if pickerView == self.pickerView {
+            return Array.count
+//        } else {
+//            return gridLenList.count
+//        }
+
     }
 
 }
