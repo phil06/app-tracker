@@ -118,7 +118,8 @@ class GridView: UIView {
         
         if let slider = propertyAnimatorSlider {
             let arrowPos = (sliderView.seekArrow.frame.origin.x / (CGFloat(ADD_GRID_ITEM_SIZE) * contentScrollView.scrollView.zoomScale)).rounded(.down)
-            sliderView.mySlider.setValue(Float(arrowPos), animated: false)
+            let gridPos = (contentScrollView.grid.frame.origin.x / (CGFloat(ADD_GRID_ITEM_SIZE) * contentScrollView.scrollView.zoomScale)).rounded(.down)
+            sliderView.mySlider.setValue(Float(arrowPos + gridPos), animated: false)
             slider.stopAnimation(true)
         }
 
@@ -149,9 +150,7 @@ extension GridView: NoteGridViewDelegate {
             dat[key] = String(format: "%03d", Int(CGFloat(key / cols).rounded(.down)))
         }
 
-
         timeline.buildSoundArray(size: contentScrollView.notes.count, notes: dat, bit: 60.0 / Double(bit), startPoint: sliderView.mySlider.value.rounded(.down))
-
         timeline.playSounds(sliderSync: moveToAnimated)
         
     }
@@ -207,16 +206,17 @@ extension GridView: NoteGridViewDelegate {
         let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / CGFloat(ADD_GRID_ITEM_SIZE)).rounded(.down)
 
         let sliderMaxPosCnt:CGFloat = (sliderView.frame.size.width / CGFloat(ADD_GRID_ITEM_SIZE)).rounded(.down)
+        let sliderMaxPosition: CGFloat = sliderMaxPosCnt * CGFloat(ADD_GRID_ITEM_SIZE)
 
         propertyAnimatorSlider = UIViewPropertyAnimator(duration: Double(pos - Float(startPoint)) * bit, curve: UIViewAnimationCurve.linear)
         propertyAnimatorSlider.addAnimations {
             self.sliderView.mySlider.setValue(pos, animated: true)
         }
+        propertyAnimatorSlider.addCompletion { (_) in
+            self.contentScrollView.scrollView.isScrollEnabled = true
+        }
         propertyAnimatorSlider.startAnimation()
-        
-        
 
-        
         //화면을 넘어갈 경우 화살표는 끝에서 멈추고 그리드가 왼쪽으로 이동
         if CGFloat(pos) > viewFirstPosition + sliderMaxPosCnt {
             propertyAnimatorArrow = UIViewPropertyAnimator(duration: Double(((viewFirstPosition + sliderMaxPosCnt) - CGFloat(startPoint))) * bit, curve: UIViewAnimationCurve.linear)
@@ -279,7 +279,6 @@ extension GridView: GridViewDelegate {
         
         sliderView.translatesAutoresizingMaskIntoConstraints = true
         
-        let originVal = sliderView.mySlider.value
         sliderView.frame = CGRect(x: leftScrollView.leftHeader.frame.size.width, y: 0, width: self.frame.size.width - leftScrollView.leftHeader.frame.size.width  - 30 , height: sliderView.frame.size.height)
     }
     
@@ -293,7 +292,6 @@ extension GridView: GridViewDelegate {
 
 extension GridView: GridSeekBarDelegate {
     func moveTo(pos: Float) {
-        
         let zoomScale = contentScrollView.scrollView.zoomScale
         let gridSize = CGFloat(ADD_GRID_ITEM_SIZE) * zoomScale
         
