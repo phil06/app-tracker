@@ -74,6 +74,15 @@ enum TYPE_PIANO: Int {
 
 }
 
+func getInstrumentType(type: InstrumentKind) -> Any {
+    switch type {
+    case .PIANO:
+        return TYPE_PIANO
+    default:
+        return TYPE_PIANO
+    }
+}
+
 
 //탭바 아이콘
 enum TabBarImage: String {

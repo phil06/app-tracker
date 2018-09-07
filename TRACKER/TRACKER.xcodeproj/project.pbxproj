@@ -18,6 +18,7 @@
 		2D55DDEB211AD20B001FDE3F /* LayoutDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEA211AD20B001FDE3F /* LayoutDisplay.swift */; };
 		2D55DDED211C21C6001FDE3F /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEC211C21C6001FDE3F /* AlertController.swift */; };
 		2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */; };
+		2D80189A213D35D80066479C /* DrawingTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D801899213D35D80066479C /* DrawingTool.swift */; };
 		2D87046D2126614800B2AE58 /* icon_instrument_piano_30x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */; };
 		2D87046F212BEF2B00B2AE58 /* SoundTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D87046E212BEF2B00B2AE58 /* SoundTimeLine.swift */; };
 		2D870471212BF21200B2AE58 /* AudioKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D870470212BF21200B2AE58 /* AudioKit.swift */; };
@@ -160,6 +161,7 @@
 		2D55DDEA211AD20B001FDE3F /* LayoutDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutDisplay.swift; sourceTree = "<group>"; };
 		2D55DDEC211C21C6001FDE3F /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		2D55DDEF211D8FAB001FDE3F /* NoteMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMenuDelegate.swift; sourceTree = "<group>"; };
+		2D801899213D35D80066479C /* DrawingTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTool.swift; sourceTree = "<group>"; };
 		2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_instrument_piano_30x.png; sourceTree = "<group>"; };
 		2D87046E212BEF2B00B2AE58 /* SoundTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundTimeLine.swift; sourceTree = "<group>"; };
 		2D870470212BF21200B2AE58 /* AudioKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioKit.swift; sourceTree = "<group>"; };
@@ -354,13 +356,6 @@
 			path = common;
 			sourceTree = "<group>";
 		};
-		2D55DDE12119842C001FDE3F /* drawing */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = drawing;
-			sourceTree = "<group>";
-		};
 		2D55DDEE211D8F89001FDE3F /* protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -476,6 +471,7 @@
 				8AAA78F62121C01F004BF5B2 /* ONCATextLayer.swift */,
 				2D87046E212BEF2B00B2AE58 /* SoundTimeLine.swift */,
 				2D870470212BF21200B2AE58 /* AudioKit.swift */,
+				2D801899213D35D80066479C /* DrawingTool.swift */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -506,7 +502,6 @@
 				8AA088772128962300343EA4 /* sounds */,
 				8AAA78F32121BFD4004BF5B2 /* core */,
 				2D55DDEE211D8F89001FDE3F /* protocol */,
-				2D55DDE12119842C001FDE3F /* drawing */,
 				2D55DDDC21194453001FDE3F /* common */,
 				2D55DDD921191BE5001FDE3F /* add */,
 				2D55DDD821191BA7001FDE3F /* tabBar */,
@@ -782,6 +777,7 @@
 				8AF4E0C021247C5500BAE10B /* GridDelegate.swift in Sources */,
 				2D55DDE7211ACA72001FDE3F /* NoteMenuView.swift in Sources */,
 				2D55DDF0211D8FAB001FDE3F /* NoteMenuDelegate.swift in Sources */,
+				2D80189A213D35D80066479C /* DrawingTool.swift in Sources */,
 				2DE90C0A212F9FEC004F0D8C /* GridLeftHeaderView.swift in Sources */,
 				8AF4E0C4212481CD00BAE10B /* FileListCell.swift in Sources */,
 				8AF4E0C221247E2C00BAE10B /* LoadViewController.swift in Sources */,
