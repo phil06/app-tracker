@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-//MARK: instrumentType 에 따라 화면을 달리 해야하는걸... 일단 해야할일..
 class CompositionViewController: UIViewController {
     
     var loadFile: String!

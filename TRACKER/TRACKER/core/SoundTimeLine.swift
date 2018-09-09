@@ -17,7 +17,7 @@ class SoundTimeLine {
     
     init(type: InstrumentKind) {
 
-        //MARK: 일단은 피아노 나중에 type 에 따라
+        //MARK: 일단은 피아노 나중에 type 에 따라..? 가로 사이즈를 수정할 수 있게... 바꿀거니까 지금 수정안함
         switch type {
         case InstrumentKind.PIANO:
             instrumentCol = TYPE_PIANO.cols.rawValue

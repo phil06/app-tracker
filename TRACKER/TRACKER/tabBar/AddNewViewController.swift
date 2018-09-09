@@ -11,7 +11,6 @@ import UIKit
 class AddNewViewController: UIViewController {
     
     let tableView: UITableView = UITableView()
-    var selectedType: InstrumentKind!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,10 +35,6 @@ class AddNewViewController: UIViewController {
 }
 
 extension AddNewViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedType = InstrumentKind.init(code: indexPath.row)
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
@@ -47,22 +42,26 @@ extension AddNewViewController: UITableViewDelegate {
 
 extension AddNewViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return InstrumentKind.allCases.count
+        return ALL_INSTRUMENT.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //MARK: designated initializer 를 사용하면 자동으로 reuseable cell을 가져오는건가...?
         let cell = InstrumentCell(style: UITableViewCellStyle.default, reuseIdentifier: "instrumentCell")
-        cell.button.addTarget(self, action: #selector(pressedBrowser(sender: )), for: .touchUpInside)
+        cell.setType(type: InstrumentKind.init(code: indexPath.row)!)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(pressedBrowser))
+        cell.addGestureRecognizer(tap)
         
         return cell
-
     }
     
-    @objc func pressedBrowser(sender: UIButton) {
+    @objc func pressedBrowser(sender: UITapGestureRecognizer) {
         let vc = CompositionViewController()
-        vc.instrumentType = selectedType
-        self.present(vc, animated: true)
+       
+        if let cell = sender.view as? InstrumentCell {
+            vc.instrumentType = cell.type
+            self.present(vc, animated: true)
+        }
     }
     
     

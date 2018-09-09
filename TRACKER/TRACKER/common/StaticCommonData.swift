@@ -6,17 +6,27 @@
 //  Copyright © 2018년 OnlyNew. All rights reserved.
 //
 
+//진짜 상수성인거만 남기고.. struct 나.. vo 로....
+
 import UIKit
 
+let ALL_INSTRUMENT = [InstrumentType(type: InstrumentKind(code:0)!),
+                      InstrumentType(type: InstrumentKind(code:1)!),
+                      InstrumentType(type: InstrumentKind(code:2)!)]
+
+struct InstrumentType {
+    let type: InstrumentKind
+    
+}
+
+
+
 //MARK: 악기 선택 아이콘
+
 enum InstrumentKind: String {
     case PIANO = "PIANO"
     case GUITAR = "GUITAR"
     case DRUM = "DRUM"
-
-    static let allCases:[String] = [InstrumentKind.PIANO.rawValue,
-                                    InstrumentKind.GUITAR.rawValue,
-                                    InstrumentKind.DRUM.rawValue]
     
     var getIcon: String {
         switch self {
@@ -25,7 +35,18 @@ enum InstrumentKind: String {
         case .GUITAR:
             return "icon_new_add"
         case .DRUM:
-            return "icon_list"
+            return "icon_instrument_drum_30x"
+        }
+    }
+    
+    var getMenuIcon: String {
+        switch self {
+        case .PIANO:
+            return "icon_instrument_piano"
+        case .GUITAR:
+            return "icon_instrument_piano"
+        case .DRUM:
+            return "icon_instrument_drum"
         }
     }
     
@@ -74,14 +95,6 @@ enum TYPE_PIANO: Int {
 
 }
 
-func getInstrumentType(type: InstrumentKind) -> Any {
-    switch type {
-    case .PIANO:
-        return TYPE_PIANO
-    default:
-        return TYPE_PIANO
-    }
-}
 
 
 //탭바 아이콘

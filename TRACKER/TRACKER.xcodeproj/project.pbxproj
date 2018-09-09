@@ -129,6 +129,28 @@
 		8AF4E0C021247C5500BAE10B /* GridDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4E0BF21247C5500BAE10B /* GridDelegate.swift */; };
 		8AF4E0C221247E2C00BAE10B /* LoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4E0C121247E2C00BAE10B /* LoadViewController.swift */; };
 		8AF4E0C4212481CD00BAE10B /* FileListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4E0C3212481CD00BAE10B /* FileListCell.swift */; };
+		8AF6259D2145785A0049D0DC /* 005-tom-hi.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF62593214578590049D0DC /* 005-tom-hi.wav */; };
+		8AF6259E2145785A0049D0DC /* 010-ride-cymbal.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF62594214578590049D0DC /* 010-ride-cymbal.wav */; };
+		8AF6259F2145785A0049D0DC /* 004-bass.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF62595214578590049D0DC /* 004-bass.wav */; };
+		8AF625A02145785A0049D0DC /* 001-snare.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF62596214578590049D0DC /* 001-snare.wav */; };
+		8AF625A12145785A0049D0DC /* 007-tom-lo.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF62597214578590049D0DC /* 007-tom-lo.wav */; };
+		8AF625A22145785A0049D0DC /* 009-crash-cymbal.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF62598214578590049D0DC /* 009-crash-cymbal.wav */; };
+		8AF625A32145785A0049D0DC /* 003-close-hi-hat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF62599214578590049D0DC /* 003-close-hi-hat.wav */; };
+		8AF625A42145785A0049D0DC /* 008-floor-tom.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF6259A2145785A0049D0DC /* 008-floor-tom.wav */; };
+		8AF625A52145785A0049D0DC /* 002-open-hi-hat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF6259B2145785A0049D0DC /* 002-open-hi-hat.wav */; };
+		8AF625A62145785A0049D0DC /* 006-tom-mi.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8AF6259C2145785A0049D0DC /* 006-tom-mi.wav */; };
+		8AF625A9214578810049D0DC /* icon_instrument_drum.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625A7214578810049D0DC /* icon_instrument_drum.png */; };
+		8AF625AA214578810049D0DC /* icon_instrument_drum_30x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625A8214578810049D0DC /* icon_instrument_drum_30x.png */; };
+		8AF625B52145788E0049D0DC /* 1_snare.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625AB2145788D0049D0DC /* 1_snare.png */; };
+		8AF625B62145788E0049D0DC /* 8_floor-tom.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625AC2145788D0049D0DC /* 8_floor-tom.png */; };
+		8AF625B72145788E0049D0DC /* 4_bass.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625AD2145788E0049D0DC /* 4_bass.png */; };
+		8AF625B82145788E0049D0DC /* 7_tom_lo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625AE2145788E0049D0DC /* 7_tom_lo.png */; };
+		8AF625B92145788E0049D0DC /* 2_open-hi-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625AF2145788E0049D0DC /* 2_open-hi-hat.png */; };
+		8AF625BA2145788E0049D0DC /* 5_tom_hi.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625B02145788E0049D0DC /* 5_tom_hi.png */; };
+		8AF625BB2145788E0049D0DC /* 3_close-hi-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625B12145788E0049D0DC /* 3_close-hi-hat.png */; };
+		8AF625BC2145788E0049D0DC /* 9_crash-cymbal.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625B22145788E0049D0DC /* 9_crash-cymbal.png */; };
+		8AF625BD2145788E0049D0DC /* 10_ride-cymbal.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625B32145788E0049D0DC /* 10_ride-cymbal.png */; };
+		8AF625BE2145788E0049D0DC /* 6_tom_mi.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF625B42145788E0049D0DC /* 6_tom_mi.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -278,6 +300,28 @@
 		8AF4E0BF21247C5500BAE10B /* GridDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDelegate.swift; sourceTree = "<group>"; };
 		8AF4E0C121247E2C00BAE10B /* LoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadViewController.swift; sourceTree = "<group>"; };
 		8AF4E0C3212481CD00BAE10B /* FileListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListCell.swift; sourceTree = "<group>"; };
+		8AF62593214578590049D0DC /* 005-tom-hi.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "005-tom-hi.wav"; sourceTree = "<group>"; };
+		8AF62594214578590049D0DC /* 010-ride-cymbal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "010-ride-cymbal.wav"; sourceTree = "<group>"; };
+		8AF62595214578590049D0DC /* 004-bass.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "004-bass.wav"; sourceTree = "<group>"; };
+		8AF62596214578590049D0DC /* 001-snare.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "001-snare.wav"; sourceTree = "<group>"; };
+		8AF62597214578590049D0DC /* 007-tom-lo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "007-tom-lo.wav"; sourceTree = "<group>"; };
+		8AF62598214578590049D0DC /* 009-crash-cymbal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "009-crash-cymbal.wav"; sourceTree = "<group>"; };
+		8AF62599214578590049D0DC /* 003-close-hi-hat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "003-close-hi-hat.wav"; sourceTree = "<group>"; };
+		8AF6259A2145785A0049D0DC /* 008-floor-tom.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "008-floor-tom.wav"; sourceTree = "<group>"; };
+		8AF6259B2145785A0049D0DC /* 002-open-hi-hat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "002-open-hi-hat.wav"; sourceTree = "<group>"; };
+		8AF6259C2145785A0049D0DC /* 006-tom-mi.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "006-tom-mi.wav"; sourceTree = "<group>"; };
+		8AF625A7214578810049D0DC /* icon_instrument_drum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_instrument_drum.png; sourceTree = "<group>"; };
+		8AF625A8214578810049D0DC /* icon_instrument_drum_30x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_instrument_drum_30x.png; sourceTree = "<group>"; };
+		8AF625AB2145788D0049D0DC /* 1_snare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_snare.png; sourceTree = "<group>"; };
+		8AF625AC2145788D0049D0DC /* 8_floor-tom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "8_floor-tom.png"; sourceTree = "<group>"; };
+		8AF625AD2145788E0049D0DC /* 4_bass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4_bass.png; sourceTree = "<group>"; };
+		8AF625AE2145788E0049D0DC /* 7_tom_lo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7_tom_lo.png; sourceTree = "<group>"; };
+		8AF625AF2145788E0049D0DC /* 2_open-hi-hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2_open-hi-hat.png"; sourceTree = "<group>"; };
+		8AF625B02145788E0049D0DC /* 5_tom_hi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5_tom_hi.png; sourceTree = "<group>"; };
+		8AF625B12145788E0049D0DC /* 3_close-hi-hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3_close-hi-hat.png"; sourceTree = "<group>"; };
+		8AF625B22145788E0049D0DC /* 9_crash-cymbal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "9_crash-cymbal.png"; sourceTree = "<group>"; };
+		8AF625B32145788E0049D0DC /* 10_ride-cymbal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "10_ride-cymbal.png"; sourceTree = "<group>"; };
+		8AF625B42145788E0049D0DC /* 6_tom_mi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6_tom_mi.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,10 +352,22 @@
 		2D55DDCD211831A3001FDE3F /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				8AF625AB2145788D0049D0DC /* 1_snare.png */,
+				8AF625AF2145788E0049D0DC /* 2_open-hi-hat.png */,
+				8AF625B12145788E0049D0DC /* 3_close-hi-hat.png */,
+				8AF625AD2145788E0049D0DC /* 4_bass.png */,
+				8AF625B02145788E0049D0DC /* 5_tom_hi.png */,
+				8AF625B42145788E0049D0DC /* 6_tom_mi.png */,
+				8AF625AE2145788E0049D0DC /* 7_tom_lo.png */,
+				8AF625AC2145788D0049D0DC /* 8_floor-tom.png */,
+				8AF625B22145788E0049D0DC /* 9_crash-cymbal.png */,
+				8AF625B32145788E0049D0DC /* 10_ride-cymbal.png */,
+				8AF625A8214578810049D0DC /* icon_instrument_drum_30x.png */,
 				8AA089F021330C2F00343EA4 /* seek_bar_arrow.png */,
 				2D87046C2126614800B2AE58 /* icon_instrument_piano_30x.png */,
 				8AB2C5EB2125DCEF005B719B /* icon_list.png */,
 				8AB2C5E92125DC4E005B719B /* icon_new_add.png */,
+				8AF625A7214578810049D0DC /* icon_instrument_drum.png */,
 				2D55DDE4211ABE67001FDE3F /* icon_instrument_piano.png */,
 				2D55DDCE211831B9001FDE3F /* icon_info.png */,
 			);
@@ -368,6 +424,7 @@
 		8AA088772128962300343EA4 /* sounds */ = {
 			isa = PBXGroup;
 			children = (
+				8AF62592214578480049D0DC /* drum */,
 				8AA088782128962C00343EA4 /* piano */,
 			);
 			path = sounds;
@@ -543,6 +600,23 @@
 			path = launcher;
 			sourceTree = "<group>";
 		};
+		8AF62592214578480049D0DC /* drum */ = {
+			isa = PBXGroup;
+			children = (
+				8AF62596214578590049D0DC /* 001-snare.wav */,
+				8AF6259B2145785A0049D0DC /* 002-open-hi-hat.wav */,
+				8AF62599214578590049D0DC /* 003-close-hi-hat.wav */,
+				8AF62595214578590049D0DC /* 004-bass.wav */,
+				8AF62593214578590049D0DC /* 005-tom-hi.wav */,
+				8AF6259C2145785A0049D0DC /* 006-tom-mi.wav */,
+				8AF62597214578590049D0DC /* 007-tom-lo.wav */,
+				8AF6259A2145785A0049D0DC /* 008-floor-tom.wav */,
+				8AF62598214578590049D0DC /* 009-crash-cymbal.wav */,
+				8AF62594214578590049D0DC /* 010-ride-cymbal.wav */,
+			);
+			path = drum;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -647,7 +721,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AF625A12145785A0049D0DC /* 007-tom-lo.wav in Resources */,
+				8AF625A02145785A0049D0DC /* 001-snare.wav in Resources */,
 				8AA089B0212C4BBC00343EA4 /* 049.wav in Resources */,
+				8AF625BC2145788E0049D0DC /* 9_crash-cymbal.png in Resources */,
+				8AF625A52145785A0049D0DC /* 002-open-hi-hat.wav in Resources */,
 				8AA089B4212C4BBC00343EA4 /* 020.wav in Resources */,
 				8AA089A2212C4BBC00343EA4 /* 008.wav in Resources */,
 				8AA089BA212C4BBC00343EA4 /* 012.wav in Resources */,
@@ -661,10 +739,14 @@
 				8AA089B8212C4BBC00343EA4 /* 025.wav in Resources */,
 				8AA089C0212C4BBC00343EA4 /* 046.wav in Resources */,
 				8AA089AA212C4BBC00343EA4 /* 004.wav in Resources */,
+				8AF625BA2145788E0049D0DC /* 5_tom_hi.png in Resources */,
 				8AA089AC212C4BBC00343EA4 /* 017.wav in Resources */,
+				8AF625B92145788E0049D0DC /* 2_open-hi-hat.png in Resources */,
+				8AF625B62145788E0049D0DC /* 8_floor-tom.png in Resources */,
 				8AA089B5212C4BBC00343EA4 /* 076.wav in Resources */,
 				8AA089B2212C4BBC00343EA4 /* 073.wav in Resources */,
 				8AA0897A212C4BBC00343EA4 /* 054.wav in Resources */,
+				8AF625A22145785A0049D0DC /* 009-crash-cymbal.wav in Resources */,
 				8AA089C3212C4BBC00343EA4 /* 083.wav in Resources */,
 				8AA08996212C4BBC00343EA4 /* 044.wav in Resources */,
 				8AA0899D212C4BBC00343EA4 /* 065.wav in Resources */,
@@ -673,6 +755,8 @@
 				8AA08986212C4BBC00343EA4 /* 022.wav in Resources */,
 				8AA089B9212C4BBC00343EA4 /* 055.wav in Resources */,
 				8AA089A7212C4BBC00343EA4 /* 014.wav in Resources */,
+				8AF625B82145788E0049D0DC /* 7_tom_lo.png in Resources */,
+				8AF625BE2145788E0049D0DC /* 6_tom_mi.png in Resources */,
 				8AA089CA212C4BBC00343EA4 /* 023.wav in Resources */,
 				8AA08997212C4BBC00343EA4 /* 057.wav in Resources */,
 				8AA08985212C4BBC00343EA4 /* 026.wav in Resources */,
@@ -681,23 +765,29 @@
 				8AA089C8212C4BBC00343EA4 /* 016.wav in Resources */,
 				8AEBD87F210D93B400AAC3C8 /* LaunchScreen.storyboard in Resources */,
 				8AA08988212C4BBC00343EA4 /* 006.wav in Resources */,
+				8AF625BD2145788E0049D0DC /* 10_ride-cymbal.png in Resources */,
 				8AA0897E212C4BBC00343EA4 /* 071.wav in Resources */,
 				8AA08995212C4BBC00343EA4 /* 036.wav in Resources */,
 				2D55DDE5211ABE67001FDE3F /* icon_instrument_piano.png in Resources */,
 				8AA089AF212C4BBC00343EA4 /* 045.wav in Resources */,
+				8AF625B52145788E0049D0DC /* 1_snare.png in Resources */,
+				8AF625A9214578810049D0DC /* icon_instrument_drum.png in Resources */,
 				8AA089CC212C4BBC00343EA4 /* 051.wav in Resources */,
 				8AA089C5212C4BBC00343EA4 /* 041.wav in Resources */,
 				8AA089CB212C4BBC00343EA4 /* 033.wav in Resources */,
 				8AA089B1212C4BBC00343EA4 /* 063.wav in Resources */,
 				8AA0898E212C4BBC00343EA4 /* 058.wav in Resources */,
 				8AA089B6212C4BBC00343EA4 /* 029.wav in Resources */,
+				8AF6259D2145785A0049D0DC /* 005-tom-hi.wav in Resources */,
 				8AA089BE212C4BBC00343EA4 /* 035.wav in Resources */,
 				8AA089C9212C4BBC00343EA4 /* 061.wav in Resources */,
 				8AA0897C212C4BBC00343EA4 /* 018.wav in Resources */,
+				8AF6259E2145785A0049D0DC /* 010-ride-cymbal.wav in Resources */,
 				8AA0898A212C4BBC00343EA4 /* 068.wav in Resources */,
 				8AA089C7212C4BBC00343EA4 /* 082.wav in Resources */,
 				8AA0898F212C4BBC00343EA4 /* 024.wav in Resources */,
 				8AA089A3212C4BBC00343EA4 /* 009.wav in Resources */,
+				8AF625BB2145788E0049D0DC /* 3_close-hi-hat.png in Resources */,
 				8AA089B7212C4BBC00343EA4 /* 005.wav in Resources */,
 				2D87046D2126614800B2AE58 /* icon_instrument_piano_30x.png in Resources */,
 				8AA08994212C4BBC00343EA4 /* 050.wav in Resources */,
@@ -709,21 +799,27 @@
 				8AB2C5EA2125DC4E005B719B /* icon_new_add.png in Resources */,
 				8AA08984212C4BBC00343EA4 /* 079.wav in Resources */,
 				8AB2C5EC2125DCF0005B719B /* icon_list.png in Resources */,
+				8AF625A62145785A0049D0DC /* 006-tom-mi.wav in Resources */,
 				8AA0899A212C4BBC00343EA4 /* 080.wav in Resources */,
 				8AA089BC212C4BBC00343EA4 /* 031.wav in Resources */,
 				8AA089A0212C4BBC00343EA4 /* 011.wav in Resources */,
 				8AA0898B212C4BBC00343EA4 /* 010.wav in Resources */,
 				8AA0899B212C4BBC00343EA4 /* 052.wav in Resources */,
 				8AA08987212C4BBC00343EA4 /* 064.wav in Resources */,
+				8AF625B72145788E0049D0DC /* 4_bass.png in Resources */,
+				8AF625A42145785A0049D0DC /* 008-floor-tom.wav in Resources */,
 				8AA089BD212C4BBC00343EA4 /* 032.wav in Resources */,
 				8AA0897D212C4BBC00343EA4 /* 019.wav in Resources */,
 				8AA08990212C4BBC00343EA4 /* 069.wav in Resources */,
 				8AA0899E212C4BBC00343EA4 /* 002.wav in Resources */,
+				8AF625AA214578810049D0DC /* icon_instrument_drum_30x.png in Resources */,
+				8AF625A32145785A0049D0DC /* 003-close-hi-hat.wav in Resources */,
 				8AA08991212C4BBC00343EA4 /* 034.wav in Resources */,
 				8AA089BB212C4BBC00343EA4 /* 039.wav in Resources */,
 				8AA089C6212C4BBC00343EA4 /* 030.wav in Resources */,
 				8AA08980212C4BBC00343EA4 /* 077.wav in Resources */,
 				8AA089A6212C4BBC00343EA4 /* 074.wav in Resources */,
+				8AF6259F2145785A0049D0DC /* 004-bass.wav in Resources */,
 				8AA089A4212C4BBC00343EA4 /* 000.wav in Resources */,
 				8AA08979212C4BBC00343EA4 /* 003.wav in Resources */,
 				8AA08983212C4BBC00343EA4 /* 037.wav in Resources */,
