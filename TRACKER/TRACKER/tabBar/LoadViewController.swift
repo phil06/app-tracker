@@ -97,8 +97,8 @@ extension LoadViewController: UITableViewDataSource {
             cell.label.text = "오류 파일"
             return cell
         }
-        cell.type = InstrumentKind.init(rawValue: typeStr!)
-        cell.icon.image = UIImage(named: cell.type.getIcon)
+        cell.type = ALL_INSTRUMENT[typeStr!]
+        cell.icon.image = UIImage(named: cell.type.fileListIcon)
         cell.label.text = list[indexPath.row]
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tabListCell))

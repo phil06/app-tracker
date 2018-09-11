@@ -14,7 +14,7 @@ class CompositionViewController: UIViewController {
     var loadFile: String!
     var menuView: NoteMenuView!
     var gridView: GridView!
-    var instrumentType: InstrumentKind!
+    var instrumentType: InstrumentType!
     
     weak var controlDelegate: NoteMenuDelegate?
     weak var gridViewDelegate: NoteGridViewDelegate?
@@ -44,8 +44,7 @@ class CompositionViewController: UIViewController {
         menuView.viewDelegate = self
         
         //그리는 화면
-        gridView = GridView(frame: CGRect.zero)
-        gridView.type = instrumentType
+        gridView = GridView(frame: CGRect.zero, type: instrumentType)
         gridView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(gridView)
 

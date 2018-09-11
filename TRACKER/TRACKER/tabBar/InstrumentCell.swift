@@ -15,7 +15,7 @@ class InstrumentCell: UITableViewCell {
     let ICON_INSTRUMENT_TYPE_HEIGHT = 90
 
     var iconImage: UIImageView!
-    var type: InstrumentKind!
+    var type: InstrumentType!
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         
@@ -27,9 +27,9 @@ class InstrumentCell: UITableViewCell {
         contentView.translatesAutoresizingMaskIntoConstraints = true
     }
     
-    func setType(type: InstrumentKind) {
+    func setType(type: InstrumentType) {
         self.type = type
-        self.iconImage.image = UIImage(named: self.type.getMenuIcon)
+        self.iconImage.image = UIImage(named: self.type.typeIcon)
     }
     
     required init?(coder aDecoder: NSCoder) {

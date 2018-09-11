@@ -10,19 +10,20 @@ import UIKit
 
 class GridLeftHeaderView: UIView {
     
-    let typeProperties = TYPE_PIANO.self
+    var type: InstrumentType!
 
     var leftHeader: UIView!
     var scrollView: UIScrollView!
     
     weak var gridViewDelegate: GridViewDelegate?
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, type: InstrumentType) {
 
         super.init(frame: frame)
         
+        self.type = type
         self.backgroundColor = UIColor.white
-        leftHeader = UIView(frame: CGRect(x: 0, y: 0, width: ADD_GRID_LEFT_HEADER_VIEW_WIDTH, height: CGFloat(typeProperties.getHeight) + (ADD_GRID_LEFT_HEADER_MARGIN * 2)))
+        leftHeader = UIView(frame: CGRect(x: 0, y: 0, width: type.getHeaderWidth(), height: CGFloat(type.getHeight() + (type.margin * 2))))
         
         draw()
         
@@ -52,16 +53,45 @@ class GridLeftHeaderView: UIView {
     
     func draw() {
         
+        switch type.type {
+        case InstrumentKind.PIANO:
+            drawPianoHeader()
+        case InstrumentKind.DRUM:
+            drawDrum()
+        default:
+            print("으응 없어어~")
+        }
+
+    }
+    
+    private func drawDrum() {
         
+        var yPosition: CGFloat = CGFloat(type.getHeight())
+        for row in 0 ..< TYPE_DRUM_NOTE_ICON.count * type.totOctave {
+            yPosition -= CGFloat(type.gridSize)
+
+            let iconImage = CALayer()
+            iconImage.frame = CGRect(x: 0, y: CGFloat(type.margin) + yPosition, width: CGFloat(type.gridSize), height: CGFloat(type.gridSize))
+            iconImage.contents = UIImage(named: TYPE_DRUM_NOTE_ICON[row])?.cgImage
+            iconImage.borderWidth = 1
+            iconImage.borderColor = UIColor.black.cgColor
+            
+            leftHeader.layer.addSublayer(iconImage)
+            
+            print(row)
+        }
+    }
+    
+    private func drawPianoHeader() {
         //흰건반
-        var yPosition: CGFloat = CGFloat(typeProperties.getHeight)
-        for row in 0 ..< typeProperties.totOctave.rawValue * TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count {
+        var yPosition: CGFloat = CGFloat(type.getHeight())
+        for row in 0 ..< type.totOctave * TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count {
             let yPoint = TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT[row % TYPE_PIANO_NOTE_WHITE_SCALE_HEIGHT.count]
             yPosition -= CGFloat(yPoint)
             
             let whiteNote = CALayer()
             whiteNote.backgroundColor = UIColor.white.cgColor
-            let borderRect = CGRect(x: 0, y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(60.0), height: CGFloat(yPoint))
+            let borderRect = CGRect(x: 0, y: CGFloat(type.margin) + yPosition, width: CGFloat(60.0), height: CGFloat(yPoint))
             whiteNote.frame = borderRect
             
             leftHeader.layer.addSublayer(whiteNote)
@@ -75,28 +105,26 @@ class GridLeftHeaderView: UIView {
             noteLabel.fontSize = 13
             noteLabel.string = combineNoteLabel(row: row)
             noteLabel.foregroundColor = UIColor.black.cgColor
-            noteLabel.frame = CGRect(x: (ADD_GRID_LEFT_HEADER_WIDTH / 2), y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
+            noteLabel.frame = CGRect(x: CGFloat(type.headerWidth / 2), y: CGFloat(type.margin) + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
             noteLabel.alignmentMode = kCAAlignmentCenter
             leftHeader.layer.addSublayer(noteLabel)
             
         }
         
         //검은건반
-        yPosition = CGFloat(typeProperties.getHeight)
-        for row in 0 ..< typeProperties.totOctave.rawValue * TYPE_PIANO_NOTE_BLACK_SCALE_HEIGHT.count {
+        yPosition = CGFloat(type.getHeight())
+        for row in 0 ..< type.totOctave * TYPE_PIANO_NOTE_BLACK_SCALE_HEIGHT.count {
             let yPoint = TYPE_PIANO_NOTE_BLACK_SCALE_HEIGHT[row % TYPE_PIANO_NOTE_BLACK_SCALE_HEIGHT.count]
             yPosition -= CGFloat(yPoint)
             
             let blackNote = CALayer()
-            blackNote.backgroundColor = yPoint == Int(ADD_GRID_ITEM_SIZE) ? UIColor.black.cgColor : UIColor.clear.cgColor
-            let blackNoteBounds = CGRect(x: 0, y: ADD_GRID_LEFT_HEADER_MARGIN + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
+            blackNote.backgroundColor = yPoint == Int(type.gridSize) ? UIColor.black.cgColor : UIColor.clear.cgColor
+            let blackNoteBounds = CGRect(x: 0, y: CGFloat(type.margin) + yPosition, width: CGFloat(30.0), height: CGFloat(yPoint))
             blackNote.frame = blackNoteBounds
             
             leftHeader.layer.addSublayer(blackNote)
             
         }
-        
-
     }
     
     required init?(coder aDecoder: NSCoder) {

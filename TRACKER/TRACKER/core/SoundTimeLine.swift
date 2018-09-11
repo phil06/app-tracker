@@ -15,15 +15,8 @@ class SoundTimeLine {
     var bit: Double!
     var startPoint: Float!
     
-    init(type: InstrumentKind) {
-
-        //MARK: 일단은 피아노 나중에 type 에 따라..? 가로 사이즈를 수정할 수 있게... 바꿀거니까 지금 수정안함
-        switch type {
-        case InstrumentKind.PIANO:
-            instrumentCol = TYPE_PIANO.cols.rawValue
-        default:
-            instrumentCol = TYPE_PIANO.cols.rawValue
-        }
+    init(type: InstrumentType) {
+        instrumentCol = type.cols
     }
     
     func buildSoundArray(size: Int, notes: [Int:String], bit: Double, startPoint: Float) {

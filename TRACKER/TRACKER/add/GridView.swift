@@ -13,11 +13,9 @@ class GridView: UIView {
     
     var leftHeaderWidth: CGFloat = 90
     
-    var type: InstrumentKind?
+    var type: InstrumentType!
     
     var circleWidthScaled: CGFloat!
-
-    var gridBackgroundBounds: CGRect!
 
     var gridHeaderWidth:CGFloat = 60
     let sliderViewHeight:CGFloat = 75
@@ -40,31 +38,28 @@ class GridView: UIView {
     
     weak var gridDelegate: GridDelegate?
     
-    var timeline = SoundTimeLine(type: InstrumentKind.PIANO)
+    lazy var timeline = SoundTimeLine(type: self.type)
 
-    override init(frame: CGRect) {
+    init(frame: CGRect, type: InstrumentType) {
         super.init(frame: frame)
 
+        self.type = type
         self.isUserInteractionEnabled = true
         self.backgroundColor = UIColor.white
-        circleWidthScaled = CGFloat(ADD_GRID_ITEM_SIZE)
+        circleWidthScaled = CGFloat(type.gridSize)
 
-        getGridBounds()
-        
         let safeAreaInset = LayoutDisplay().getSafeAreaInset()
        
-        sliderView = SeekBarSliderView(frame: frame)
+        sliderView = SeekBarSliderView(frame: frame, type: type)
         self.addSubview(sliderView)
         sliderView.translatesAutoresizingMaskIntoConstraints = false
         
-        sliderView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: ADD_GRID_LEFT_HEADER_VIEW_WIDTH).isActive = true
+        sliderView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: type.getHeaderWidth()).isActive = true
         sliderView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         sliderView.heightAnchor.constraint(equalToConstant: sliderViewHeight).isActive = true
-        sliderView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -(safeAreaInset.right + ADD_GRID_LEFT_HEADER_MARGIN)).isActive = true
+        sliderView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -(safeAreaInset.right + CGFloat(type.margin))).isActive = true
         
-        
-  
-        leftScrollView = GridLeftHeaderView(frame: frame)
+        leftScrollView = GridLeftHeaderView(frame: frame, type: type)
         self.addSubview(leftScrollView)
         leftScrollView.translatesAutoresizingMaskIntoConstraints = false
         leftScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
@@ -72,13 +67,7 @@ class GridView: UIView {
         leftScrollView.widthAnchor.constraint(equalTo: leftScrollView.leftHeader.widthAnchor).isActive = true
         leftScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
-        
-        
-        
-
-        
-        
-        contentScrollView = GridContentView(frame: frame)
+        contentScrollView = GridContentView(frame: frame, type: type)
         self.addSubview(contentScrollView)
         contentScrollView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -87,18 +76,10 @@ class GridView: UIView {
         contentScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         contentScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
-        
-
         leftScrollView.gridViewDelegate = self
         contentScrollView.gridViewDelegate = self
         sliderView.seekBarDelegate = self
         
-    }
-    
-    func getGridBounds() {
-        //MARK: 나중에 type 을 enum으로 비교해서 로직 분리하는걸...
-        let typeProperties = TYPE_PIANO.self
-        gridBackgroundBounds = CGRect(x: 0, y: 0, width: typeProperties.getWidth, height: typeProperties.getHeight)
     }
 
     func combineNoteLabel(row: Int) -> String {
@@ -117,8 +98,8 @@ class GridView: UIView {
         }
         
         if let slider = propertyAnimatorSlider {
-            let arrowPos = (sliderView.seekArrow.frame.origin.x / (CGFloat(ADD_GRID_ITEM_SIZE) * contentScrollView.scrollView.zoomScale)).rounded(.down)
-            let gridPos = (contentScrollView.grid.frame.origin.x / (CGFloat(ADD_GRID_ITEM_SIZE) * contentScrollView.scrollView.zoomScale)).rounded(.down)
+            let arrowPos = (sliderView.seekArrow.frame.origin.x / (CGFloat(type.gridSize) * contentScrollView.scrollView.zoomScale)).rounded(.down)
+            let gridPos = (contentScrollView.grid.frame.origin.x / (CGFloat(type.gridSize) * contentScrollView.scrollView.zoomScale)).rounded(.down)
             sliderView.mySlider.setValue(Float(arrowPos + gridPos), animated: false)
             slider.stopAnimation(true)
         }
@@ -142,12 +123,12 @@ extension GridView: NoteGridViewDelegate {
         
         contentScrollView.scrollView.isScrollEnabled = false
         
-        let cols = TYPE_PIANO.cols.rawValue
+        let cols = type.cols
 
         var dat: [Int:String] = [:]
 
         contentScrollView.notes.forEach { (key, value) in
-            dat[key] = String(format: "%03d", Int(CGFloat(key / cols).rounded(.down)))
+            dat[key] = String(format: "%@-%03d", type.type.rawValue, Int(CGFloat(key / cols).rounded(.down)))
         }
 
         timeline.buildSoundArray(size: contentScrollView.notes.count, notes: dat, bit: 60.0 / Double(bit), startPoint: sliderView.mySlider.value.rounded(.down))
@@ -203,10 +184,10 @@ extension GridView: NoteGridViewDelegate {
     //MARK: 내용이 중복되니까 리펙토링
     func moveToAnimated(pos: Float, duration: Double, bit: Double, startPoint: Int) {
 
-        let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / CGFloat(ADD_GRID_ITEM_SIZE)).rounded(.down)
+        let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / CGFloat(type.gridSize)).rounded(.down)
 
-        let sliderMaxPosCnt:CGFloat = (sliderView.frame.size.width / CGFloat(ADD_GRID_ITEM_SIZE)).rounded(.down)
-        let sliderMaxPosition: CGFloat = sliderMaxPosCnt * CGFloat(ADD_GRID_ITEM_SIZE)
+        let sliderMaxPosCnt:CGFloat = (sliderView.frame.size.width / CGFloat(type.gridSize)).rounded(.down)
+        let sliderMaxPosition: CGFloat = sliderMaxPosCnt * CGFloat(type.gridSize)
 
         propertyAnimatorSlider = UIViewPropertyAnimator(duration: Double(pos - Float(startPoint)) * bit, curve: UIViewAnimationCurve.linear)
         propertyAnimatorSlider.addAnimations {
@@ -221,20 +202,20 @@ extension GridView: NoteGridViewDelegate {
         if CGFloat(pos) > viewFirstPosition + sliderMaxPosCnt {
             propertyAnimatorArrow = UIViewPropertyAnimator(duration: Double(((viewFirstPosition + sliderMaxPosCnt) - CGFloat(startPoint))) * bit, curve: UIViewAnimationCurve.linear)
             propertyAnimatorArrow.addAnimations {
-                self.sliderView.seekArrow.frame = CGRect(x: CGFloat(sliderMaxPosition), y: self.sliderView.arrowTopInset, width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE))
+                self.sliderView.seekArrow.frame = CGRect(x: CGFloat(sliderMaxPosition), y: self.sliderView.arrowTopInset, width: CGFloat(self.type.gridSize), height: 20.0)
             }
             propertyAnimatorArrow.startAnimation()
             
             propertyAnimatorGrid = UIViewPropertyAnimator(duration: Double((CGFloat(pos) - (viewFirstPosition + sliderMaxPosCnt))) * bit, curve: UIViewAnimationCurve.linear)
             propertyAnimatorGrid.addAnimations {
-                self.contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * CGFloat(ADD_GRID_ITEM_SIZE)
+                self.contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * CGFloat(self.type.gridSize)
             }
             propertyAnimatorGrid.startAnimation(afterDelay: Double(((viewFirstPosition + sliderMaxPosCnt) - CGFloat(startPoint))) * bit)
         } else {
             //화면을 넘어갈 경우 화살표 는 끝까지 표시만
             propertyAnimatorArrow = UIViewPropertyAnimator(duration: Double(CGFloat(pos) - viewFirstPosition) * bit, curve: UIViewAnimationCurve.linear)
             propertyAnimatorArrow.addAnimations {
-                self.sliderView.seekArrow.frame = CGRect(x: CGFloat(pos * ADD_GRID_ITEM_SIZE), y: self.sliderView.arrowTopInset, width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE))
+                self.sliderView.seekArrow.frame = CGRect(x: CGFloat(pos * self.type.gridSize), y: self.sliderView.arrowTopInset, width: CGFloat(self.type.gridSize), height: 20.0)
             }
             propertyAnimatorArrow.startAnimation()
         }
@@ -261,7 +242,7 @@ extension GridView: GridViewDelegate {
             return
         }
         
-        circleWidthScaled = CGFloat(ADD_GRID_ITEM_SIZE) * scale
+        circleWidthScaled = CGFloat(type.gridSize) * scale
 
         if (scrollView.superview?.isKind(of: GridLeftHeaderView.self))! {
             contentScrollView.scrollView.setZoomScale(scale, animated: true)
@@ -293,7 +274,7 @@ extension GridView: GridViewDelegate {
 extension GridView: GridSeekBarDelegate {
     func moveTo(pos: Float) {
         let zoomScale = contentScrollView.scrollView.zoomScale
-        let gridSize = CGFloat(ADD_GRID_ITEM_SIZE) * zoomScale
+        let gridSize = CGFloat(type.gridSize) * zoomScale
         
  
         let viewFirstPosition = (contentScrollView.scrollView.contentOffset.x / gridSize).rounded(.down)
@@ -304,12 +285,12 @@ extension GridView: GridSeekBarDelegate {
         let curSliderPosition:CGFloat = (CGFloat(pos) - viewFirstPosition) * gridSize
         
         if CGFloat(pos) > viewFirstPosition + sliderMaxPosCnt {
-            sliderView.seekArrow.frame = CGRect(x: sliderMaxPosition, y: CGFloat(sliderView.arrowTopInset), width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE))
+            sliderView.seekArrow.frame = CGRect(x: sliderMaxPosition, y: CGFloat(sliderView.arrowTopInset), width: CGFloat(type.gridSize), height: 20.0)
             contentScrollView.scrollView.contentOffset.x = (CGFloat(pos) - sliderMaxPosCnt) * gridSize
         } else if CGFloat(pos) > viewFirstPosition && CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt  {
-            sliderView.seekArrow.frame = CGRect(x: curSliderPosition, y: sliderView.arrowTopInset, width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE))
+            sliderView.seekArrow.frame = CGRect(x: curSliderPosition, y: sliderView.arrowTopInset, width: CGFloat(type.gridSize), height: 20.0)
         } else if CGFloat(pos) < viewFirstPosition + sliderMaxPosCnt {
-            sliderView.seekArrow.frame = CGRect(x: 0, y: sliderView.arrowTopInset, width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE))
+            sliderView.seekArrow.frame = CGRect(x: 0, y: sliderView.arrowTopInset, width: CGFloat(type.gridSize), height: 20.0)
             //MARK: contentOffset 과 bounds 의 차이
             contentScrollView.scrollView.contentOffset.x = CGFloat(pos) * gridSize
         }

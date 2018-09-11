@@ -18,8 +18,7 @@ class AddNewViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        self.tableView.register(UITableViewCell.self,
-                                  forCellReuseIdentifier: "instrumentCell")
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "instrumentCell")
         self.view.addSubview(self.tableView)
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,8 +46,8 @@ extension AddNewViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = InstrumentCell(style: UITableViewCellStyle.default, reuseIdentifier: "instrumentCell")
-        cell.setType(type: InstrumentKind.init(code: indexPath.row)!)
-        
+        cell.setType(type: ALL_INSTRUMENT[getInstrumentByIdx(idx: indexPath.row)]!)
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(pressedBrowser))
         cell.addGestureRecognizer(tap)
         

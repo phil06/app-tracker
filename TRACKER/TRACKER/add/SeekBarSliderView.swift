@@ -16,13 +16,13 @@ class SeekBarSliderView: UIView {
     var seekArrow: UIImageView!
     let arrowTopInset: CGFloat = 55
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, type: InstrumentType) {
         super.init(frame: frame)
         
         mySlider = UISlider(frame:CGRect.zero)
         mySlider.minimumValue = 0
         //MARK:
-        mySlider.maximumValue = Float(TYPE_PIANO.cols.rawValue) - 1
+        mySlider.maximumValue = Float(type.cols) - 1
         mySlider.isContinuous = true
         mySlider.tintColor = UIColor.green
         
@@ -36,7 +36,7 @@ class SeekBarSliderView: UIView {
         mySlider.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         mySlider.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
-        seekArrow = UIImageView(frame: CGRect(x: 0, y: arrowTopInset, width: CGFloat(ADD_GRID_ITEM_SIZE), height: CGFloat(ADD_GRID_ITEM_SIZE)))
+        seekArrow = UIImageView(frame: CGRect(x: 0, y: arrowTopInset, width: CGFloat(type.gridSize), height: 20.0))
         seekArrow.image = UIImage(named: "seek_bar_arrow.png")
         self.addSubview(seekArrow)
     }
