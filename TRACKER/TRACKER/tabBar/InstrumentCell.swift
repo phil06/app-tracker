@@ -11,17 +11,25 @@ import UIKit
 
 class InstrumentCell: UITableViewCell {
     
-    var button: UIButton!
+    let ICON_INSTRUMENT_TYPE_WIDTH = 184
+    let ICON_INSTRUMENT_TYPE_HEIGHT = 90
+
+    var iconImage: UIImageView!
+    var type: InstrumentType!
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        button = UIButton()
-        button.frame = CGRect(x: 0, y: 0, width: 184, height: 90)
-        button.setImage(UIImage(named: "icon_instrument_piano.png"), for: UIControlState.normal)
-        contentView.addSubview(button)
+        self.iconImage = UIImageView(frame: CGRect(x: 0, y: 0, width: ICON_INSTRUMENT_TYPE_WIDTH, height: ICON_INSTRUMENT_TYPE_HEIGHT))
+        contentView.addSubview(self.iconImage)
+        
         contentView.translatesAutoresizingMaskIntoConstraints = true
+    }
+    
+    func setType(type: InstrumentType) {
+        self.type = type
+        self.iconImage.image = UIImage(named: self.type.typeIcon)
     }
     
     required init?(coder aDecoder: NSCoder) {

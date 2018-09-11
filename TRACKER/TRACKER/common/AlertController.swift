@@ -30,7 +30,6 @@ class AlertController {
 
         let okBtn = UIAlertAction(title: "저장", style: .default, handler: { (_) in
             if let tf = alert.textFields?[0] {
-                print("파일명은 > \(tf.text!)")
                 by(tf.text!)
             }
         })
@@ -38,6 +37,7 @@ class AlertController {
         
         alert.addTextField(configurationHandler: { (tf) in
             tf.text = placeHolder
+            tf.keyboardType = .alphabet
         })
         alert.addAction(okBtn)
         alert.addAction(cancelBtn)

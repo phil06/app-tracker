@@ -15,15 +15,8 @@ class SoundTimeLine {
     var bit: Double!
     var startPoint: Float!
     
-    init(type: InstrumentKind) {
-
-        //MARK: 일단은 피아노 나중에 type 에 따라
-        switch type {
-        case InstrumentKind.PIANO:
-            instrumentCol = TYPE_PIANO.cols.rawValue
-        default:
-            instrumentCol = TYPE_PIANO.cols.rawValue
-        }
+    init(type: InstrumentType) {
+        instrumentCol = type.cols
     }
     
     func buildSoundArray(size: Int, notes: [Int:String], bit: Double, startPoint: Float) {
@@ -65,14 +58,18 @@ class SoundTimeLine {
         let startPoint = sortedKeys.first
         let endPoint = sortedKeys.last
 
-        let startTime = soundDic.first?.value.first?.getCurrentTime()
-
+        var startTime:TimeInterval!
         let duration = Double(sortedKeys.count) * self.bit
-        sliderSync(Float(endPoint!), duration, self.bit, startPoint!)
         
         for idx in sortedKeys {
+            
+            if idx == sortedKeys.first {
+                sliderSync(Float(endPoint!), duration, self.bit, startPoint!)
+                startTime = soundDic[idx]?.first?.getCurrentTime()
+            }
+            
             for(_, obj) in (soundDic[idx]?.enumerated())! {
-                obj.play(fixed: startTime!)
+                obj.play(fixed: startTime)
             }
         }
     }

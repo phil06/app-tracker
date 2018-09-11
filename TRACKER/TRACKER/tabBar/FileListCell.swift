@@ -11,7 +11,7 @@ import UIKit
 class FileListCell: UITableViewCell {
     
     var label: UILabel!
-    var type: InstrumentKind!
+    var type: InstrumentType!
     var icon: UIImageView!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

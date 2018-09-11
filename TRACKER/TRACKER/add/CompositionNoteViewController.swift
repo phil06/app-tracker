@@ -9,13 +9,12 @@
 import Foundation
 import UIKit
 
-//MARK: instrumentType 에 따라 화면을 달리 해야하는걸... 일단 해야할일..
 class CompositionViewController: UIViewController {
     
     var loadFile: String!
     var menuView: NoteMenuView!
     var gridView: GridView!
-    var instrumentType: InstrumentKind!
+    var instrumentType: InstrumentType!
     
     weak var controlDelegate: NoteMenuDelegate?
     weak var gridViewDelegate: NoteGridViewDelegate?
@@ -45,8 +44,7 @@ class CompositionViewController: UIViewController {
         menuView.viewDelegate = self
         
         //그리는 화면
-        gridView = GridView(frame: CGRect.zero)
-        gridView.type = instrumentType
+        gridView = GridView(frame: CGRect.zero, type: instrumentType)
         gridView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(gridView)
 
@@ -118,10 +116,9 @@ extension CompositionViewController: NoteViewDelegate {
     }
     
     func save() {
-        var placeHolder: String = "파일명"
+        var placeHolder: String = ""
         if loadFile != nil {
             placeHolder = loadFile
-            print("placeHolder > \(placeHolder)")
         }
         
         let alertView = AlertController().showMessageWithInput(by: saveGrid, pTitle: "저장", pMessage: "작성된 내용을 저장합니다\n(동일한 파일이 존재할 경우 기존 내용은 사라집니다)", placeHolder: placeHolder)

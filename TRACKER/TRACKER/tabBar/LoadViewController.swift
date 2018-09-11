@@ -89,15 +89,16 @@ extension LoadViewController: UITableViewDataSource {
         guard list.count > 0 else {
             return cell
         }
-        
-        let typeStr = UserDefaults.standard.value(forKey: list[indexPath.row]) as? String
+ 
+        let typeStr = UserDefaults.standard.string(forKey: list[indexPath.row])
+
         // 악기를 알수없으면 편집화면도 열 수 없음
         guard typeStr != nil else {
             cell.label.text = "오류 파일"
             return cell
         }
-        cell.type = InstrumentKind.init(rawValue: typeStr!)
-        cell.icon.image = UIImage(named: cell.type.getIcon)
+        cell.type = ALL_INSTRUMENT[typeStr!]
+        cell.icon.image = UIImage(named: cell.type.fileListIcon)
         cell.label.text = list[indexPath.row]
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tabListCell))
